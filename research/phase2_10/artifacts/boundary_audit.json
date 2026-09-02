@@ -1,0 +1,46 @@
+{
+  "audit_name": "Audit 1: Decision Boundary Testing",
+  "status": "PASS",
+  "thresholds_tested": {
+    "threshold_medium": 0.9,
+    "threshold_high": 0.99
+  },
+  "boundary_evaluations": [
+    {
+      "tested_score": 0.8999,
+      "resolved_band": "LOW_RISK",
+      "resolved_decision": "APPROVED",
+      "resolved_action": "APPROVE"
+    },
+    {
+      "tested_score": 0.9,
+      "resolved_band": "MEDIUM_RISK",
+      "resolved_decision": "CHALLENGED",
+      "resolved_action": "STEP_UP_CHALLENGE"
+    },
+    {
+      "tested_score": 0.9001,
+      "resolved_band": "MEDIUM_RISK",
+      "resolved_decision": "CHALLENGED",
+      "resolved_action": "STEP_UP_CHALLENGE"
+    },
+    {
+      "tested_score": 0.9899,
+      "resolved_band": "MEDIUM_RISK",
+      "resolved_decision": "CHALLENGED",
+      "resolved_action": "STEP_UP_CHALLENGE"
+    },
+    {
+      "tested_score": 0.99,
+      "resolved_band": "HIGH_RISK",
+      "resolved_decision": "DECLINED",
+      "resolved_action": "DECLINE"
+    },
+    {
+      "tested_score": 0.9901,
+      "resolved_band": "HIGH_RISK",
+      "resolved_decision": "DECLINED",
+      "resolved_action": "DECLINE"
+    }
+  ]
+}

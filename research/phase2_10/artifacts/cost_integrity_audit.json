@@ -1,0 +1,39 @@
+{
+  "audit_name": "Audit 5: Financial Cost Integrity",
+  "status": "PASS WITH DISCLAIMER",
+  "cost_equation": "Total_Cost = Missed_Fraud_FN_Dollars + alpha * Flagged_Legitimate_FP_Dollars",
+  "dimensional_consistency": "PASSED (Currency + [Scalar * Currency] = Currency)",
+  "disclaimer_required": "Alpha factors (0.1% to 5.0%) represent exploratory sensitivity bounds for operational intervention, not verified historical Razorpay unit economics.",
+  "sensitivity_table_future_test": {
+    "0.1%": {
+      "alpha_penalty_rate": 0.001,
+      "missed_fraud_fn_dollars": 399045.08,
+      "intervention_burden_fp_dollars": 9216.22,
+      "total_financial_loss_dollars": 408261.3
+    },
+    "0.5%": {
+      "alpha_penalty_rate": 0.005,
+      "missed_fraud_fn_dollars": 399045.08,
+      "intervention_burden_fp_dollars": 46081.11,
+      "total_financial_loss_dollars": 445126.19
+    },
+    "1.0%": {
+      "alpha_penalty_rate": 0.01,
+      "missed_fraud_fn_dollars": 399045.08,
+      "intervention_burden_fp_dollars": 92162.23,
+      "total_financial_loss_dollars": 491207.31
+    },
+    "2.0%": {
+      "alpha_penalty_rate": 0.02,
+      "missed_fraud_fn_dollars": 399045.08,
+      "intervention_burden_fp_dollars": 184324.46,
+      "total_financial_loss_dollars": 583369.54
+    },
+    "5.0%": {
+      "alpha_penalty_rate": 0.05,
+      "missed_fraud_fn_dollars": 399045.08,
+      "intervention_burden_fp_dollars": 460811.14,
+      "total_financial_loss_dollars": 859856.22
+    }
+  }
+}

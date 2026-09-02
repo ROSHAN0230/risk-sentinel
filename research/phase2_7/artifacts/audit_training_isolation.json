@@ -1,0 +1,44 @@
+{
+  "status": "PASSED",
+  "split_integrity": {
+    "total_rows": 6362620,
+    "train_rows": 4433703,
+    "val_rows": 973173,
+    "test_rows": 955744,
+    "train_steps": [
+      1,
+      322
+    ],
+    "val_steps": [
+      323,
+      377
+    ],
+    "test_steps": [
+      378,
+      743
+    ],
+    "overlap_detected": false
+  },
+  "target_distribution": {
+    "train_fraud_count": 3633,
+    "train_fraud_rate": 0.0008194053593576295,
+    "val_fraud_count": 570,
+    "val_fraud_rate": 0.0005857129205187567,
+    "test_fraud_count": 4010,
+    "test_fraud_rate": 0.004195684199953125,
+    "distribution_shift_ratio_test_vs_train": 5.120401217832307
+  },
+  "class_weighting_audit": {
+    "technique": "class_weight='balanced'",
+    "weight_positive_fraud": 610.1985962014863,
+    "weight_negative_nonfraud": 0.5004100386675605,
+    "raw_imbalance_ratio": 1219.3971924029727,
+    "logit_offset_induced": 7.106111911029678
+  },
+  "feature_leakage_audit": {
+    "prohibited_columns_used": [],
+    "scaler_fitted_on": "train_only",
+    "validation_labels_in_fitting": false,
+    "future_test_in_fitting": false
+  }
+}

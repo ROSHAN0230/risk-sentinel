@@ -1,0 +1,17 @@
+{
+  "audit_name": "Audit 2: Explanation Integrity",
+  "status": "PASS",
+  "repeat_determinism_trials": 100,
+  "unique_narratives_observed": 1,
+  "sample_narrative": "Transaction attempts exact 100% liquidation of available sender balance ($175,000.00) via high-risk TRANSFER channel.",
+  "causal_evidence_snapshot": {
+    "amount": 175000.0,
+    "oldbalanceOrg": 175000.0,
+    "oldbalanceDest": 0.0,
+    "channel": "TRANSFER",
+    "risk_score": 0.9982,
+    "liquidation_pct": 100.0,
+    "is_sender_cold_start": 1
+  },
+  "prohibited_terms_detected": 0
+}

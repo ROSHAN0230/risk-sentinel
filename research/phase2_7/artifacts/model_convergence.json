@@ -1,0 +1,25 @@
+{
+  "dataset_entity_structure": {
+    "total_transactions": 6362620,
+    "total_unique_senders": 6353307,
+    "senders_with_exactly_1_tx": 6344009,
+    "sender_single_tx_percentage": 99.8536510198547,
+    "senders_with_multiple_tx": 9298,
+    "sender_repeat_percentage": 0.1463489801453007,
+    "fraud_senders_total": 8213,
+    "fraud_senders_with_multiple_tx": 0,
+    "total_unique_destinations": 2722362,
+    "destinations_with_multiple_tx": 459658,
+    "destinations_repeat_percentage": 16.884528949493124
+  },
+  "convergence_root_cause_analysis": {
+    "finding_1": "PaySim's synthetic generator assigns a unique disposable account ID (nameOrig) to 99.85% of transactions. Out of 8,213 fraudulent transactions, repeat sender activity is virtually non-existent (0 fraud senders repeat). Therefore, all sender historical state features (orig_prev_tx_cnt, orig_prev_cum_amt, orig_avg_amt, etc.) are 0.0 for virtually all fraud records.",
+    "finding_2": "The predominant fraud pattern in PaySim is a static single-step balance drain (attacker creates a TRANSFER or CASH_OUT transaction where oldbalanceOrg == amount). Point-in-time causal baseline features (diff_orig_bal_amt = oldbalanceOrg - amount, oldbalanceOrg, amount, type) fully capture this structural signature without needing historical context.",
+    "finding_3": "Destination history (dest_prev_in_tx_cnt, dest_unique_orig_cnt) provides minor statistical refinement on validation (PR-AUC lift of +0.0096 on validation and +0.00065 on future test), but because point-in-time features already achieve 99.65% recall and 96.29% precision, the residual margin for incremental empirical gain on PaySim is extremely compressed."
+  },
+  "architectural_vs_statistical_evaluation": {
+    "statistical_lift_on_paysim": "Marginal (+0.00065 PR-AUC on future test)",
+    "architectural_necessity": "HIGH / MANDATORY for real-world deployment",
+    "justification": "In real production payment gateways (e.g. Razorpay/UPI/Cards), fraudsters do not behave like PaySim's synthetic agent. Real adversaries exhibit velocity bursts, card testing, account takeovers, and mule-account aggregation. Model B's stateful feature pipeline (tracking velocity, historical deviations, and cold-start flags) is the essential architecture required for production defense, even though PaySim's synthetic structure under-stimulates it."
+  }
+}

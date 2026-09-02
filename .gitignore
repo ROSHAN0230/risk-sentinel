@@ -1,0 +1,43 @@
+# Raw 493MB PaySim Dataset (exceeds GitHub 100MB limit; models & artifacts are already compiled)
+PS_20174392719_1491204439457_log.csv
+*.csv
+
+# Local backup snapshots
+backups/
+
+# Node.js dependencies (frontend/dist/ is tracked so users don't need npm to run)
+frontend/node_modules/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Operating System & IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# Local runtime logs
+*.log

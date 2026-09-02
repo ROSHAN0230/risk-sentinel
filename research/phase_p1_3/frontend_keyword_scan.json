@@ -1,0 +1,196 @@
+{
+  "live": [
+    {
+      "file": "components\\DataSourceBadge.tsx",
+      "line": 23,
+      "content": "<span>Live Engine</span>"
+    },
+    {
+      "file": "components\\DemoScenarioSelector.tsx",
+      "line": 18,
+      "content": "<h3 className=\"text-sm font-semibold text-slate-100\">Live Demo Scenario Launcher (9 Scenarios)</h3>"
+    },
+    {
+      "file": "components\\DisclaimerBanner.tsx",
+      "line": 24,
+      "content": "<strong className=\"text-slate-300\">PaySim Research Observations</strong>: 99.99% dollars protected and channel bypass (PAYMENT/DEBIT) are academic dataset findings on PaySim held-out steps 378\u2013743, not proprietary Razorpay live production KPIs."
+    },
+    {
+      "file": "components\\Navbar.tsx",
+      "line": 18,
+      "content": "{ id: 'stream', label: 'Live Stream & Demo' },"
+    },
+    {
+      "file": "pages\\DashboardPage.tsx",
+      "line": 158,
+      "content": "{/* Live Engine Status & Lineage */}"
+    },
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 130,
+      "content": "<span>Back to Live Stream</span>"
+    },
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 307,
+      "content": "Click on any live audit record, Razorpay Test Mode event, or demo fixture to inspect why it was flagged, what evidence was available, and recommended next steps."
+    },
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 333,
+      "content": "{detail.source_provenance === 'AUDIT_LEDGER' ? 'LIVE ENGINE AUDIT RECORD' : detail.source_provenance === 'RAZORPAY_TEST_MODE' ? 'RAZORPAY TEST MODE' : 'DEMO FIXTURE'}"
+    },
+    {
+      "file": "pages\\StreamPage.tsx",
+      "line": 83,
+      "content": "Interactive On-Demand Evaluation Console (Demo Scenario Presets &amp; Custom Live Injection)"
+    },
+    {
+      "file": "pages\\StreamPage.tsx",
+      "line": 104,
+      "content": "{/* Split Grid: Custom Transaction Form + Live Stream Table */}"
+    },
+    {
+      "file": "pages\\StreamPage.tsx",
+      "line": 168,
+      "content": "{/* Live Evaluated Transactions Table */}"
+    },
+    {
+      "file": "pages\\StreamPage.tsx",
+      "line": 194,
+      "content": "No live evaluations yet. Click any demo preset above or submit a custom transaction."
+    }
+  ],
+  "production": [
+    {
+      "file": "components\\DisclaimerBanner.tsx",
+      "line": 24,
+      "content": "<strong className=\"text-slate-300\">PaySim Research Observations</strong>: 99.99% dollars protected and channel bypass (PAYMENT/DEBIT) are academic dataset findings on PaySim held-out steps 378\u2013743, not proprietary Razorpay live production KPIs."
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 84,
+      "content": "FROZEN PRODUCTION POLICY: \u03b8* = 0.990"
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 98,
+      "content": "Analytical sensitivity exploration only \u2014 does not alter frozen production policy."
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 160,
+      "content": "Production Active"
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 176,
+      "content": "\u03b8 = {t.toFixed(3)} {t === 0.990 ? '\u2605 (Frozen Production Policy \u03b8*)' : ''}"
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 235,
+      "content": "{selectedPoint.is_production_threshold ? 'Active Production Operating Point' : 'Exploratory Scenario'}"
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 443,
+      "content": "<strong>Architectural Context \u2014 Not Production Telemetry:</strong> In real-world enterprise gateways, customer accounts persist over years. Model B stateful velocity and mule destination tracking provide the essential defensive architectural barrier against multi-day micro-drain attacks that single-transaction baseline models cannot detect."
+    }
+  ],
+  "real-time": [
+    {
+      "file": "components\\RazorpayWebhookViewer.tsx",
+      "line": 122,
+      "content": "Real-time external payment event ingestion, signature verification, and zero-fabrication model-readiness gating."
+    },
+    {
+      "file": "pages\\DashboardPage.tsx",
+      "line": 24,
+      "content": "Real-Time Causal Payment Defense & Decision Engine Telemetry"
+    }
+  ],
+  "probability": [
+    {
+      "file": "components\\DisclaimerBanner.tsx",
+      "line": 18,
+      "content": "<strong className=\"text-slate-300\">Operating Risk Score (\u03b8* = 0.990)</strong>: Calibrated decision score derived from balanced loss minimization (+7.106 log-odds shift, ~7.51% calibrated risk), not an uncalibrated probability statement."
+    },
+    {
+      "file": "components\\RiskScoreGauge.tsx",
+      "line": 29,
+      "content": "<div className=\"flex items-center gap-1.5\" title=\"Operating decision score derived from balanced loss minimization (+7.106 log-odds shift). Not an uncalibrated probability statement.\">"
+    }
+  ],
+  "guaranteed": [],
+  "certain": [],
+  "caused": [],
+  "razorpay": [
+    {
+      "file": "api\\client.ts",
+      "line": 253,
+      "content": "headers['X-Razorpay-Signature'] = signature;"
+    },
+    {
+      "file": "api\\client.ts",
+      "line": 255,
+      "content": "const response = await fetch(`${API_BASE}/webhooks/razorpay`, {"
+    },
+    {
+      "file": "components\\DisclaimerBanner.tsx",
+      "line": 24,
+      "content": "<strong className=\"text-slate-300\">PaySim Research Observations</strong>: 99.99% dollars protected and channel bypass (PAYMENT/DEBIT) are academic dataset findings on PaySim held-out steps 378\u2013743, not proprietary Razorpay live production KPIs."
+    },
+    {
+      "file": "components\\RazorpayWebhookViewer.tsx",
+      "line": 118,
+      "content": "Razorpay Test Mode Webhook Monitor"
+    },
+    {
+      "file": "components\\RazorpayWebhookViewer.tsx",
+      "line": 159,
+      "content": "<strong className=\"text-slate-300\">Operational Boundary:</strong> Events are received via <code className=\"text-indigo-300\">POST /v1/webhooks/razorpay</code> in Test Mode. Raw events without pre-transaction banking balance context are honestly gated with zero ML fabrication."
+    },
+    {
+      "file": "components\\RazorpayWebhookViewer.tsx",
+      "line": 169,
+      "content": "No webhook events received yet. Click \"Dispatch Raw Event\" or send a test webhook to <code className=\"text-slate-400\">/v1/webhooks/razorpay</code>."
+    },
+    {
+      "file": "pages\\BenchmarksPage.tsx",
+      "line": 94,
+      "content": "<strong>Methodological Scope:</strong> Exploratory scenario sensitivity modeling \u2014 does not represent Razorpay unit economics."
+    },
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 307,
+      "content": "Click on any live audit record, Razorpay Test Mode event, or demo fixture to inspect why it was flagged, what evidence was available, and recommended next steps."
+    },
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 333,
+      "content": "{detail.source_provenance === 'AUDIT_LEDGER' ? 'LIVE ENGINE AUDIT RECORD' : detail.source_provenance === 'RAZORPAY_TEST_MODE' ? 'RAZORPAY TEST MODE' : 'DEMO FIXTURE'}"
+    },
+    {
+      "file": "pages\\StreamPage.tsx",
+      "line": 233,
+      "content": "{/* Razorpay Test Mode Webhook Monitor */}"
+    }
+  ],
+  "tps": [],
+  "sla": [
+    {
+      "file": "components\\DisclaimerBanner.tsx",
+      "line": 21,
+      "content": "<strong className=\"text-slate-300\">Latency Budgets</strong>: Local engine benchmark p99 is 2.40 ms (In-Process) / &lt;10 ms (REST); gateway target SLA budget is 35.0 ms."
+    }
+  ],
+  "accuracy": [],
+  "interception": [
+    {
+      "file": "pages\\InspectorPage.tsx",
+      "line": 340,
+      "content": "{detail.policy_lineage.action === 'DECLINE' && 'AUTOMATED DECLINE: High-Risk Interception'}"
+    }
+  ]
+}

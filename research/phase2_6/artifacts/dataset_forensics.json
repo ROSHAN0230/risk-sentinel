@@ -1,0 +1,134 @@
+{
+  "dataset_path": "c:\\Users\\raahe\\Downloads\\razorpay\\PS_20174392719_1491204439457_log.csv",
+  "num_rows": 6362620,
+  "num_cols": 11,
+  "columns": [
+    "step",
+    "type",
+    "amount",
+    "nameOrig",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "nameDest",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "isFraud",
+    "isFlaggedFraud"
+  ],
+  "dtypes": {
+    "step": "int64",
+    "type": "object",
+    "amount": "float64",
+    "nameOrig": "object",
+    "oldbalanceOrg": "float64",
+    "newbalanceOrig": "float64",
+    "nameDest": "object",
+    "oldbalanceDest": "float64",
+    "newbalanceDest": "float64",
+    "isFraud": "int64",
+    "isFlaggedFraud": "int64"
+  },
+  "missing_values": {
+    "step": 0,
+    "type": 0,
+    "amount": 0,
+    "nameOrig": 0,
+    "oldbalanceOrg": 0,
+    "newbalanceOrig": 0,
+    "nameDest": 0,
+    "oldbalanceDest": 0,
+    "newbalanceDest": 0,
+    "isFraud": 0,
+    "isFlaggedFraud": 0
+  },
+  "num_duplicates": 0,
+  "min_step": 1,
+  "max_step": 743,
+  "is_step_monotonic": true,
+  "target_counts": {
+    "0": 6354407,
+    "1": 8213
+  },
+  "fraud_rate": 0.001290820448180152,
+  "is_flagged_fraud_counts": {
+    "0": 6362604,
+    "1": 16
+  },
+  "type_counts": {
+    "CASH_OUT": 2237500,
+    "PAYMENT": 2151495,
+    "CASH_IN": 1399284,
+    "TRANSFER": 532909,
+    "DEBIT": 41432
+  },
+  "type_fraud_stats": {
+    "CASH_IN": {
+      "count": 1399284.0,
+      "sum": 0.0,
+      "mean": 0.0
+    },
+    "CASH_OUT": {
+      "count": 2237500.0,
+      "sum": 4116.0,
+      "mean": 0.0018395530726256983
+    },
+    "DEBIT": {
+      "count": 41432.0,
+      "sum": 0.0,
+      "mean": 0.0
+    },
+    "PAYMENT": {
+      "count": 2151495.0,
+      "sum": 0.0,
+      "mean": 0.0
+    },
+    "TRANSFER": {
+      "count": 532909.0,
+      "sum": 4097.0,
+      "mean": 0.007687991758442811
+    }
+  },
+  "splits_info": {
+    "train": {
+      "step_range": [
+        1,
+        322
+      ],
+      "total_rows": 4433703,
+      "fraud_rows": 3633,
+      "fraud_rate": 0.0008194053593576295,
+      "fraud_amount_total": 4962857060.26,
+      "nonfraud_amount_total": 767421180411.3799
+    },
+    "val": {
+      "step_range": [
+        323,
+        377
+      ],
+      "total_rows": 973173,
+      "fraud_rows": 570,
+      "fraud_rate": 0.0005857129205187567,
+      "fraud_amount_total": 769750597.32,
+      "nonfraud_amount_total": 210597807549.82
+    },
+    "future_test": {
+      "step_range": [
+        378,
+        743
+      ],
+      "total_rows": 955744,
+      "fraud_rows": 4010,
+      "fraud_rate": 0.004195684199953125,
+      "fraud_amount_total": 6323807770.259999,
+      "nonfraud_amount_total": 154317541370.72998
+    }
+  },
+  "entity_statistics": {
+    "num_unique_senders": 6353307,
+    "num_unique_destinations": 2722362,
+    "senders_with_multiple_tx": 9298,
+    "sender_repeat_fraction": 0.0014634898014530072,
+    "destinations_with_multiple_tx": 459658,
+    "destination_repeat_fraction": 0.16884528949493124
+  }
+}

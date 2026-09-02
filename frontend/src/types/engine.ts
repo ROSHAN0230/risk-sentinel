@@ -1,0 +1,401 @@
+/**
+ * Risk Sentinel — Frontend TypeScript Types & Contracts
+ * Strictly mirrors backend schemas.py and Phase 2.11 contracts.
+ */
+
+export type TransactionType = 'TRANSFER' | 'CASH_OUT' | 'PAYMENT' | 'CASH_IN' | 'DEBIT';
+
+export type RiskBand = 'LOW_RISK' | 'MEDIUM_RISK' | 'HIGH_RISK';
+
+export type DecisionEnum = 'APPROVED' | 'CHALLENGED' | 'REVIEW_REQUIRED' | 'DECLINED';
+
+export type ActionEnum = 'APPROVE' | 'STEP_UP_CHALLENGE' | 'MANUAL_REVIEW' | 'DECLINE';
+
+export interface EvaluateRequest {
+  transaction_id: string;
+  step: number;
+  type: TransactionType;
+  amount: number;
+  nameOrig: string;
+  oldbalanceOrg: number;
+  nameDest: string;
+  oldbalanceDest: number;
+  merchant_id?: string;
+}
+
+export interface ReasonDetails {
+  primary_code: string;
+  all_codes: string[];
+  narrative: string;
+  causal_evidence: Record<string, any>;
+}
+
+export interface EngineMetadata {
+  engine_version: string;
+  model_version: string;
+  model_type: string;
+  policy_version: string;
+  operating_threshold: number;
+  fallback_triggered: boolean;
+  execution_latency_ms: number;
+}
+
+export interface EvaluateResponse {
+  transaction_id: string;
+  evaluation_id: string;
+  timestamp_iso: string;
+  risk_score: number;
+  risk_band: RiskBand;
+  decision: DecisionEnum;
+  action: ActionEnum;
+  reasons: ReasonDetails;
+  engine_metadata: EngineMetadata;
+}
+
+export interface HealthResponse {
+  status: 'HEALTHY' | 'DEGRADED';
+  engine_version: string;
+  state_store_responsive: boolean;
+  champion_model_sha256: string;
+}
+
+export interface AuditEvent {
+  event_id: string;
+  event_timestamp_utc: string;
+  transaction_id: string;
+  merchant_id: string;
+  lineage: {
+    engine_version: string;
+    model_version: string;
+    model_type: string;
+    model_artifact_hash: string;
+    policy_version: string;
+    operating_threshold: number;
+  };
+  runtime_telemetry: {
+    execution_latency_ms: number;
+    state_store_latency_ms: number;
+    inference_latency_ms: number;
+    fallback_mode_active: boolean;
+  };
+  input_snapshot_masked: {
+    step: number;
+    type: string;
+    amount: number;
+    sender_masked: string;
+    sender_old_balance: number;
+    dest_masked: string;
+    dest_old_balance: number;
+  };
+  causal_features_extracted: Record<string, number>;
+  evaluation_result: {
+    raw_model_score: number;
+    risk_band: string;
+    decision: string;
+    action: string;
+    primary_reason_code: string;
+    all_reason_codes: string[];
+  };
+  integrity_hash: string;
+}
+
+export interface DemoFixture {
+  id: string;
+  title: string;
+  description: string;
+  request: EvaluateRequest;
+  expected_decision: DecisionEnum;
+  expected_action: ActionEnum;
+  expected_reason: string;
+  learning_takeaway: string;
+  force_fallback?: boolean;
+}
+
+export interface NormalizedWebhookEvent {
+  event_id: string;
+  received_at_utc: string;
+  source: string;
+  event_type: string;
+  payment_id: string;
+  amount_inr: number;
+  currency: string;
+  method: string;
+  customer_vpa?: string;
+  customer_contact_masked?: string;
+  merchant_id: string;
+  evaluation_status: string;
+  readiness_reason: string;
+  missing_features: string[];
+  risk_score?: number;
+  decision?: string;
+  action?: string;
+  reasons?: ReasonDetails;
+  engine_metadata?: EngineMetadata;
+  audit_id?: string;
+  integrity_hash: string;
+  is_duplicate: boolean;
+}
+
+export interface ThresholdSensitivityRecord {
+  threshold: number;
+  tp: number;
+  fp: number;
+  tn: number;
+  fn: number;
+  precision: number;
+  recall: number;
+  f1: number;
+  fpr: number;
+  fnr: number;
+  detected_fraud_amount: number;
+  missed_fraud_amount: number;
+  flagged_nonfraud_amount: number;
+  split: string;
+  is_production_threshold: boolean;
+}
+
+export interface CostSimulationPoint {
+  threshold: number;
+  tp: number;
+  fp: number;
+  fn: number;
+  precision: number;
+  recall: number;
+  missed_fraud_amount: number;
+  flagged_nonfraud_amount: number;
+  alpha: number;
+  friction_cost: number;
+  total_cost: number;
+  is_production_threshold: boolean;
+  is_validation_cost_minimum: boolean;
+}
+
+export interface CostSimulationResponse {
+  alpha: number;
+  alpha_percentage: string;
+  cost_equation: string;
+  disclaimer: string;
+  data_split: string;
+  production_operating_point: CostSimulationPoint;
+  simulation_table: CostSimulationPoint[];
+}
+
+export interface SOPGuidance {
+  reason_code: string;
+  title: string;
+  objective: string;
+  urgency: string;
+  recommended_action: string;
+  protocol_steps: string[];
+  evidence_to_inspect: string[];
+}
+
+export interface InvestigationSummary {
+  investigation_id: string;
+  event_ref: string;
+  timestamp_iso: string;
+  source_provenance: 'AUDIT_LEDGER' | 'RAZORPAY_TEST_MODE' | 'DEMO_FIXTURE' | string;
+  transaction_type: string;
+  amount: number;
+  sender_masked: string;
+  dest_masked: string;
+  risk_score?: number;
+  risk_band: string;
+  decision: string;
+  action: string;
+  primary_reason_code: string;
+  model_version: string;
+  has_audit_record: boolean;
+}
+
+export interface InvestigationDetail {
+  investigation_id: string;
+  event_ref: string;
+  timestamp_iso: string;
+  source_provenance: string;
+  what_happened: {
+    transaction_id?: string;
+    payment_id?: string;
+    event_type?: string;
+    step?: number;
+    channel?: string;
+    method?: string;
+    amount: number;
+    currency?: string;
+    sender_masked?: string;
+    sender_old_balance?: number;
+    dest_masked?: string;
+    dest_old_balance?: number;
+    evaluation_status?: string;
+  };
+  why_flagged: {
+    risk_score?: number;
+    risk_band: string;
+    primary_reason_code: string;
+    all_reason_codes: string[];
+    narrative: string;
+  };
+  model_lineage: {
+    model_name: string;
+    model_type: string;
+    model_sha256?: string;
+    fallback_triggered?: boolean;
+  };
+  policy_lineage: {
+    policy_version: string;
+    operating_threshold: number;
+    decision: string;
+    action: string;
+  };
+  available_evidence: Record<string, any>;
+  anomaly_indicators: Array<{
+    signal: string;
+    severity: string;
+    description: string;
+  }>;
+  investigator_guidance: SOPGuidance;
+  audit_trail: {
+    audit_event_id?: string;
+    chained_integrity_hash?: string;
+    tamper_evident_status?: string;
+  };
+}
+
+export interface CaptureGateRequest {
+  payment_id: string;
+  order_id?: string;
+  amount_paise: number;
+  currency?: string;
+  status: string;
+  method?: string;
+  vpa?: string;
+  contact?: string;
+  email?: string;
+  notes?: Record<string, any>;
+  signature?: string;
+  merchant_id?: string;
+}
+
+export interface CaptureGateResult {
+  gate_event_id: string;
+  timestamp_utc: string;
+  payment_id: string;
+  order_id?: string;
+  payment_status_before: string;
+  amount_inr: number;
+  currency: string;
+  method: string;
+  customer_vpa?: string;
+  customer_contact_masked?: string;
+  merchant_id: string;
+  risk_evaluation_status: string;
+  risk_score?: number;
+  decision?: string;
+  action?: string;
+  primary_reason_code?: string;
+  reasons?: Record<string, any>;
+  capture_action: 'CAPTURE_CALLED' | 'CAPTURE_SUPPRESSED' | 'CAPTURE_FAILED' | string;
+  capture_status: 'CAPTURED' | 'HELD_DECLINED' | 'HELD_INSUFFICIENT_CONTEXT' | 'HELD_NON_AUTHORIZED' | 'HELD_FAIL_CLOSED' | 'HELD_DUPLICATE' | string;
+  capture_api_response?: Record<string, any>;
+  execution_mode: 'LIVE_RAZORPAY_TEST_MODE' | 'SIMULATED_CONTRACT_TEST_MODE' | string;
+  provenance: 'RAZORPAY_TEST_MODE' | 'RAZORPAY_COMPATIBLE_TEST_MODE' | string;
+  is_duplicate: boolean;
+  integrity_hash: string;
+  audit_event_id?: string;
+}
+
+export interface SandboxContext {
+  dest_unique_orig_cnt?: number;
+  sender_prev_in_tx_cnt?: number;
+  is_sender_cold_start?: boolean;
+}
+
+export interface ReplayRequest {
+  baseline_fixture_id?: string;
+  step?: number;
+  type: string;
+  amount: number;
+  nameOrig?: string;
+  oldbalanceOrg: number;
+  nameDest?: string;
+  oldbalanceDest?: number;
+  merchant_id?: string;
+  sandbox_context?: SandboxContext;
+  alpha?: number;
+}
+
+export interface ReplayEvaluation {
+  model_type: string;
+  operating_score: number;
+  score_interpretation: string;
+  risk_band: string;
+  decision: string;
+  action: string;
+  primary_reason_code: string;
+  all_reason_codes: string[];
+  narrative: string;
+  features: Record<string, number>;
+}
+
+export interface ReplayEconomicImpact {
+  alpha: number;
+  alpha_percentage: string;
+  disclaimer: string;
+  decision_outcome: string;
+  hypothetical_fraud_exposure: number;
+  hypothetical_friction_cost: number;
+  economic_narrative: string;
+}
+
+export interface ReplayDelta {
+  score_delta: number;
+  decision_changed: boolean;
+  reason_code_changed: boolean;
+  baseline_decision: string;
+  replay_decision: string;
+  baseline_reason: string;
+  replay_reason: string;
+  features_diff: Record<string, { baseline: number; replay: number; delta: number }>;
+}
+
+export interface ReplayResponse {
+  replay_id: string;
+  timestamp_utc: string;
+  provenance: string;
+  baseline_fixture_id?: string;
+  replay_inputs: Record<string, any>;
+  replayed_evaluation: ReplayEvaluation;
+  baseline_evaluation?: ReplayEvaluation;
+  deltas?: ReplayDelta;
+  economic_impact: ReplayEconomicImpact;
+}
+
+export interface BenchmarkConfusionMatrix {
+  tp: number;
+  fp: number;
+  fn: number;
+  tn: number;
+  total_test_transactions: number;
+  total_fraud_transactions: number;
+  total_clean_transactions: number;
+}
+
+export interface BenchmarkSummaryResponse {
+  dataset_name: string;
+  dataset_file: string;
+  evaluation_split: string;
+  total_transactions: number;
+  fraud_transactions: number;
+  operating_threshold: number;
+  secondary_threshold: number;
+  confusion_matrix: BenchmarkConfusionMatrix;
+  precision_percent: number;
+  recall_percent: number;
+  fraud_dollars_intercepted: number;
+  fraud_dollars_missed: number;
+  fraud_dollar_interception_percent: number;
+  flagged_nonfraud_volume: number;
+  disclaimer: string;
+  threshold_provenance_note: string;
+}
+

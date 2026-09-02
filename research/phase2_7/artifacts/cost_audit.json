@@ -1,0 +1,14 @@
+{
+  "cost_equation": "Total_Cost = FN_Missed_Fraud_Dollars + alpha * FP_Flagged_Legitimate_Volume",
+  "dimensional_consistency": "PASSED (Currency + [Dimensionless * Currency] = Currency)",
+  "double_counting_audit": "PASSED (FN partition and FP partition are mutually disjoint sets of transactions)",
+  "sensitivity_parameters": {
+    "0.1%": "Minimal operational friction / automated challenge with near-zero customer dropoff",
+    "0.5%": "Low operational friction / frictionless step-up (e.g. fast push notification/biometric)",
+    "1.0%": "Standard industry baseline / manual review queue + minor customer dropoff",
+    "2.0%": "Elevated friction / substantial dropoff and high support contact rate",
+    "5.0%": "Severe friction / high false decline business impact and customer churn"
+  },
+  "methodological_classification": "SCENARIO_SENSITIVITY_ANALYSIS",
+  "disclaimer_required": "The alpha penalty factors (0.1% to 5.0%) represent exploratory sensitivity assumptions for modeling operational intervention and false-decline friction. They must NOT be represented as proprietary or actual historical unit economics of Razorpay."
+}

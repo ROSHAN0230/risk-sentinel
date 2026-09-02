@@ -1,0 +1,9 @@
+{
+  "status": "PASSED",
+  "total_rows_audited": 6362620,
+  "replay_samples_checked": 250,
+  "prohibited_columns_found": 0,
+  "future_leakage_detected": false,
+  "future_invariance_verified": true,
+  "audit_duration_seconds": 171.56243324279785
+}

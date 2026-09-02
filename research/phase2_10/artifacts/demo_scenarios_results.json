@@ -1,0 +1,356 @@
+{
+  "audit_name": "Audit 8: End-to-End Demo Scenarios",
+  "status": "PASS",
+  "total_scenarios": 9,
+  "scenarios_executed": [
+    {
+      "scenario_id": "DEMO-01-NORMAL-PAYMENT",
+      "title": "Normal Everyday Payment (Low Risk)",
+      "input": {
+        "transaction_id": "tx-demo-01",
+        "step": 450,
+        "type": "PAYMENT",
+        "amount": 84.5,
+        "nameOrig": "C_ALICE_01",
+        "oldbalanceOrg": 1200.0,
+        "nameDest": "M_BOOKSTORE_01",
+        "oldbalanceDest": 0.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-01",
+        "evaluation_id": "eval_cb8151d8-0abb-49c6-8916-ec254548db51",
+        "timestamp_iso": "2026-09-01T15:16:36.061331+00:00",
+        "risk_score": 0.00179,
+        "risk_band": "LOW_RISK",
+        "decision": "APPROVED",
+        "action": "APPROVE",
+        "reasons": {
+          "primary_code": "RC_BENIGN_BASELINE",
+          "all_codes": [
+            "RC_BENIGN_BASELINE"
+          ],
+          "narrative": "Normal transaction velocity, adequate balance headroom, and established channel baseline.",
+          "causal_evidence": {
+            "amount": 84.5,
+            "oldbalanceOrg": 1200.0,
+            "oldbalanceDest": 0.0,
+            "channel": "PAYMENT",
+            "risk_score": 0.0017897998415016465,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 2.131
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-02-SUSPICIOUS-OUTFLOW",
+      "title": "Suspicious Severe Liquidity Outflow",
+      "input": {
+        "transaction_id": "tx-demo-02",
+        "step": 324,
+        "type": "TRANSFER",
+        "amount": 976662.3,
+        "nameOrig": "C1959219454",
+        "oldbalanceOrg": 982857.46,
+        "nameDest": "C2061756973",
+        "oldbalanceDest": 2453029.29
+      },
+      "output": {
+        "transaction_id": "tx-demo-02",
+        "evaluation_id": "eval_845a305b-da59-4758-9625-c3a71aab22cb",
+        "timestamp_iso": "2026-09-01T15:16:36.062757+00:00",
+        "risk_score": 0.983023,
+        "risk_band": "MEDIUM_RISK",
+        "decision": "REVIEW_REQUIRED",
+        "action": "MANUAL_REVIEW",
+        "reasons": {
+          "primary_code": "RC_SEVERE_LIQUIDITY_DRAIN",
+          "all_codes": [
+            "RC_SEVERE_LIQUIDITY_DRAIN",
+            "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+          ],
+          "narrative": "Transaction drains 99.4% of sender total account liquidity ($976,662.30 of $982,857.46).",
+          "causal_evidence": {
+            "amount": 976662.3,
+            "oldbalanceOrg": 982857.46,
+            "oldbalanceDest": 2453029.29,
+            "channel": "TRANSFER",
+            "risk_score": 0.9830229064079413,
+            "liquidation_pct": 99.37,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 1.045
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-03-CRITICAL-DRAIN",
+      "title": "Critical Fraud \u2014 Exact 100% Balance Liquidation",
+      "input": {
+        "transaction_id": "tx-demo-03",
+        "step": 452,
+        "type": "TRANSFER",
+        "amount": 284100.5,
+        "nameOrig": "C_VICTIM_03",
+        "oldbalanceOrg": 284100.5,
+        "nameDest": "C_MULE_03",
+        "oldbalanceDest": 0.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-03",
+        "evaluation_id": "eval_97f11a69-2dcc-46af-9df0-c73ade530302",
+        "timestamp_iso": "2026-09-01T15:16:36.063897+00:00",
+        "risk_score": 0.998092,
+        "risk_band": "HIGH_RISK",
+        "decision": "DECLINED",
+        "action": "DECLINE",
+        "reasons": {
+          "primary_code": "RC_EXACT_BALANCE_DRAIN",
+          "all_codes": [
+            "RC_EXACT_BALANCE_DRAIN",
+            "RC_HIGH_RISK_CHANNEL_COMBO",
+            "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+          ],
+          "narrative": "Transaction attempts exact 100% liquidation of available sender balance ($284,100.50) via high-risk TRANSFER channel.",
+          "causal_evidence": {
+            "amount": 284100.5,
+            "oldbalanceOrg": 284100.5,
+            "oldbalanceDest": 0.0,
+            "channel": "TRANSFER",
+            "risk_score": 0.9980923366360022,
+            "liquidation_pct": 100.0,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 0.965
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-04-COLD-START-BENIGN",
+      "title": "Benign Cold-Start Account (Context vs Fraud)",
+      "input": {
+        "transaction_id": "tx-demo-04",
+        "step": 453,
+        "type": "TRANSFER",
+        "amount": 50.0,
+        "nameOrig": "C_FRESH_USER_04",
+        "oldbalanceOrg": 1000.0,
+        "nameDest": "C_DEST_04",
+        "oldbalanceDest": 200.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-04",
+        "evaluation_id": "eval_17a620f7-a49f-4404-bd3e-ef0a3ba4459b",
+        "timestamp_iso": "2026-09-01T15:16:36.064973+00:00",
+        "risk_score": 0.00179,
+        "risk_band": "LOW_RISK",
+        "decision": "APPROVED",
+        "action": "APPROVE",
+        "reasons": {
+          "primary_code": "RC_BENIGN_BASELINE",
+          "all_codes": [
+            "RC_BENIGN_BASELINE"
+          ],
+          "narrative": "Normal transaction velocity, adequate balance headroom, and established channel baseline.",
+          "causal_evidence": {
+            "amount": 50.0,
+            "oldbalanceOrg": 1000.0,
+            "oldbalanceDest": 200.0,
+            "channel": "TRANSFER",
+            "risk_score": 0.0017897998415016465,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 0.916
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-05-FALLBACK-RECOVERY",
+      "title": "State-Store Failure / Timeout (Model A Fallback)",
+      "input": {
+        "transaction_id": "tx-demo-05",
+        "step": 454,
+        "type": "TRANSFER",
+        "amount": 190000.0,
+        "nameOrig": "C_FALLBACK_USER_05",
+        "oldbalanceOrg": 190000.0,
+        "nameDest": "C_FALLBACK_DEST_05",
+        "oldbalanceDest": 0.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-05",
+        "evaluation_id": "eval_cfda014e-7a46-408f-b575-34203b42d15b",
+        "timestamp_iso": "2026-09-01T15:16:36.090183+00:00",
+        "risk_score": 0.997892,
+        "risk_band": "HIGH_RISK",
+        "decision": "DECLINED",
+        "action": "DECLINE",
+        "reasons": {
+          "primary_code": "RC_EXACT_BALANCE_DRAIN",
+          "all_codes": [
+            "RC_FALLBACK_EVALUATION_ACTIVE",
+            "RC_EXACT_BALANCE_DRAIN",
+            "RC_HIGH_RISK_CHANNEL_COMBO",
+            "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+          ],
+          "narrative": "Transaction attempts exact 100% liquidation of available sender balance ($190,000.00) via high-risk TRANSFER channel.",
+          "causal_evidence": {
+            "amount": 190000.0,
+            "oldbalanceOrg": 190000.0,
+            "oldbalanceDest": 0.0,
+            "channel": "TRANSFER",
+            "risk_score": 0.9978920997717767,
+            "liquidation_pct": 100.0,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_A_CAUSAL_BASELINE_FALLBACK",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": true,
+          "execution_latency_ms": 1.088
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-06-MODEL-TAMPER-REJECTION",
+      "title": "Cryptographic Model Tamper Defense",
+      "result": "VERIFIED (ModelIntegrityError raised when binary hash deviates from .sha256 checksum)"
+    },
+    {
+      "scenario_id": "DEMO-07-EXPLANATION-EVIDENCE",
+      "title": "Deterministic Causal Explanation Inspection",
+      "input": {
+        "transaction_id": "tx-demo-07",
+        "step": 456,
+        "type": "CASH_OUT",
+        "amount": 99000.0,
+        "nameOrig": "C_DRAIN_07",
+        "oldbalanceOrg": 100000.0,
+        "nameDest": "C_DEST_07",
+        "oldbalanceDest": 500.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-07",
+        "evaluation_id": "eval_80b8ae6a-f9df-430f-b9d7-867197c42200",
+        "timestamp_iso": "2026-09-01T15:16:36.091558+00:00",
+        "risk_score": 0.00179,
+        "risk_band": "LOW_RISK",
+        "decision": "APPROVED",
+        "action": "APPROVE",
+        "reasons": {
+          "primary_code": "RC_SEVERE_LIQUIDITY_DRAIN",
+          "all_codes": [
+            "RC_SEVERE_LIQUIDITY_DRAIN"
+          ],
+          "narrative": "Transaction drains 99.0% of sender total account liquidity ($99,000.00 of $100,000.00).",
+          "causal_evidence": {
+            "amount": 99000.0,
+            "oldbalanceOrg": 100000.0,
+            "oldbalanceDest": 500.0,
+            "channel": "CASH_OUT",
+            "risk_score": 0.0017897998415016465,
+            "liquidation_pct": 99.0,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 1.182
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-08-AUDIT-TRAIL-HASH",
+      "title": "Cryptographically Chained Audit Trail",
+      "input": {
+        "transaction_id": "tx-demo-08",
+        "step": 457,
+        "type": "TRANSFER",
+        "amount": 120.0,
+        "nameOrig": "C192837465",
+        "oldbalanceOrg": 2000.0,
+        "nameDest": "C987654321",
+        "oldbalanceDest": 100.0
+      },
+      "output": {
+        "transaction_id": "tx-demo-08",
+        "evaluation_id": "eval_5410a6eb-8d97-460d-b8de-42867749d752",
+        "timestamp_iso": "2026-09-01T15:16:36.092795+00:00",
+        "risk_score": 0.00179,
+        "risk_band": "LOW_RISK",
+        "decision": "APPROVED",
+        "action": "APPROVE",
+        "reasons": {
+          "primary_code": "RC_BENIGN_BASELINE",
+          "all_codes": [
+            "RC_BENIGN_BASELINE"
+          ],
+          "narrative": "Normal transaction velocity, adequate balance headroom, and established channel baseline.",
+          "causal_evidence": {
+            "amount": 120.0,
+            "oldbalanceOrg": 2000.0,
+            "oldbalanceDest": 100.0,
+            "channel": "TRANSFER",
+            "risk_score": 0.0017897998415016465,
+            "is_sender_cold_start": 1
+          }
+        },
+        "engine_metadata": {
+          "engine_version": "v2.8.0-prod",
+          "model_version": "model_b_stateful_hgb_v1.0.0",
+          "model_type": "MODEL_B_STATEFUL_HGB",
+          "policy_version": "v1.2.0-frozen",
+          "operating_threshold": 0.99,
+          "fallback_triggered": false,
+          "execution_latency_ms": 1.054
+        }
+      }
+    },
+    {
+      "scenario_id": "DEMO-09-COST-TRADEOFF",
+      "title": "Financial Cost & Threshold Tradeoff",
+      "result": "VERIFIED (Global minimum cost $64,345.47 achieved at theta=0.990 on validation split)"
+    }
+  ]
+}

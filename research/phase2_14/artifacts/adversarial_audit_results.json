@@ -1,0 +1,250 @@
+{
+  "phase": "Phase 2.14 End-to-End Adversarial QA & Edge Stress Testing",
+  "timestamp_utc": "2026-09-02T08:27:03Z",
+  "total_suites": 8,
+  "passed_suites": 8,
+  "failed_suites": 0,
+  "suite_results": {
+    "suite_1_api_fuzzing": {
+      "status": "PASS",
+      "total_cases": 15,
+      "details": [
+        {
+          "case": "missing_transaction_id",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "missing_amount",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "missing_nameOrig",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "negative_amount",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "zero_amount",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "negative_sender_balance",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "negative_dest_balance",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "invalid_channel_crypto",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "empty_channel",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "string_amount",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "dict_amount",
+          "expected_status": 422,
+          "actual_status": 422,
+          "passed": true
+        },
+        {
+          "case": "astronomical_amount",
+          "expected_status": 200,
+          "actual_status": 200,
+          "passed": true
+        },
+        {
+          "case": "extremely_small_amount",
+          "expected_status": 200,
+          "actual_status": 200,
+          "passed": true
+        },
+        {
+          "case": "oversized_tx_id",
+          "expected_status": 200,
+          "actual_status": 200,
+          "passed": true
+        },
+        {
+          "case": "extra_unrecognized_fields",
+          "expected_status": 200,
+          "actual_status": 200,
+          "passed": true
+        }
+      ]
+    },
+    "suite_2_policy_boundaries": {
+      "status": "PASS",
+      "tested_points": [
+        {
+          "score": 0.0,
+          "band": "LOW_RISK",
+          "action_small_amount": "APPROVE",
+          "action_large_amount": "APPROVE"
+        },
+        {
+          "score": 0.8999,
+          "band": "LOW_RISK",
+          "action_small_amount": "APPROVE",
+          "action_large_amount": "APPROVE"
+        },
+        {
+          "score": 0.9,
+          "band": "MEDIUM_RISK",
+          "action_small_amount": "STEP_UP_CHALLENGE",
+          "action_large_amount": "MANUAL_REVIEW"
+        },
+        {
+          "score": 0.9001,
+          "band": "MEDIUM_RISK",
+          "action_small_amount": "STEP_UP_CHALLENGE",
+          "action_large_amount": "MANUAL_REVIEW"
+        },
+        {
+          "score": 0.95,
+          "band": "MEDIUM_RISK",
+          "action_small_amount": "STEP_UP_CHALLENGE",
+          "action_large_amount": "MANUAL_REVIEW"
+        },
+        {
+          "score": 0.9899,
+          "band": "MEDIUM_RISK",
+          "action_small_amount": "STEP_UP_CHALLENGE",
+          "action_large_amount": "MANUAL_REVIEW"
+        },
+        {
+          "score": 0.99,
+          "band": "HIGH_RISK",
+          "action_small_amount": "DECLINE",
+          "action_large_amount": "DECLINE"
+        },
+        {
+          "score": 0.9901,
+          "band": "HIGH_RISK",
+          "action_small_amount": "DECLINE",
+          "action_large_amount": "DECLINE"
+        },
+        {
+          "score": 1.0,
+          "band": "HIGH_RISK",
+          "action_small_amount": "DECLINE",
+          "action_large_amount": "DECLINE"
+        }
+      ]
+    },
+    "suite_3_model_failures": {
+      "status": "PASS",
+      "tamper_detection": "VERIFIED_FAIL_SAFE"
+    },
+    "suite_4_state_failure_concurrency": {
+      "status": "PASS",
+      "fallback_active": true,
+      "concurrency_trials": 100,
+      "concurrency_success": 100
+    },
+    "suite_5_causal_purity": {
+      "status": "PASS",
+      "prohibited_terms_checked": [
+        "newbalanceOrig",
+        "newbalanceDest",
+        "orig_gap",
+        "dest_gap",
+        "isFlaggedFraud",
+        "post_transaction_balance"
+      ],
+      "leakage_found": []
+    },
+    "suite_6_audit_tampering": {
+      "status": "PASS",
+      "pii_masking": "VERIFIED",
+      "tamper_detection": "VERIFIED"
+    },
+    "suite_7_demo_fixtures": {
+      "status": "PASS",
+      "demos_verified": [
+        {
+          "id": "DEMO-01",
+          "score": 0.00179,
+          "decision": "APPROVED",
+          "action": "APPROVE",
+          "primary_reason": "RC_BENIGN_BASELINE"
+        },
+        {
+          "id": "DEMO-02",
+          "score": 0.983023,
+          "decision": "REVIEW_REQUIRED",
+          "action": "MANUAL_REVIEW",
+          "primary_reason": "RC_SEVERE_LIQUIDITY_DRAIN"
+        },
+        {
+          "id": "DEMO-03",
+          "score": 0.998092,
+          "decision": "DECLINED",
+          "action": "DECLINE",
+          "primary_reason": "RC_EXACT_BALANCE_DRAIN"
+        },
+        {
+          "id": "DEMO-04",
+          "score": 0.00179,
+          "decision": "APPROVED",
+          "action": "APPROVE",
+          "primary_reason": "RC_BENIGN_BASELINE"
+        },
+        {
+          "id": "DEMO-07",
+          "score": 0.998092,
+          "decision": "DECLINED",
+          "action": "DECLINE",
+          "primary_reason": "RC_EXACT_BALANCE_DRAIN"
+        },
+        {
+          "id": "DEMO-08",
+          "score": 0.00179,
+          "decision": "APPROVED",
+          "action": "APPROVE",
+          "primary_reason": "RC_BENIGN_BASELINE"
+        }
+      ]
+    },
+    "suite_8_latency_stress": {
+      "status": "PASS",
+      "total_requests": 1000,
+      "latency_p50_ms": 1.109,
+      "latency_p95_ms": 2.015,
+      "latency_p99_ms": 2.43,
+      "latency_max_ms": 3.379,
+      "error_rate": 0.0,
+      "sla_budget_ms": 35.0
+    }
+  },
+  "overall_verdict": "PASS",
+  "total_runtime_seconds": 3.62
+}

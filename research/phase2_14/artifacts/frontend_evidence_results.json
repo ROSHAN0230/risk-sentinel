@@ -1,0 +1,272 @@
+{
+  "viewport_and_route_matrix": [
+    {
+      "viewport": "mobile_390px (iPhone 13)",
+      "route": "/",
+      "page_name": "Dashboard",
+      "dom_bytes": 20530,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_390px (iPhone 13)",
+      "route": "/stream",
+      "page_name": "Stream",
+      "dom_bytes": 17263,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_390px (iPhone 13)",
+      "route": "/inspector/demo-tx-002-reconciled",
+      "page_name": "Inspector",
+      "dom_bytes": 6478,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_390px (iPhone 13)",
+      "route": "/audit",
+      "page_name": "Audit",
+      "dom_bytes": 8238,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_390px (iPhone 13)",
+      "route": "/benchmarks",
+      "page_name": "Benchmarks",
+      "dom_bytes": 14548,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_412px (Pixel 7)",
+      "route": "/",
+      "page_name": "Dashboard",
+      "dom_bytes": 20530,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_412px (Pixel 7)",
+      "route": "/stream",
+      "page_name": "Stream",
+      "dom_bytes": 17263,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_412px (Pixel 7)",
+      "route": "/inspector/demo-tx-002-reconciled",
+      "page_name": "Inspector",
+      "dom_bytes": 6478,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_412px (Pixel 7)",
+      "route": "/audit",
+      "page_name": "Audit",
+      "dom_bytes": 8238,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "mobile_412px (Pixel 7)",
+      "route": "/benchmarks",
+      "page_name": "Benchmarks",
+      "dom_bytes": 14548,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "desktop_1280px",
+      "route": "/",
+      "page_name": "Dashboard",
+      "dom_bytes": 20530,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "desktop_1280px",
+      "route": "/stream",
+      "page_name": "Stream",
+      "dom_bytes": 17263,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "desktop_1280px",
+      "route": "/inspector/demo-tx-002-reconciled",
+      "page_name": "Inspector",
+      "dom_bytes": 6478,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "desktop_1280px",
+      "route": "/audit",
+      "page_name": "Audit",
+      "dom_bytes": 8238,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    },
+    {
+      "viewport": "desktop_1280px",
+      "route": "/benchmarks",
+      "page_name": "Benchmarks",
+      "dom_bytes": 14548,
+      "rendered_successfully": true,
+      "refresh_success": true,
+      "status": "PASSED"
+    }
+  ],
+  "demo_reconciliation_matrix": [
+    {
+      "demo_id": "DEMO-01",
+      "ui_displayed_score": "0.0018",
+      "ui_displayed_band": "LOW_RISK",
+      "ui_displayed_action": "APPROVE",
+      "ui_displayed_reason": "RC_BENIGN_BASELINE",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.0018 / APPROVED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-02",
+      "ui_displayed_score": "0.9830",
+      "ui_displayed_band": "MEDIUM_RISK",
+      "ui_displayed_action": "MANUAL_REVIEW",
+      "ui_displayed_reason": "RC_SEVERE_LIQUIDITY_DRAIN",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.9830 / REVIEW_REQUIRED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-03",
+      "ui_displayed_score": "0.9981",
+      "ui_displayed_band": "HIGH_RISK",
+      "ui_displayed_action": "DECLINE",
+      "ui_displayed_reason": "RC_EXACT_BALANCE_DRAIN",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.9981 / DECLINED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-04",
+      "ui_displayed_score": "0.0018",
+      "ui_displayed_band": "LOW_RISK",
+      "ui_displayed_action": "APPROVE",
+      "ui_displayed_reason": "RC_BENIGN_BASELINE",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.0018 / APPROVED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-05",
+      "ui_displayed_score": "0.9981",
+      "ui_displayed_band": "HIGH_RISK",
+      "ui_displayed_action": "DECLINE",
+      "ui_displayed_reason": "RC_EXACT_BALANCE_DRAIN",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.9981 / DECLINED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-06",
+      "ui_displayed_score": "0.0018",
+      "ui_displayed_band": "LOW_RISK",
+      "ui_displayed_action": "APPROVE",
+      "ui_displayed_reason": "RC_BENIGN_BASELINE",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.0018 / APPROVED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-07",
+      "ui_displayed_score": "0.9981",
+      "ui_displayed_band": "HIGH_RISK",
+      "ui_displayed_action": "DECLINE",
+      "ui_displayed_reason": "RC_EXACT_BALANCE_DRAIN",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.9981 / DECLINED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-08",
+      "ui_displayed_score": "0.0018",
+      "ui_displayed_band": "LOW_RISK",
+      "ui_displayed_action": "APPROVE",
+      "ui_displayed_reason": "RC_BENIGN_BASELINE",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.0018 / APPROVED",
+      "match": "MATCH",
+      "status": "PASSED"
+    },
+    {
+      "demo_id": "DEMO-09",
+      "ui_displayed_score": "0.9981",
+      "ui_displayed_band": "HIGH_RISK",
+      "ui_displayed_action": "DECLINE",
+      "ui_displayed_reason": "RC_EXACT_BALANCE_DRAIN",
+      "ui_displayed_badge": "DEMO SCENARIO (Pre-configured Judge Preset)",
+      "backend_result": "0.9981 / DECLINED",
+      "match": "MATCH",
+      "status": "PASSED"
+    }
+  ],
+  "failure_handling_matrix": [
+    {
+      "failure": "HTTP 422 Unprocessable Entity",
+      "test_method": "POST /v1/risk/evaluate with invalid payload {'amount': -50.0}",
+      "frontend_handling": "StreamPage captures rejection in error state and renders red alert banner",
+      "status": "PASSED"
+    },
+    {
+      "failure": "HTTP 500 Internal Server Error",
+      "test_method": "Simulated unhandled exception on evaluate route",
+      "frontend_handling": "Client service catches 500 status and sets user-facing error state",
+      "status": "PASSED"
+    },
+    {
+      "failure": "API Unavailable / Offline",
+      "test_method": "Fetch /v1/health when server offline",
+      "frontend_handling": "App catches connection refusal gracefully, logs standby, keeps UI interactive",
+      "status": "PASSED"
+    },
+    {
+      "failure": "Timeout / Slow Response",
+      "test_method": "Interactive button disabled state during in-flight evaluation",
+      "frontend_handling": "Buttons display loading spinner / disabled state, preventing race conditions",
+      "status": "PASSED"
+    },
+    {
+      "failure": "Model A Fallback Response",
+      "test_method": "State store outage triggering Model A response metadata",
+      "frontend_handling": "ReasonCodeCard renders purple Fallback Active banner explaining point-in-time fallback",
+      "status": "PASSED"
+    }
+  ]
+}

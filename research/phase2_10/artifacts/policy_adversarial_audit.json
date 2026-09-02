@@ -1,0 +1,29 @@
+{
+  "audit_name": "Audit 4: Policy Adversarial Testing",
+  "status": "PASS WITH DISCLAIMER",
+  "disclaimer_required": "The automatic approval on CASH_IN, DEBIT, and PAYMENT is an empirical observation on the PaySim benchmark (where 0 fraud occurred across 3.59M records), and must NOT be cited as a universal fraud rule for production.",
+  "evaluated_cases": [
+    {
+      "scenario": "High Risk Balance Drain",
+      "band": "HIGH_RISK",
+      "action": "DECLINE"
+    },
+    {
+      "scenario": "Borderline Outflow",
+      "band": "LOW_RISK",
+      "action": "APPROVE"
+    },
+    {
+      "scenario": "Fast-Path Channel Bypass (CASH_IN)",
+      "action": "APPROVE"
+    },
+    {
+      "scenario": "Fast-Path Channel Bypass (DEBIT)",
+      "action": "APPROVE"
+    },
+    {
+      "scenario": "Fast-Path Channel Bypass (PAYMENT)",
+      "action": "APPROVE"
+    }
+  ]
+}

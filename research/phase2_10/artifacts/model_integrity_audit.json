@@ -1,0 +1,9 @@
+{
+  "audit_name": "Audit 7: Model & Artifact Integrity",
+  "status": "PASS",
+  "model_a_id": "model_a_causal_hgb_v1.0.0",
+  "model_a_sha256": "ea356eb3bd713de47c1cdc34389db461a02c95e8c489c5767c396886e65da373",
+  "model_b_id": "model_b_stateful_hgb_v1.0.0",
+  "model_b_sha256": "5ea5926344e12215fe6e9fe91b593a99feb581747c2f4272471a773680944735",
+  "manifest_file": "C:\\Users\\raahe\\Downloads\\razorpay\\src\\engine\\artifacts\\engine_manifest.json"
+}

@@ -1,0 +1,44 @@
+{
+  "suite_name": "Risk Sentinel Phase 2.9 Production Decision Engine Test Suite",
+  "timestamp_utc": "2026-09-02T09:48:02Z",
+  "total_test_classes": 13,
+  "total_tests_executed": 37,
+  "tests_passed": 37,
+  "tests_failed": 0,
+  "tests_errored": 0,
+  "failures": [],
+  "errors": [],
+  "duration_seconds": 4.148,
+  "test_modules_audited": [
+    "test_schemas (Input validation, field boundaries, type constraints)",
+    "test_model_integrity (SHA-256 binary validation, tamper detection)",
+    "test_feature_causality (Causal dimensions, future invariance)",
+    "test_state_lifecycle (Read-before-compute / write-after-decision)",
+    "test_fallback_circuit_breaker (State timeout >15ms & failure -> Model A fallback)",
+    "test_explanation_engine (Deterministic reason codes, causal evidence)",
+    "test_policy_engine (Three-tier thresholds, risk-to-action decoupling, fast path)",
+    "test_cold_start (Neutral cold start evaluation, no auto-decline)",
+    "test_audit_logger (Masking, cryptographic hash chaining)",
+    "test_failure_matrix (16 failure modes and edge cases)",
+    "test_concurrency (Multithreaded state consistency & thread safety)",
+    "test_api_integration (FastAPI endpoint integration & schema compliance)",
+    "test_latency_benchmark (p50/p95/p99 latency distribution over 1,000 evaluations)"
+  ],
+  "overall_status": "ALL_TESTS_PASSED",
+  "latency_summary": {
+    "min": 0.882,
+    "mean": 1.637,
+    "p50_median": 1.746,
+    "p90": 2.238,
+    "p95": 2.674,
+    "p99": 3.506,
+    "p99_9": 7.761,
+    "max": 12.359
+  },
+  "sla_verification": {
+    "frozen_gateway_p99_budget_ms": 35.0,
+    "measured_p99_latency_ms": 3.506,
+    "sla_conformance_percentage": 100.0,
+    "status": "PASSED"
+  }
+}

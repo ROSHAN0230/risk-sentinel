@@ -1,0 +1,182 @@
+[
+  {
+    "scenario": "Scenario 1: Legitimate Payment (Low Risk)",
+    "input": {
+      "transaction_id": "03e729d9-6f05-4bfc-a882-2dedf13fc8d3",
+      "step": 400,
+      "type": "PAYMENT",
+      "amount": 142.5,
+      "nameOrig": "C10001",
+      "oldbalanceOrg": 5000.0,
+      "nameDest": "M20001",
+      "oldbalanceDest": 0.0
+    },
+    "output": {
+      "transaction_id": "03e729d9-6f05-4bfc-a882-2dedf13fc8d3",
+      "evaluation_id": "eval_ef809906-9a75-4929-bd00-be559c45b952",
+      "timestamp_iso": "2026-08-31T15:03:53Z",
+      "risk_score": 0.00179,
+      "risk_band": "LOW_RISK",
+      "decision": "APPROVED",
+      "action": "APPROVE",
+      "reasons": {
+        "primary_code": "RC_BENIGN_BASELINE",
+        "all_codes": [
+          "RC_BENIGN_BASELINE"
+        ],
+        "narrative": "Risk evaluated as LOW_RISK (Score: 0.0018). Primary causal driver: RC_BENIGN_BASELINE.",
+        "causal_evidence": {
+          "amount": 142.5,
+          "oldbalanceOrg": 5000.0,
+          "liquidation_pct": 2.85,
+          "channel": "PAYMENT"
+        }
+      },
+      "engine_metadata": {
+        "engine_version": "v2.8.0-prod",
+        "model_version": "v1.0.0-HGB",
+        "model_type": "MODEL_B_STATEFUL_HGB",
+        "policy_version": "v1.2.0-frozen",
+        "operating_threshold": 0.99,
+        "fallback_triggered": false,
+        "execution_latency_ms": 3.187
+      }
+    }
+  },
+  {
+    "scenario": "Scenario 2: Critical Fraud - Exact 100% Balance Drain (Transfer)",
+    "input": {
+      "transaction_id": "ef85684c-191d-4514-bb8f-910e995d581e",
+      "step": 401,
+      "type": "TRANSFER",
+      "amount": 250000.0,
+      "nameOrig": "C10002",
+      "oldbalanceOrg": 250000.0,
+      "nameDest": "C20002",
+      "oldbalanceDest": 0.0
+    },
+    "output": {
+      "transaction_id": "ef85684c-191d-4514-bb8f-910e995d581e",
+      "evaluation_id": "eval_624d1c9d-a6ed-4336-b902-a4e8d599bd37",
+      "timestamp_iso": "2026-08-31T15:03:53Z",
+      "risk_score": 0.998092,
+      "risk_band": "HIGH_RISK",
+      "decision": "DECLINED",
+      "action": "DECLINE",
+      "reasons": {
+        "primary_code": "RC_EXACT_BALANCE_DRAIN",
+        "all_codes": [
+          "RC_EXACT_BALANCE_DRAIN",
+          "RC_HIGH_RISK_CHANNEL_COMBO",
+          "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+        ],
+        "narrative": "Transaction attempts exact 100% liquidation of available sender balance ($250,000.00) via TRANSFER.",
+        "causal_evidence": {
+          "amount": 250000.0,
+          "oldbalanceOrg": 250000.0,
+          "liquidation_pct": 100.0,
+          "channel": "TRANSFER"
+        }
+      },
+      "engine_metadata": {
+        "engine_version": "v2.8.0-prod",
+        "model_version": "v1.0.0-HGB",
+        "model_type": "MODEL_B_STATEFUL_HGB",
+        "policy_version": "v1.2.0-frozen",
+        "operating_threshold": 0.99,
+        "fallback_triggered": false,
+        "execution_latency_ms": 2.261
+      }
+    }
+  },
+  {
+    "scenario": "Scenario 3: Borderline New Account Outflow (Medium Risk Step-Up)",
+    "input": {
+      "transaction_id": "6e6a3971-1a40-4d82-b684-f88deb66f05f",
+      "step": 402,
+      "type": "TRANSFER",
+      "amount": 80000.0,
+      "nameOrig": "C10003",
+      "oldbalanceOrg": 150000.0,
+      "nameDest": "C20003",
+      "oldbalanceDest": 5000.0
+    },
+    "output": {
+      "transaction_id": "6e6a3971-1a40-4d82-b684-f88deb66f05f",
+      "evaluation_id": "eval_68e2cf3a-8e3f-4bd8-9418-e7b45492408a",
+      "timestamp_iso": "2026-08-31T15:03:53Z",
+      "risk_score": 0.00179,
+      "risk_band": "LOW_RISK",
+      "decision": "APPROVED",
+      "action": "APPROVE",
+      "reasons": {
+        "primary_code": "RC_BENIGN_BASELINE",
+        "all_codes": [
+          "RC_BENIGN_BASELINE"
+        ],
+        "narrative": "Risk evaluated as LOW_RISK (Score: 0.0018). Primary causal driver: RC_BENIGN_BASELINE.",
+        "causal_evidence": {
+          "amount": 80000.0,
+          "oldbalanceOrg": 150000.0,
+          "liquidation_pct": 53.333333333333336,
+          "channel": "TRANSFER"
+        }
+      },
+      "engine_metadata": {
+        "engine_version": "v2.8.0-prod",
+        "model_version": "v1.0.0-HGB",
+        "model_type": "MODEL_B_STATEFUL_HGB",
+        "policy_version": "v1.2.0-frozen",
+        "operating_threshold": 0.99,
+        "fallback_triggered": false,
+        "execution_latency_ms": 1.143
+      }
+    }
+  },
+  {
+    "scenario": "Scenario 4: Fallback Mode Simulation (State Store Timeout -> Model A)",
+    "input": {
+      "transaction_id": "2e2f7fbc-5a5f-4d27-8972-c4052200a9ee",
+      "step": 403,
+      "type": "TRANSFER",
+      "amount": 180000.0,
+      "nameOrig": "C10004",
+      "oldbalanceOrg": 180000.0,
+      "nameDest": "C20004",
+      "oldbalanceDest": 0.0
+    },
+    "output": {
+      "transaction_id": "2e2f7fbc-5a5f-4d27-8972-c4052200a9ee",
+      "evaluation_id": "eval_1fc258d1-1098-4399-91a3-e89d94e5d20f",
+      "timestamp_iso": "2026-08-31T15:03:53Z",
+      "risk_score": 0.997892,
+      "risk_band": "HIGH_RISK",
+      "decision": "DECLINED",
+      "action": "DECLINE",
+      "reasons": {
+        "primary_code": "RC_EXACT_BALANCE_DRAIN",
+        "all_codes": [
+          "RC_EXACT_BALANCE_DRAIN",
+          "RC_HIGH_RISK_CHANNEL_COMBO",
+          "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+        ],
+        "narrative": "Transaction attempts exact 100% liquidation of available sender balance ($180,000.00) via TRANSFER.",
+        "causal_evidence": {
+          "amount": 180000.0,
+          "oldbalanceOrg": 180000.0,
+          "liquidation_pct": 100.0,
+          "channel": "TRANSFER"
+        }
+      },
+      "engine_metadata": {
+        "engine_version": "v2.8.0-prod",
+        "model_version": "v1.0.0-HGB",
+        "model_type": "MODEL_A_CAUSAL_BASELINE_FALLBACK",
+        "policy_version": "v1.2.0-frozen",
+        "operating_threshold": 0.99,
+        "fallback_triggered": true,
+        "execution_latency_ms": 2.025
+      }
+    }
+  }
+]

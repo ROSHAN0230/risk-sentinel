@@ -1,0 +1,380 @@
+{
+  "model_a_validation": {
+    "min": 0.0012046577196389162,
+    "max": 0.9978920997717767,
+    "mean": 0.0032292242054392855,
+    "median": 0.001979948336120426,
+    "std": 0.02774870867940136,
+    "quantiles": {
+      "p1.0%": 0.0019726688107714195,
+      "p5.0%": 0.001979263422524164,
+      "p10.0%": 0.001979263422524164,
+      "p25.0%": 0.001979263422524164,
+      "p50.0%": 0.001979948336120426,
+      "p75.0%": 0.0020204449384689832,
+      "p90.0%": 0.0027581707748888036,
+      "p95.0%": 0.003796346902860827,
+      "p99.0%": 0.01015794123556533,
+      "p99.5%": 0.015804518299567378,
+      "p99.9%": 0.9978920997717767
+    },
+    "counts_above_threshold": {
+      "th_0.500": {
+        "total_above": 763,
+        "fraud_above": 570,
+        "nonfraud_above": 193,
+        "precision_in_bucket": 0.747051114023591
+      },
+      "th_0.700": {
+        "total_above": 727,
+        "fraud_above": 570,
+        "nonfraud_above": 157,
+        "precision_in_bucket": 0.7840440165061898
+      },
+      "th_0.800": {
+        "total_above": 717,
+        "fraud_above": 570,
+        "nonfraud_above": 147,
+        "precision_in_bucket": 0.7949790794979079
+      },
+      "th_0.900": {
+        "total_above": 698,
+        "fraud_above": 570,
+        "nonfraud_above": 128,
+        "precision_in_bucket": 0.8166189111747851
+      },
+      "th_0.950": {
+        "total_above": 693,
+        "fraud_above": 570,
+        "nonfraud_above": 123,
+        "precision_in_bucket": 0.8225108225108225
+      },
+      "th_0.980": {
+        "total_above": 689,
+        "fraud_above": 570,
+        "nonfraud_above": 119,
+        "precision_in_bucket": 0.8272859216255443
+      },
+      "th_0.990": {
+        "total_above": 689,
+        "fraud_above": 570,
+        "nonfraud_above": 119,
+        "precision_in_bucket": 0.8272859216255443
+      },
+      "th_0.995": {
+        "total_above": 689,
+        "fraud_above": 570,
+        "nonfraud_above": 119,
+        "precision_in_bucket": 0.8272859216255443
+      },
+      "th_0.999": {
+        "total_above": 0,
+        "fraud_above": 0,
+        "nonfraud_above": 0,
+        "precision_in_bucket": 0.0
+      }
+    },
+    "histogram": {
+      "[0.000, 0.100)": 971998,
+      "[0.100, 0.200)": 220,
+      "[0.200, 0.300)": 83,
+      "[0.300, 0.400)": 80,
+      "[0.400, 0.500)": 29,
+      "[0.500, 0.600)": 23,
+      "[0.600, 0.700)": 13,
+      "[0.700, 0.800)": 10,
+      "[0.800, 0.900)": 19,
+      "[0.900, 0.950)": 5,
+      "[0.950, 0.980)": 4,
+      "[0.980, 0.990)": 0,
+      "[0.990, 0.995)": 0,
+      "[0.995, 0.999)": 689,
+      "[0.999, 1.000)": 0
+    }
+  },
+  "model_a_future_test": {
+    "min": 0.00040692184938449804,
+    "max": 0.9978920997717767,
+    "mean": 0.006872235172768084,
+    "median": 0.001984522940893543,
+    "std": 0.06593996431288644,
+    "quantiles": {
+      "p1.0%": 0.0019748684209123287,
+      "p5.0%": 0.001979263422524164,
+      "p10.0%": 0.001979263422524164,
+      "p25.0%": 0.001979263422524164,
+      "p50.0%": 0.001984522940893543,
+      "p75.0%": 0.0020667480018879626,
+      "p90.0%": 0.0028913722364717486,
+      "p95.0%": 0.0037365360554624553,
+      "p99.0%": 0.013893890386816212,
+      "p99.5%": 0.08251572900557784,
+      "p99.9%": 0.9978920997717767
+    },
+    "counts_above_threshold": {
+      "th_0.500": {
+        "total_above": 4215,
+        "fraud_above": 3997,
+        "nonfraud_above": 218,
+        "precision_in_bucket": 0.9482799525504152
+      },
+      "th_0.700": {
+        "total_above": 4181,
+        "fraud_above": 3997,
+        "nonfraud_above": 184,
+        "precision_in_bucket": 0.9559913896197082
+      },
+      "th_0.800": {
+        "total_above": 4167,
+        "fraud_above": 3996,
+        "nonfraud_above": 171,
+        "precision_in_bucket": 0.958963282937365
+      },
+      "th_0.900": {
+        "total_above": 4153,
+        "fraud_above": 3996,
+        "nonfraud_above": 157,
+        "precision_in_bucket": 0.9621960028894775
+      },
+      "th_0.950": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.980": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.990": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.995": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.999": {
+        "total_above": 0,
+        "fraud_above": 0,
+        "nonfraud_above": 0,
+        "precision_in_bucket": 0.0
+      }
+    },
+    "histogram": {
+      "[0.000, 0.100)": 951123,
+      "[0.100, 0.200)": 205,
+      "[0.200, 0.300)": 85,
+      "[0.300, 0.400)": 74,
+      "[0.400, 0.500)": 42,
+      "[0.500, 0.600)": 22,
+      "[0.600, 0.700)": 12,
+      "[0.700, 0.800)": 14,
+      "[0.800, 0.900)": 14,
+      "[0.900, 0.950)": 3,
+      "[0.950, 0.980)": 0,
+      "[0.980, 0.990)": 0,
+      "[0.990, 0.995)": 0,
+      "[0.995, 0.999)": 4150,
+      "[0.999, 1.000)": 0
+    }
+  },
+  "model_b_validation": {
+    "min": 0.0007898684430793233,
+    "max": 0.9980983380729294,
+    "mean": 0.0027174085574024538,
+    "median": 0.0017929106491896018,
+    "std": 0.02708131379224027,
+    "quantiles": {
+      "p1.0%": 0.0017408050332273304,
+      "p5.0%": 0.0017882753901095935,
+      "p10.0%": 0.0017897998415016465,
+      "p25.0%": 0.0017897998415016465,
+      "p50.0%": 0.0017929106491896018,
+      "p75.0%": 0.0018154015898022055,
+      "p90.0%": 0.0018708171530296019,
+      "p95.0%": 0.00222951317144372,
+      "p99.0%": 0.005198707913419777,
+      "p99.5%": 0.008605370614057134,
+      "p99.9%": 0.9980923366360022
+    },
+    "counts_above_threshold": {
+      "th_0.500": {
+        "total_above": 721,
+        "fraud_above": 570,
+        "nonfraud_above": 151,
+        "precision_in_bucket": 0.7905686546463245
+      },
+      "th_0.700": {
+        "total_above": 708,
+        "fraud_above": 570,
+        "nonfraud_above": 138,
+        "precision_in_bucket": 0.8050847457627118
+      },
+      "th_0.800": {
+        "total_above": 698,
+        "fraud_above": 570,
+        "nonfraud_above": 128,
+        "precision_in_bucket": 0.8166189111747851
+      },
+      "th_0.900": {
+        "total_above": 693,
+        "fraud_above": 570,
+        "nonfraud_above": 123,
+        "precision_in_bucket": 0.8225108225108225
+      },
+      "th_0.950": {
+        "total_above": 691,
+        "fraud_above": 570,
+        "nonfraud_above": 121,
+        "precision_in_bucket": 0.8248914616497829
+      },
+      "th_0.980": {
+        "total_above": 690,
+        "fraud_above": 570,
+        "nonfraud_above": 120,
+        "precision_in_bucket": 0.8260869565217391
+      },
+      "th_0.990": {
+        "total_above": 689,
+        "fraud_above": 570,
+        "nonfraud_above": 119,
+        "precision_in_bucket": 0.8272859216255443
+      },
+      "th_0.995": {
+        "total_above": 684,
+        "fraud_above": 569,
+        "nonfraud_above": 115,
+        "precision_in_bucket": 0.8318713450292398
+      },
+      "th_0.999": {
+        "total_above": 0,
+        "fraud_above": 0,
+        "nonfraud_above": 0,
+        "precision_in_bucket": 0.0
+      }
+    },
+    "histogram": {
+      "[0.000, 0.100)": 972298,
+      "[0.100, 0.200)": 65,
+      "[0.200, 0.300)": 33,
+      "[0.300, 0.400)": 37,
+      "[0.400, 0.500)": 19,
+      "[0.500, 0.600)": 6,
+      "[0.600, 0.700)": 7,
+      "[0.700, 0.800)": 10,
+      "[0.800, 0.900)": 5,
+      "[0.900, 0.950)": 2,
+      "[0.950, 0.980)": 1,
+      "[0.980, 0.990)": 1,
+      "[0.990, 0.995)": 5,
+      "[0.995, 0.999)": 684,
+      "[0.999, 1.000)": 0
+    }
+  },
+  "model_b_future_test": {
+    "min": 0.0005184313407234806,
+    "max": 0.9980983380729294,
+    "mean": 0.006364953439276223,
+    "median": 0.0017929106491896018,
+    "std": 0.06570038049355258,
+    "quantiles": {
+      "p1.0%": 0.0017437117916591612,
+      "p5.0%": 0.0017807105506642239,
+      "p10.0%": 0.0017897998415016465,
+      "p25.0%": 0.0017897998415016465,
+      "p50.0%": 0.0017929106491896018,
+      "p75.0%": 0.0018129743500130391,
+      "p90.0%": 0.001912631453468031,
+      "p95.0%": 0.0027317026790970754,
+      "p99.0%": 0.008170534886111273,
+      "p99.5%": 0.038055798568500686,
+      "p99.9%": 0.9980983380729294
+    },
+    "counts_above_threshold": {
+      "th_0.500": {
+        "total_above": 4179,
+        "fraud_above": 3997,
+        "nonfraud_above": 182,
+        "precision_in_bucket": 0.9564489112227805
+      },
+      "th_0.700": {
+        "total_above": 4164,
+        "fraud_above": 3996,
+        "nonfraud_above": 168,
+        "precision_in_bucket": 0.9596541786743515
+      },
+      "th_0.800": {
+        "total_above": 4156,
+        "fraud_above": 3996,
+        "nonfraud_above": 160,
+        "precision_in_bucket": 0.9615014436958614
+      },
+      "th_0.900": {
+        "total_above": 4152,
+        "fraud_above": 3996,
+        "nonfraud_above": 156,
+        "precision_in_bucket": 0.9624277456647399
+      },
+      "th_0.950": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.980": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.990": {
+        "total_above": 4150,
+        "fraud_above": 3996,
+        "nonfraud_above": 154,
+        "precision_in_bucket": 0.9628915662650602
+      },
+      "th_0.995": {
+        "total_above": 4133,
+        "fraud_above": 3989,
+        "nonfraud_above": 144,
+        "precision_in_bucket": 0.9651584805226228
+      },
+      "th_0.999": {
+        "total_above": 0,
+        "fraud_above": 0,
+        "nonfraud_above": 0,
+        "precision_in_bucket": 0.0
+      }
+    },
+    "histogram": {
+      "[0.000, 0.100)": 951409,
+      "[0.100, 0.200)": 82,
+      "[0.200, 0.300)": 30,
+      "[0.300, 0.400)": 30,
+      "[0.400, 0.500)": 14,
+      "[0.500, 0.600)": 7,
+      "[0.600, 0.700)": 8,
+      "[0.700, 0.800)": 8,
+      "[0.800, 0.900)": 4,
+      "[0.900, 0.950)": 2,
+      "[0.950, 0.980)": 0,
+      "[0.980, 0.990)": 0,
+      "[0.990, 0.995)": 17,
+      "[0.995, 0.999)": 4133,
+      "[0.999, 1.000)": 0
+    }
+  },
+  "calibration_forensics": {
+    "training_raw_fraud_prior": 0.0008194053593576295,
+    "effective_balanced_prior": 0.5,
+    "bayes_logit_shift": 7.106111911029678,
+    "explanation": "Because class_weight='balanced' artificiality inflates fraud weight by 1,219.4x during tree loss computation, the raw predict_proba output is NOT a true Bayesian posterior probability of fraud, but a re-weighted risk score. A model output score of 0.99 corresponds to a calibrated true posterior probability of ~0.076. Therefore, an operating threshold of 0.98-0.99 is mathematically natural and expected for balanced GBDTs."
+  }
+}

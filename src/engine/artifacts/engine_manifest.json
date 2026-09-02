@@ -1,0 +1,88 @@
+{
+  "engine_version": "v2.8.0-prod",
+  "created_at_utc": "2026-08-31T15:09:35Z",
+  "training_metadata": {
+    "dataset": "PS_20174392719_1491204439457_log.csv",
+    "train_step_range": [
+      1,
+      322
+    ],
+    "train_row_count": 4433703,
+    "train_fraud_count": 3633,
+    "class_weight": "balanced"
+  },
+  "model_a": {
+    "model_id": "model_a_causal_hgb_v1.0.0",
+    "filename": "model_a_causal_hgb.joblib",
+    "sha256": "ea356eb3bd713de47c1cdc34389db461a02c95e8c489c5767c396886e65da373",
+    "feature_count": 15,
+    "features": [
+      "amount",
+      "log_amount",
+      "oldbalanceOrg",
+      "oldbalanceDest",
+      "diff_orig_bal_amt",
+      "ratio_orig_bal_amt",
+      "is_orig_zero",
+      "is_dest_zero",
+      "hour_of_day",
+      "day_of_week",
+      "is_type_CASH_OUT",
+      "is_type_TRANSFER",
+      "is_type_PAYMENT",
+      "is_type_CASH_IN",
+      "is_type_DEBIT"
+    ],
+    "role": "BASELINE_FALLBACK"
+  },
+  "model_b": {
+    "model_id": "model_b_stateful_hgb_v1.0.0",
+    "filename": "model_b_stateful_hgb.joblib",
+    "sha256": "5ea5926344e12215fe6e9fe91b593a99feb581747c2f4272471a773680944735",
+    "feature_count": 36,
+    "features": [
+      "amount",
+      "log_amount",
+      "oldbalanceOrg",
+      "oldbalanceDest",
+      "diff_orig_bal_amt",
+      "ratio_orig_bal_amt",
+      "is_orig_zero",
+      "is_dest_zero",
+      "hour_of_day",
+      "day_of_week",
+      "is_type_CASH_OUT",
+      "is_type_TRANSFER",
+      "is_type_PAYMENT",
+      "is_type_CASH_IN",
+      "is_type_DEBIT",
+      "orig_prev_tx_cnt",
+      "orig_prev_cum_amt",
+      "orig_prev_avg_amt",
+      "orig_prev_max_amt",
+      "orig_time_since_prev",
+      "orig_unique_dest_cnt",
+      "orig_prev_transfer_cnt",
+      "orig_prev_cash_out_cnt",
+      "dest_prev_in_tx_cnt",
+      "dest_prev_in_cum_amt",
+      "dest_prev_in_avg_amt",
+      "dest_prev_in_max_amt",
+      "dest_time_since_prev",
+      "dest_unique_orig_cnt",
+      "pair_prev_tx_cnt",
+      "pair_time_since_prev",
+      "is_sender_cold_start",
+      "is_dest_cold_start",
+      "is_pair_novel",
+      "orig_amt_vs_avg_ratio",
+      "orig_amt_vs_max_diff"
+    ],
+    "role": "CHAMPION_STATEFUL"
+  },
+  "operating_policy": {
+    "threshold_high": 0.99,
+    "threshold_medium": 0.9,
+    "policy_version": "v1.2.0-frozen"
+  }
+}

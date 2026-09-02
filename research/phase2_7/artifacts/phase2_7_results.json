@@ -1,0 +1,978 @@
+{
+  "audit1_training_isolation": {
+    "status": "PASSED",
+    "split_integrity": {
+      "total_rows": 6362620,
+      "train_rows": 4433703,
+      "val_rows": 973173,
+      "test_rows": 955744,
+      "train_steps": [
+        1,
+        322
+      ],
+      "val_steps": [
+        323,
+        377
+      ],
+      "test_steps": [
+        378,
+        743
+      ],
+      "overlap_detected": false
+    },
+    "target_distribution": {
+      "train_fraud_count": 3633,
+      "train_fraud_rate": 0.0008194053593576295,
+      "val_fraud_count": 570,
+      "val_fraud_rate": 0.0005857129205187567,
+      "test_fraud_count": 4010,
+      "test_fraud_rate": 0.004195684199953125,
+      "distribution_shift_ratio_test_vs_train": 5.120401217832307
+    },
+    "class_weighting_audit": {
+      "technique": "class_weight='balanced'",
+      "weight_positive_fraud": 610.1985962014863,
+      "weight_negative_nonfraud": 0.5004100386675605,
+      "raw_imbalance_ratio": 1219.3971924029727,
+      "logit_offset_induced": 7.106111911029678
+    },
+    "feature_leakage_audit": {
+      "prohibited_columns_used": [],
+      "scaler_fitted_on": "train_only",
+      "validation_labels_in_fitting": false,
+      "future_test_in_fitting": false
+    }
+  },
+  "audit2_score_analysis": {
+    "model_a_validation": {
+      "min": 0.0012046577196389162,
+      "max": 0.9978920997717767,
+      "mean": 0.0032292242054392855,
+      "median": 0.001979948336120426,
+      "std": 0.02774870867940136,
+      "quantiles": {
+        "p1.0%": 0.0019726688107714195,
+        "p5.0%": 0.001979263422524164,
+        "p10.0%": 0.001979263422524164,
+        "p25.0%": 0.001979263422524164,
+        "p50.0%": 0.001979948336120426,
+        "p75.0%": 0.0020204449384689832,
+        "p90.0%": 0.0027581707748888036,
+        "p95.0%": 0.003796346902860827,
+        "p99.0%": 0.01015794123556533,
+        "p99.5%": 0.015804518299567378,
+        "p99.9%": 0.9978920997717767
+      },
+      "counts_above_threshold": {
+        "th_0.500": {
+          "total_above": 763,
+          "fraud_above": 570,
+          "nonfraud_above": 193,
+          "precision_in_bucket": 0.747051114023591
+        },
+        "th_0.700": {
+          "total_above": 727,
+          "fraud_above": 570,
+          "nonfraud_above": 157,
+          "precision_in_bucket": 0.7840440165061898
+        },
+        "th_0.800": {
+          "total_above": 717,
+          "fraud_above": 570,
+          "nonfraud_above": 147,
+          "precision_in_bucket": 0.7949790794979079
+        },
+        "th_0.900": {
+          "total_above": 698,
+          "fraud_above": 570,
+          "nonfraud_above": 128,
+          "precision_in_bucket": 0.8166189111747851
+        },
+        "th_0.950": {
+          "total_above": 693,
+          "fraud_above": 570,
+          "nonfraud_above": 123,
+          "precision_in_bucket": 0.8225108225108225
+        },
+        "th_0.980": {
+          "total_above": 689,
+          "fraud_above": 570,
+          "nonfraud_above": 119,
+          "precision_in_bucket": 0.8272859216255443
+        },
+        "th_0.990": {
+          "total_above": 689,
+          "fraud_above": 570,
+          "nonfraud_above": 119,
+          "precision_in_bucket": 0.8272859216255443
+        },
+        "th_0.995": {
+          "total_above": 689,
+          "fraud_above": 570,
+          "nonfraud_above": 119,
+          "precision_in_bucket": 0.8272859216255443
+        },
+        "th_0.999": {
+          "total_above": 0,
+          "fraud_above": 0,
+          "nonfraud_above": 0,
+          "precision_in_bucket": 0.0
+        }
+      },
+      "histogram": {
+        "[0.000, 0.100)": 971998,
+        "[0.100, 0.200)": 220,
+        "[0.200, 0.300)": 83,
+        "[0.300, 0.400)": 80,
+        "[0.400, 0.500)": 29,
+        "[0.500, 0.600)": 23,
+        "[0.600, 0.700)": 13,
+        "[0.700, 0.800)": 10,
+        "[0.800, 0.900)": 19,
+        "[0.900, 0.950)": 5,
+        "[0.950, 0.980)": 4,
+        "[0.980, 0.990)": 0,
+        "[0.990, 0.995)": 0,
+        "[0.995, 0.999)": 689,
+        "[0.999, 1.000)": 0
+      }
+    },
+    "model_a_future_test": {
+      "min": 0.00040692184938449804,
+      "max": 0.9978920997717767,
+      "mean": 0.006872235172768084,
+      "median": 0.001984522940893543,
+      "std": 0.06593996431288644,
+      "quantiles": {
+        "p1.0%": 0.0019748684209123287,
+        "p5.0%": 0.001979263422524164,
+        "p10.0%": 0.001979263422524164,
+        "p25.0%": 0.001979263422524164,
+        "p50.0%": 0.001984522940893543,
+        "p75.0%": 0.0020667480018879626,
+        "p90.0%": 0.0028913722364717486,
+        "p95.0%": 0.0037365360554624553,
+        "p99.0%": 0.013893890386816212,
+        "p99.5%": 0.08251572900557784,
+        "p99.9%": 0.9978920997717767
+      },
+      "counts_above_threshold": {
+        "th_0.500": {
+          "total_above": 4215,
+          "fraud_above": 3997,
+          "nonfraud_above": 218,
+          "precision_in_bucket": 0.9482799525504152
+        },
+        "th_0.700": {
+          "total_above": 4181,
+          "fraud_above": 3997,
+          "nonfraud_above": 184,
+          "precision_in_bucket": 0.9559913896197082
+        },
+        "th_0.800": {
+          "total_above": 4167,
+          "fraud_above": 3996,
+          "nonfraud_above": 171,
+          "precision_in_bucket": 0.958963282937365
+        },
+        "th_0.900": {
+          "total_above": 4153,
+          "fraud_above": 3996,
+          "nonfraud_above": 157,
+          "precision_in_bucket": 0.9621960028894775
+        },
+        "th_0.950": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.980": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.990": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.995": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.999": {
+          "total_above": 0,
+          "fraud_above": 0,
+          "nonfraud_above": 0,
+          "precision_in_bucket": 0.0
+        }
+      },
+      "histogram": {
+        "[0.000, 0.100)": 951123,
+        "[0.100, 0.200)": 205,
+        "[0.200, 0.300)": 85,
+        "[0.300, 0.400)": 74,
+        "[0.400, 0.500)": 42,
+        "[0.500, 0.600)": 22,
+        "[0.600, 0.700)": 12,
+        "[0.700, 0.800)": 14,
+        "[0.800, 0.900)": 14,
+        "[0.900, 0.950)": 3,
+        "[0.950, 0.980)": 0,
+        "[0.980, 0.990)": 0,
+        "[0.990, 0.995)": 0,
+        "[0.995, 0.999)": 4150,
+        "[0.999, 1.000)": 0
+      }
+    },
+    "model_b_validation": {
+      "min": 0.0007898684430793233,
+      "max": 0.9980983380729294,
+      "mean": 0.0027174085574024538,
+      "median": 0.0017929106491896018,
+      "std": 0.02708131379224027,
+      "quantiles": {
+        "p1.0%": 0.0017408050332273304,
+        "p5.0%": 0.0017882753901095935,
+        "p10.0%": 0.0017897998415016465,
+        "p25.0%": 0.0017897998415016465,
+        "p50.0%": 0.0017929106491896018,
+        "p75.0%": 0.0018154015898022055,
+        "p90.0%": 0.0018708171530296019,
+        "p95.0%": 0.00222951317144372,
+        "p99.0%": 0.005198707913419777,
+        "p99.5%": 0.008605370614057134,
+        "p99.9%": 0.9980923366360022
+      },
+      "counts_above_threshold": {
+        "th_0.500": {
+          "total_above": 721,
+          "fraud_above": 570,
+          "nonfraud_above": 151,
+          "precision_in_bucket": 0.7905686546463245
+        },
+        "th_0.700": {
+          "total_above": 708,
+          "fraud_above": 570,
+          "nonfraud_above": 138,
+          "precision_in_bucket": 0.8050847457627118
+        },
+        "th_0.800": {
+          "total_above": 698,
+          "fraud_above": 570,
+          "nonfraud_above": 128,
+          "precision_in_bucket": 0.8166189111747851
+        },
+        "th_0.900": {
+          "total_above": 693,
+          "fraud_above": 570,
+          "nonfraud_above": 123,
+          "precision_in_bucket": 0.8225108225108225
+        },
+        "th_0.950": {
+          "total_above": 691,
+          "fraud_above": 570,
+          "nonfraud_above": 121,
+          "precision_in_bucket": 0.8248914616497829
+        },
+        "th_0.980": {
+          "total_above": 690,
+          "fraud_above": 570,
+          "nonfraud_above": 120,
+          "precision_in_bucket": 0.8260869565217391
+        },
+        "th_0.990": {
+          "total_above": 689,
+          "fraud_above": 570,
+          "nonfraud_above": 119,
+          "precision_in_bucket": 0.8272859216255443
+        },
+        "th_0.995": {
+          "total_above": 684,
+          "fraud_above": 569,
+          "nonfraud_above": 115,
+          "precision_in_bucket": 0.8318713450292398
+        },
+        "th_0.999": {
+          "total_above": 0,
+          "fraud_above": 0,
+          "nonfraud_above": 0,
+          "precision_in_bucket": 0.0
+        }
+      },
+      "histogram": {
+        "[0.000, 0.100)": 972298,
+        "[0.100, 0.200)": 65,
+        "[0.200, 0.300)": 33,
+        "[0.300, 0.400)": 37,
+        "[0.400, 0.500)": 19,
+        "[0.500, 0.600)": 6,
+        "[0.600, 0.700)": 7,
+        "[0.700, 0.800)": 10,
+        "[0.800, 0.900)": 5,
+        "[0.900, 0.950)": 2,
+        "[0.950, 0.980)": 1,
+        "[0.980, 0.990)": 1,
+        "[0.990, 0.995)": 5,
+        "[0.995, 0.999)": 684,
+        "[0.999, 1.000)": 0
+      }
+    },
+    "model_b_future_test": {
+      "min": 0.0005184313407234806,
+      "max": 0.9980983380729294,
+      "mean": 0.006364953439276223,
+      "median": 0.0017929106491896018,
+      "std": 0.06570038049355258,
+      "quantiles": {
+        "p1.0%": 0.0017437117916591612,
+        "p5.0%": 0.0017807105506642239,
+        "p10.0%": 0.0017897998415016465,
+        "p25.0%": 0.0017897998415016465,
+        "p50.0%": 0.0017929106491896018,
+        "p75.0%": 0.0018129743500130391,
+        "p90.0%": 0.001912631453468031,
+        "p95.0%": 0.0027317026790970754,
+        "p99.0%": 0.008170534886111273,
+        "p99.5%": 0.038055798568500686,
+        "p99.9%": 0.9980983380729294
+      },
+      "counts_above_threshold": {
+        "th_0.500": {
+          "total_above": 4179,
+          "fraud_above": 3997,
+          "nonfraud_above": 182,
+          "precision_in_bucket": 0.9564489112227805
+        },
+        "th_0.700": {
+          "total_above": 4164,
+          "fraud_above": 3996,
+          "nonfraud_above": 168,
+          "precision_in_bucket": 0.9596541786743515
+        },
+        "th_0.800": {
+          "total_above": 4156,
+          "fraud_above": 3996,
+          "nonfraud_above": 160,
+          "precision_in_bucket": 0.9615014436958614
+        },
+        "th_0.900": {
+          "total_above": 4152,
+          "fraud_above": 3996,
+          "nonfraud_above": 156,
+          "precision_in_bucket": 0.9624277456647399
+        },
+        "th_0.950": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.980": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.990": {
+          "total_above": 4150,
+          "fraud_above": 3996,
+          "nonfraud_above": 154,
+          "precision_in_bucket": 0.9628915662650602
+        },
+        "th_0.995": {
+          "total_above": 4133,
+          "fraud_above": 3989,
+          "nonfraud_above": 144,
+          "precision_in_bucket": 0.9651584805226228
+        },
+        "th_0.999": {
+          "total_above": 0,
+          "fraud_above": 0,
+          "nonfraud_above": 0,
+          "precision_in_bucket": 0.0
+        }
+      },
+      "histogram": {
+        "[0.000, 0.100)": 951409,
+        "[0.100, 0.200)": 82,
+        "[0.200, 0.300)": 30,
+        "[0.300, 0.400)": 30,
+        "[0.400, 0.500)": 14,
+        "[0.500, 0.600)": 7,
+        "[0.600, 0.700)": 8,
+        "[0.700, 0.800)": 8,
+        "[0.800, 0.900)": 4,
+        "[0.900, 0.950)": 2,
+        "[0.950, 0.980)": 0,
+        "[0.980, 0.990)": 0,
+        "[0.990, 0.995)": 17,
+        "[0.995, 0.999)": 4133,
+        "[0.999, 1.000)": 0
+      }
+    },
+    "calibration_forensics": {
+      "training_raw_fraud_prior": 0.0008194053593576295,
+      "effective_balanced_prior": 0.5,
+      "bayes_logit_shift": 7.106111911029678,
+      "explanation": "Because class_weight='balanced' artificiality inflates fraud weight by 1,219.4x during tree loss computation, the raw predict_proba output is NOT a true Bayesian posterior probability of fraud, but a re-weighted risk score. A model output score of 0.99 corresponds to a calibrated true posterior probability of ~0.076. Therefore, an operating threshold of 0.98-0.99 is mathematically natural and expected for balanced GBDTs."
+    }
+  },
+  "audit3_threshold_sensitivity": [
+    {
+      "threshold": 0.9,
+      "tp": 570,
+      "fp": 123,
+      "tn": 972480,
+      "fn": 0,
+      "precision": 0.8225108225108225,
+      "recall": 1.0,
+      "f1": 0.9026128266033254,
+      "fpr": 0.00012646475488971347,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 8068508.54,
+      "total_cost_fp_0.1%": 8068.50854,
+      "total_cost_fp_0.5%": 40342.5427,
+      "total_cost_fp_1.0%": 80685.0854,
+      "total_cost_fp_2.0%": 161370.1708,
+      "total_cost_fp_5.0%": 403425.427
+    },
+    {
+      "threshold": 0.91,
+      "tp": 570,
+      "fp": 123,
+      "tn": 972480,
+      "fn": 0,
+      "precision": 0.8225108225108225,
+      "recall": 1.0,
+      "f1": 0.9026128266033254,
+      "fpr": 0.00012646475488971347,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 8068508.54,
+      "total_cost_fp_0.1%": 8068.50854,
+      "total_cost_fp_0.5%": 40342.5427,
+      "total_cost_fp_1.0%": 80685.0854,
+      "total_cost_fp_2.0%": 161370.1708,
+      "total_cost_fp_5.0%": 403425.427
+    },
+    {
+      "threshold": 0.92,
+      "tp": 570,
+      "fp": 121,
+      "tn": 972482,
+      "fn": 0,
+      "precision": 0.8248914616497829,
+      "recall": 1.0,
+      "f1": 0.9040444091990484,
+      "fpr": 0.00012440841741183197,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7622862.76,
+      "total_cost_fp_0.1%": 7622.86276,
+      "total_cost_fp_0.5%": 38114.313799999996,
+      "total_cost_fp_1.0%": 76228.62759999999,
+      "total_cost_fp_2.0%": 152457.25519999999,
+      "total_cost_fp_5.0%": 381143.13800000004
+    },
+    {
+      "threshold": 0.93,
+      "tp": 570,
+      "fp": 121,
+      "tn": 972482,
+      "fn": 0,
+      "precision": 0.8248914616497829,
+      "recall": 1.0,
+      "f1": 0.9040444091990484,
+      "fpr": 0.00012440841741183197,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7622862.76,
+      "total_cost_fp_0.1%": 7622.86276,
+      "total_cost_fp_0.5%": 38114.313799999996,
+      "total_cost_fp_1.0%": 76228.62759999999,
+      "total_cost_fp_2.0%": 152457.25519999999,
+      "total_cost_fp_5.0%": 381143.13800000004
+    },
+    {
+      "threshold": 0.94,
+      "tp": 570,
+      "fp": 121,
+      "tn": 972482,
+      "fn": 0,
+      "precision": 0.8248914616497829,
+      "recall": 1.0,
+      "f1": 0.9040444091990484,
+      "fpr": 0.00012440841741183197,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7622862.76,
+      "total_cost_fp_0.1%": 7622.86276,
+      "total_cost_fp_0.5%": 38114.313799999996,
+      "total_cost_fp_1.0%": 76228.62759999999,
+      "total_cost_fp_2.0%": 152457.25519999999,
+      "total_cost_fp_5.0%": 381143.13800000004
+    },
+    {
+      "threshold": 0.95,
+      "tp": 570,
+      "fp": 121,
+      "tn": 972482,
+      "fn": 0,
+      "precision": 0.8248914616497829,
+      "recall": 1.0,
+      "f1": 0.9040444091990484,
+      "fpr": 0.00012440841741183197,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7622862.76,
+      "total_cost_fp_0.1%": 7622.86276,
+      "total_cost_fp_0.5%": 38114.313799999996,
+      "total_cost_fp_1.0%": 76228.62759999999,
+      "total_cost_fp_2.0%": 152457.25519999999,
+      "total_cost_fp_5.0%": 381143.13800000004
+    },
+    {
+      "threshold": 0.96,
+      "tp": 570,
+      "fp": 121,
+      "tn": 972482,
+      "fn": 0,
+      "precision": 0.8248914616497829,
+      "recall": 1.0,
+      "f1": 0.9040444091990484,
+      "fpr": 0.00012440841741183197,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7622862.76,
+      "total_cost_fp_0.1%": 7622.86276,
+      "total_cost_fp_0.5%": 38114.313799999996,
+      "total_cost_fp_1.0%": 76228.62759999999,
+      "total_cost_fp_2.0%": 152457.25519999999,
+      "total_cost_fp_5.0%": 381143.13800000004
+    },
+    {
+      "threshold": 0.97,
+      "tp": 570,
+      "fp": 120,
+      "tn": 972483,
+      "fn": 0,
+      "precision": 0.8260869565217391,
+      "recall": 1.0,
+      "f1": 0.9047619047619048,
+      "fpr": 0.0001233802486728912,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7468348.259999999,
+      "total_cost_fp_0.1%": 7468.348259999999,
+      "total_cost_fp_0.5%": 37341.741299999994,
+      "total_cost_fp_1.0%": 74683.48259999999,
+      "total_cost_fp_2.0%": 149366.96519999998,
+      "total_cost_fp_5.0%": 373417.41299999994
+    },
+    {
+      "threshold": 0.975,
+      "tp": 570,
+      "fp": 120,
+      "tn": 972483,
+      "fn": 0,
+      "precision": 0.8260869565217391,
+      "recall": 1.0,
+      "f1": 0.9047619047619048,
+      "fpr": 0.0001233802486728912,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7468348.259999999,
+      "total_cost_fp_0.1%": 7468.348259999999,
+      "total_cost_fp_0.5%": 37341.741299999994,
+      "total_cost_fp_1.0%": 74683.48259999999,
+      "total_cost_fp_2.0%": 149366.96519999998,
+      "total_cost_fp_5.0%": 373417.41299999994
+    },
+    {
+      "threshold": 0.98,
+      "tp": 570,
+      "fp": 120,
+      "tn": 972483,
+      "fn": 0,
+      "precision": 0.8260869565217391,
+      "recall": 1.0,
+      "f1": 0.9047619047619048,
+      "fpr": 0.0001233802486728912,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 7468348.259999999,
+      "total_cost_fp_0.1%": 7468.348259999999,
+      "total_cost_fp_0.5%": 37341.741299999994,
+      "total_cost_fp_1.0%": 74683.48259999999,
+      "total_cost_fp_2.0%": 149366.96519999998,
+      "total_cost_fp_5.0%": 373417.41299999994
+    },
+    {
+      "threshold": 0.985,
+      "tp": 570,
+      "fp": 119,
+      "tn": 972484,
+      "fn": 0,
+      "precision": 0.8272859216255443,
+      "recall": 1.0,
+      "f1": 0.9054805401111994,
+      "fpr": 0.00012235207993395043,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 6434547.489999999,
+      "total_cost_fp_0.1%": 6434.547489999999,
+      "total_cost_fp_0.5%": 32172.737449999997,
+      "total_cost_fp_1.0%": 64345.474899999994,
+      "total_cost_fp_2.0%": 128690.94979999999,
+      "total_cost_fp_5.0%": 321727.3745
+    },
+    {
+      "threshold": 0.99,
+      "tp": 570,
+      "fp": 119,
+      "tn": 972484,
+      "fn": 0,
+      "precision": 0.8272859216255443,
+      "recall": 1.0,
+      "f1": 0.9054805401111994,
+      "fpr": 0.00012235207993395043,
+      "fnr": 0.0,
+      "detected_fraud_amount": 769750597.32,
+      "missed_fraud_amount": 0.0,
+      "flagged_nonfraud_amount": 6434547.489999999,
+      "total_cost_fp_0.1%": 6434.547489999999,
+      "total_cost_fp_0.5%": 32172.737449999997,
+      "total_cost_fp_1.0%": 64345.474899999994,
+      "total_cost_fp_2.0%": 128690.94979999999,
+      "total_cost_fp_5.0%": 321727.3745
+    },
+    {
+      "threshold": 0.995,
+      "tp": 569,
+      "fp": 115,
+      "tn": 972488,
+      "fn": 1,
+      "precision": 0.8318713450292398,
+      "recall": 0.9982456140350877,
+      "f1": 0.9074960127591707,
+      "fpr": 0.0001182394049781874,
+      "fnr": 0.0017543859649122807,
+      "detected_fraud_amount": 769744205.72,
+      "missed_fraud_amount": 6391.6,
+      "flagged_nonfraud_amount": 6367974.71,
+      "total_cost_fp_0.1%": 12759.57471,
+      "total_cost_fp_0.5%": 38231.47355,
+      "total_cost_fp_1.0%": 70071.3471,
+      "total_cost_fp_2.0%": 133751.0942,
+      "total_cost_fp_5.0%": 324790.3355
+    },
+    {
+      "threshold": 0.997,
+      "tp": 562,
+      "fp": 81,
+      "tn": 972522,
+      "fn": 8,
+      "precision": 0.8740279937791602,
+      "recall": 0.9859649122807017,
+      "f1": 0.9266281945589447,
+      "fpr": 8.328166785420157e-05,
+      "fnr": 0.014035087719298246,
+      "detected_fraud_amount": 769611314.72,
+      "missed_fraud_amount": 139282.6,
+      "flagged_nonfraud_amount": 5772861.18,
+      "total_cost_fp_0.1%": 145055.46118,
+      "total_cost_fp_0.5%": 168146.9059,
+      "total_cost_fp_1.0%": 197011.2118,
+      "total_cost_fp_2.0%": 254739.8236,
+      "total_cost_fp_5.0%": 427925.659
+    },
+    {
+      "threshold": 0.999,
+      "tp": 0,
+      "fp": 0,
+      "tn": 972603,
+      "fn": 570,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fpr": 0.0,
+      "fnr": 1.0,
+      "detected_fraud_amount": 0.0,
+      "missed_fraud_amount": 769750597.32,
+      "flagged_nonfraud_amount": 0.0,
+      "total_cost_fp_0.1%": 769750597.32,
+      "total_cost_fp_0.5%": 769750597.32,
+      "total_cost_fp_1.0%": 769750597.32,
+      "total_cost_fp_2.0%": 769750597.32,
+      "total_cost_fp_5.0%": 769750597.32
+    }
+  ],
+  "audit4_cost_audit": {
+    "cost_equation": "Total_Cost = FN_Missed_Fraud_Dollars + alpha * FP_Flagged_Legitimate_Volume",
+    "dimensional_consistency": "PASSED (Currency + [Dimensionless * Currency] = Currency)",
+    "double_counting_audit": "PASSED (FN partition and FP partition are mutually disjoint sets of transactions)",
+    "sensitivity_parameters": {
+      "0.1%": "Minimal operational friction / automated challenge with near-zero customer dropoff",
+      "0.5%": "Low operational friction / frictionless step-up (e.g. fast push notification/biometric)",
+      "1.0%": "Standard industry baseline / manual review queue + minor customer dropoff",
+      "2.0%": "Elevated friction / substantial dropoff and high support contact rate",
+      "5.0%": "Severe friction / high false decline business impact and customer churn"
+    },
+    "methodological_classification": "SCENARIO_SENSITIVITY_ANALYSIS",
+    "disclaimer_required": "The alpha penalty factors (0.1% to 5.0%) represent exploratory sensitivity assumptions for modeling operational intervention and false-decline friction. They must NOT be represented as proprietary or actual historical unit economics of Razorpay."
+  },
+  "audit5_convergence": {
+    "dataset_entity_structure": {
+      "total_transactions": 6362620,
+      "total_unique_senders": 6353307,
+      "senders_with_exactly_1_tx": 6344009,
+      "sender_single_tx_percentage": 99.8536510198547,
+      "senders_with_multiple_tx": 9298,
+      "sender_repeat_percentage": 0.1463489801453007,
+      "fraud_senders_total": 8213,
+      "fraud_senders_with_multiple_tx": 0,
+      "total_unique_destinations": 2722362,
+      "destinations_with_multiple_tx": 459658,
+      "destinations_repeat_percentage": 16.884528949493124
+    },
+    "convergence_root_cause_analysis": {
+      "finding_1": "PaySim's synthetic generator assigns a unique disposable account ID (nameOrig) to 99.85% of transactions. Out of 8,213 fraudulent transactions, repeat sender activity is virtually non-existent (0 fraud senders repeat). Therefore, all sender historical state features (orig_prev_tx_cnt, orig_prev_cum_amt, orig_avg_amt, etc.) are 0.0 for virtually all fraud records.",
+      "finding_2": "The predominant fraud pattern in PaySim is a static single-step balance drain (attacker creates a TRANSFER or CASH_OUT transaction where oldbalanceOrg == amount). Point-in-time causal baseline features (diff_orig_bal_amt = oldbalanceOrg - amount, oldbalanceOrg, amount, type) fully capture this structural signature without needing historical context.",
+      "finding_3": "Destination history (dest_prev_in_tx_cnt, dest_unique_orig_cnt) provides minor statistical refinement on validation (PR-AUC lift of +0.0096 on validation and +0.00065 on future test), but because point-in-time features already achieve 99.65% recall and 96.29% precision, the residual margin for incremental empirical gain on PaySim is extremely compressed."
+    },
+    "architectural_vs_statistical_evaluation": {
+      "statistical_lift_on_paysim": "Marginal (+0.00065 PR-AUC on future test)",
+      "architectural_necessity": "HIGH / MANDATORY for real-world deployment",
+      "justification": "In real production payment gateways (e.g. Razorpay/UPI/Cards), fraudsters do not behave like PaySim's synthetic agent. Real adversaries exhibit velocity bursts, card testing, account takeovers, and mule-account aggregation. Model B's stateful feature pipeline (tracking velocity, historical deviations, and cold-start flags) is the essential architecture required for production defense, even though PaySim's synthetic structure under-stimulates it."
+    }
+  },
+  "audit6_shortcuts": {
+    "exact_balance_drain_forensics": {
+      "fraud_transactions_exact_drain_count": 8034,
+      "fraud_transactions_exact_drain_pct": 97.82052843053695,
+      "nonfraud_transactions_exact_drain_count": 9,
+      "nonfraud_transactions_exact_drain_pct": 0.00014163398724696105,
+      "precision_of_exact_drain_in_high_risk_channels": 0.9995023637720826,
+      "assessment": "97.82% of all frauds in PaySim exhibit an exact 100% balance drain (oldbalanceOrg == amount), compared to only 0.00% of legitimate transactions. This is a massive structural deterministic pattern generated by the PaySim multi-agent simulation."
+    },
+    "transaction_type_exclusivity": {
+      "distribution_by_type": {
+        "PAYMENT": {
+          "total_transactions": 2151495,
+          "fraud_count": 0,
+          "fraud_prevalence_pct": 0.0
+        },
+        "TRANSFER": {
+          "total_transactions": 532909,
+          "fraud_count": 4097,
+          "fraud_prevalence_pct": 0.7687991758442811
+        },
+        "CASH_OUT": {
+          "total_transactions": 2237500,
+          "fraud_count": 4116,
+          "fraud_prevalence_pct": 0.18395530726256984
+        },
+        "DEBIT": {
+          "total_transactions": 41432,
+          "fraud_count": 0,
+          "fraud_prevalence_pct": 0.0
+        },
+        "CASH_IN": {
+          "total_transactions": 1399284,
+          "fraud_count": 0,
+          "fraud_prevalence_pct": 0.0
+        }
+      },
+      "zero_fraud_channel_volume": 3592211,
+      "zero_fraud_channel_pct_of_dataset": 56.45804715667445
+    },
+    "signal_taxonomy": {
+      "legitimate_causal_signals": [
+        "diff_orig_bal_amt (balance headroom at decision time)",
+        "ratio_orig_bal_amt (proportion of total account wealth being transferred)",
+        "oldbalanceOrg (raw liquidity context)",
+        "hour_of_day / day_of_week (temporal velocity patterns)",
+        "dest_prev_in_tx_cnt / dest_unique_orig_cnt (destination mule aggregation density)",
+        "is_sender_cold_start / is_dest_cold_start (account maturity context)"
+      ],
+      "dataset_specific_synthetic_artifacts": [
+        "100% absence of fraud in CASH_IN, DEBIT, and PAYMENT (3.59M records)",
+        "Strict 100% liquidation drains (8,034 of 8,213 frauds drain exactly to 0.0)",
+        "Complete absence of multi-step account takeovers or repeat sender fraud runs",
+        "Fixed static step clock (1 hour per step up to 743 hours = 31 days)"
+      ]
+    }
+  },
+  "audit7_policy": {
+    "validation_policy_evaluation": {
+      "bypass_channel_tier": {
+        "total_transactions": 549325,
+        "fraud_count": 0,
+        "fraud_amount_missed": 0.0,
+        "total_volume": 42642442630.4,
+        "action": "AUTOMATIC_FAST_TRACK_APPROVE"
+      },
+      "tier_1_decline_hard_challenge": {
+        "score_range": ">= 0.99",
+        "total_transactions": 689,
+        "fraud_detected": 570,
+        "nonfraud_flagged_fp": 119,
+        "precision": 0.8272859216255443,
+        "fraud_dollars_detected": 769750597.32,
+        "nonfraud_dollars_exposed": 6434547.489999999,
+        "action": "DECLINE_OR_BIOMETRIC_STEP_UP"
+      },
+      "tier_2_secondary_verification": {
+        "score_range": "[0.90, 0.99)",
+        "total_transactions": 4,
+        "fraud_detected": 0,
+        "nonfraud_flagged_fp": 4,
+        "precision": 0.0,
+        "fraud_dollars_detected": 0.0,
+        "nonfraud_dollars_exposed": 1633961.05,
+        "action": "FRICTIONLESS_2FA_OR_MANUAL_REVIEW"
+      },
+      "tier_3_instant_approve": {
+        "score_range": "< 0.90",
+        "total_transactions": 423155,
+        "fraud_missed_fn": 0,
+        "legitimate_approved": 423155,
+        "fraud_dollars_missed": 0.0,
+        "action": "INSTANT_APPROVE"
+      },
+      "system_totals": {
+        "total_fraud_detected_dollars": 769750597.32,
+        "total_fraud_missed_dollars": 0.0,
+        "total_fraud_dollar_capture_rate": 1.0
+      }
+    },
+    "future_test_policy_evaluation": {
+      "bypass_channel_tier": {
+        "total_transactions": 547667,
+        "fraud_count": 0,
+        "fraud_amount_missed": 0.0,
+        "total_volume": 40335387380.55,
+        "action": "AUTOMATIC_FAST_TRACK_APPROVE"
+      },
+      "tier_1_decline_hard_challenge": {
+        "score_range": ">= 0.99",
+        "total_transactions": 4150,
+        "fraud_detected": 3996,
+        "nonfraud_flagged_fp": 154,
+        "precision": 0.9628915662650602,
+        "fraud_dollars_detected": 6323408725.18,
+        "nonfraud_dollars_exposed": 9216222.88,
+        "action": "DECLINE_OR_BIOMETRIC_STEP_UP"
+      },
+      "tier_2_secondary_verification": {
+        "score_range": "[0.90, 0.99)",
+        "total_transactions": 2,
+        "fraud_detected": 0,
+        "nonfraud_flagged_fp": 2,
+        "precision": 0.0,
+        "fraud_dollars_detected": 0.0,
+        "nonfraud_dollars_exposed": 1018273.6599999999,
+        "action": "FRICTIONLESS_2FA_OR_MANUAL_REVIEW"
+      },
+      "tier_3_instant_approve": {
+        "score_range": "< 0.90",
+        "total_transactions": 403925,
+        "fraud_missed_fn": 14,
+        "legitimate_approved": 403911,
+        "fraud_dollars_missed": 399045.08,
+        "action": "INSTANT_APPROVE"
+      },
+      "system_totals": {
+        "total_fraud_detected_dollars": 6323408725.18,
+        "total_fraud_missed_dollars": 399045.08,
+        "total_fraud_dollar_capture_rate": 0.9999368979743699
+      }
+    },
+    "policy_defense_conclusion": {
+      "three_tier_policy_verdict": "DEFENSIBLE_WITH_CALIBRATION_DISCLAIMER",
+      "hard_rule_bypass_verdict": "ACCEPTABLE_FOR_PAYSIM_REQUIRES_PRODUCTION_DISCLAIMER",
+      "policy_summary": "The three-tier policy successfully isolates 99.65% of fraud events into Tier 1 with 96.29% precision on future test. Tier 2 captures the borderline cases with modest friction, while 99.98% of legitimate transactions pass instantly through Tier 3 and the fast-track bypass without interruption."
+    }
+  },
+  "audit9_claims_taxonomy": {
+    "1_CONFIDENT_CLAIMS": [
+      "Model B and Model A achieve >99.6% fraud recall and >96.2% precision on held-out future steps (378-743) in PaySim.",
+      "Features are strictly causal and point-in-time compliant (zero post-transaction balances, zero future leakage).",
+      "The system intercepts over 99.99% of fraud dollar exposure in PaySim while maintaining a false positive rate under 0.02%.",
+      "Model training and threshold selection were executed exclusively on chronological historical steps without future contamination."
+    ],
+    "2_CLAIMS_REQUIRING_DISCLAIMER": [
+      "The high operating threshold (0.98-0.99) is an artifact of balanced class weighting (shifting logit priors by +7.1), not extreme overconfidence.",
+      "The automatic approval bypass on CASH_IN/DEBIT/PAYMENT is an empirical observation on PaySim's synthetic structure (where 0 fraud was synthesized in these channels), not a universal fraud axiom.",
+      "Financial cost metrics (alpha in 0.1% - 5.0%) represent exploratory scenario modeling, not proprietary Razorpay unit economics.",
+      "Convergence between Model A and Model B occurs because 99.85% of PaySim senders are single-use ephemeral accounts."
+    ],
+    "3_PROHIBITED_CLAIMS": [
+      "DO NOT claim Model B provides massive statistical accuracy gain over Model A on PaySim (lift is +0.00065 PR-AUC).",
+      "DO NOT claim predict_proba outputs represent true Bayesian probabilities without noting the class_weight='balanced' logit shift.",
+      "DO NOT claim real-world fraud is 100% confined to TRANSFER and CASH_OUT.",
+      "DO NOT claim past leaky metrics (>99.99% F1 with post-balances) as final system performance."
+    ]
+  },
+  "audit10_recommendations": {
+    "Q1_keep_model_b": {
+      "verdict": "KEEP",
+      "justification": "Keep Model B as the primary production architecture because stateful behavioral tracking (velocity, mule counter, cold-start flags) is essential for real-world fraud defense, despite PaySim's single-use sender constraints."
+    },
+    "Q2_keep_model_a_baseline": {
+      "verdict": "KEEP",
+      "justification": "Retain Model A as an active benchmark and low-latency fallback in case stateful feature stores experience latency or cache misses."
+    },
+    "Q3_threshold_0_99_defensible": {
+      "verdict": "KEEP (WITH CALIBRATION NOTE)",
+      "justification": "Threshold 0.99 is mathematically optimal for balanced-weighted GBDT models, corresponding to a calibrated true posterior risk of ~7.6%."
+    },
+    "Q4_three_tier_policy_defensible": {
+      "verdict": "KEEP",
+      "justification": "Tiers (>=0.99 Decline/Step-up, 0.90-0.99 Review/2FA, <0.90 Approve) isolate 99.65% of fraud with 96.29% precision while allowing 99.98% of clean traffic instant approval."
+    },
+    "Q5_hard_rule_bypass_status": {
+      "verdict": "NEEDS DISCLAIMER",
+      "justification": "Maintain the channel bypass for PaySim evaluation, but explicitly label it as a 'PaySim-specific fast-path rule' rather than universal doctrine."
+    },
+    "Q6_cost_model_defensible": {
+      "verdict": "KEEP (AS SCENARIO SENSITIVITY)",
+      "justification": "The linear cost equation is mathematically sound and dimensionally consistent; framing it as sensitivity bounds (0.1% to 5.0%) protects business credibility."
+    },
+    "Q7_paysim_suitability": {
+      "verdict": "KEEP (WITH SYNTHETIC DISCLAIMER)",
+      "justification": "PaySim remains suitable as the primary reproducible academic benchmark, provided sender ephemerality and balance-drain patterns are transparently documented."
+    },
+    "Q8_mandatory_limitations": {
+      "verdict": "DOCUMENT IN ALL REPORTS",
+      "justification": "Must disclose: (1) synthetic sender ephemerality, (2) class-weight probability shift, (3) channel exclusivity assumption."
+    },
+    "Q9_freeze_decisions_for_implementation": {
+      "verdict": "FREEZE",
+      "justification": "Freeze Model B GBDT, features, threshold 0.99, and the three-tier policy for Phase 2.8+ production engine design."
+    },
+    "Q10_overall_integrity_verdict": {
+      "verdict": "PASSED / PRODUCTION-READY RESEARCH FOUNDATION",
+      "justification": "Zero leakage, fully causal, statistically validated, financially modeled, and scientifically honest."
+    }
+  },
+  "total_runtime_seconds": 363.9902310371399
+}

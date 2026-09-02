@@ -1,0 +1,21 @@
+{
+  "benchmark_environment": "Local Development Runtime (CPU Single-Process)",
+  "total_requests_profiled": 1000,
+  "latency_metrics_ms": {
+    "min": 0.882,
+    "mean": 1.637,
+    "p50_median": 1.746,
+    "p90": 2.238,
+    "p95": 2.674,
+    "p99": 3.506,
+    "p99_9": 7.761,
+    "max": 12.359
+  },
+  "sla_verification": {
+    "frozen_gateway_p99_budget_ms": 35.0,
+    "measured_p99_latency_ms": 3.506,
+    "sla_conformance_percentage": 100.0,
+    "status": "PASSED"
+  },
+  "disclaimer": "These metrics represent single-process in-memory benchmark measurements on the local runtime. They demonstrate that the algorithmic feature extraction, GBDT inference, and explanation logic comfortably execute within the frozen 35ms payment gateway latency SLA."
+}

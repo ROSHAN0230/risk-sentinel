@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "total_requests": 1000,
+  "latency_p50_ms": 1.109,
+  "latency_p95_ms": 2.015,
+  "latency_p99_ms": 2.43,
+  "latency_max_ms": 3.379,
+  "error_rate": 0.0,
+  "sla_budget_ms": 35.0
+}

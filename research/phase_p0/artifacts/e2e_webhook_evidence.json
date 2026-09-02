@@ -1,0 +1,93 @@
+{
+  "raw_gateway_event": {
+    "status_code": 200,
+    "latency_ms": 10.734,
+    "data": {
+      "event_id": "evt_pay_test_raw_gateway_1001_payment.authorized",
+      "received_at_utc": "2026-09-02T06:54:41.807836+00:00",
+      "source": "RAZORPAY_TEST_MODE",
+      "event_type": "payment.authorized",
+      "payment_id": "pay_test_raw_gateway_1001",
+      "amount_inr": 1500.0,
+      "currency": "INR",
+      "method": "upi",
+      "customer_vpa": "consumer@okaxis",
+      "customer_contact_masked": "+9******10",
+      "merchant_id": "acc_razorpay_live_test_001",
+      "evaluation_status": "INSUFFICIENT_FEATURES_FOR_MODEL_EVALUATION",
+      "readiness_reason": "Razorpay payment event does not contain the banking-balance context required by the frozen PaySim-trained feature contract. Causal features oldbalanceOrg, oldbalanceDest, and step are unavailable in raw gateway webhooks.",
+      "missing_features": [
+        "oldbalanceOrg",
+        "oldbalanceDest",
+        "step",
+        "channel_type"
+      ],
+      "risk_score": null,
+      "decision": null,
+      "action": null,
+      "reasons": null,
+      "engine_metadata": null,
+      "audit_id": null,
+      "integrity_hash": "1b72640fb8593ba8f92a8752c162ce3efcf72e058359403dcb994f0bd24d65d5",
+      "is_duplicate": false
+    }
+  },
+  "enriched_gateway_event": {
+    "status_code": 200,
+    "latency_ms": 1584.027,
+    "data": {
+      "event_id": "evt_pay_test_enriched_drain_2002_payment.authorized",
+      "received_at_utc": "2026-09-02T06:54:41.812398+00:00",
+      "source": "RAZORPAY_TEST_MODE",
+      "event_type": "payment.authorized",
+      "payment_id": "pay_test_enriched_drain_2002",
+      "amount_inr": 284100.5,
+      "currency": "INR",
+      "method": "upi",
+      "customer_vpa": "victim@okhdfcbank",
+      "customer_contact_masked": "+9******80",
+      "merchant_id": "acc_razorpay_live_test_001",
+      "evaluation_status": "EVALUATED_ENRICHED_TEST_MODE",
+      "readiness_reason": "Evaluated via frozen RiskDecisionEngine under explicit Test Mode Enriched Context.",
+      "missing_features": [],
+      "risk_score": 0.998092,
+      "decision": "DECLINED",
+      "action": "DECLINE",
+      "reasons": {
+        "primary_code": "RC_EXACT_BALANCE_DRAIN",
+        "all_codes": [
+          "RC_EXACT_BALANCE_DRAIN",
+          "RC_HIGH_RISK_CHANNEL_COMBO",
+          "RC_NEW_ACCOUNT_LARGE_OUTFLOW"
+        ],
+        "narrative": "Transaction attempts exact 100% liquidation of available sender balance ($284,100.50) via high-risk TRANSFER channel.",
+        "causal_evidence": {
+          "amount": 284100.5,
+          "oldbalanceOrg": 284100.5,
+          "oldbalanceDest": 0.0,
+          "channel": "TRANSFER",
+          "risk_score": 0.9980923366360022,
+          "liquidation_pct": 100.0,
+          "is_sender_cold_start": 1
+        }
+      },
+      "engine_metadata": {
+        "engine_version": "v2.8.0-prod",
+        "model_version": "model_b_stateful_hgb_v1.0.0",
+        "model_type": "MODEL_B_STATEFUL_HGB",
+        "policy_version": "v1.2.0-frozen",
+        "operating_threshold": 0.99,
+        "fallback_triggered": false,
+        "execution_latency_ms": 1578.484
+      },
+      "audit_id": "eval_791e066d-4ee9-4a8f-aa3b-449cc666f101",
+      "integrity_hash": "99a78b636f4e4d96f125b200a46dd2617b3ee4d038c7dccf780ec138218fd761",
+      "is_duplicate": false
+    }
+  },
+  "feed_verification": {
+    "status_code": 200,
+    "event_count": 2,
+    "query_latency_ms": 6.107
+  }
+}
