@@ -32,14 +32,14 @@
 - `src/engine/artifacts/model_a_causal_hgb.sha256`: Fallback Model SHA-256 checksum.
 - `src/engine/artifacts/engine_manifest.json`: Cryptographic engine manifest.
 
-### C. Google Stitch Frontend Application (`frontend/`)
+### C. Frontend Web Application (`frontend/`)
 - `frontend/src/`: React 18 + TypeScript + TailwindCSS application components and pages.
 - `frontend/dist/`: Production pre-compiled static distribution bundles (`index.html`, `assets/`).
 - `frontend/package.json`: Frontend dependency manifest.
 - `frontend/vite.config.ts` & `frontend/tailwind.config.js`: Build and design system configurations.
 
 ### D. Automated Verification & QA Suites (`tests/` & `research/`)
-- `tests/`: 37-test master backend unit & SLA test suite (`run_all_tests.py`).
+- `tests/`: 133 unique automated unit, integration, security, concurrency, and SLA tests.
 - `research/phase2_10/`: Adversarial readiness audit suite (`audit_suite_phase2_10.py`).
 - `research/phase2_11/`: Architectural contracts and cross-phase consistency audit (`consistency_audit.py`).
 - `research/phase2_13/`: Full-stack E2E integration test suite (`e2e_integration_test.py`).
@@ -91,8 +91,8 @@ src/engine/api.py                                 0fc8a366a1df1c40f5ea2d9c591c71
 ## 5. Known Benchmark Characteristics & Disclosures
 
 1. **Academic Dataset Scope**: PaySim is a synthetic mobile-money benchmark dataset. Findings ($6.32B protected, channel bypass) reflect the held-out test split (steps 378–743).
-2. **Latency Calibration**: Local in-process p99 latency (6.96 ms) represents single-process benchmarking; 35.0 ms is the gateway engineering budget.
-3. **Calibrated Decision Threshold**: $\theta^* = 0.990$ is an operating decision score resulting from balanced loss minimization, not an uncalibrated raw probability statement.
+2. **Latency Calibration**: Local in-process p99 latency (3.51 ms, peak 6.69 ms) represents single-process benchmarking; 35.0 ms is the internal gateway engineering budget.
+3. **Operating Decision Threshold**: $\theta^* = 0.990$ is an operating decision score resulting from scenario loss minimization, not a direct Bayesian probability statement.
 
 ---
 

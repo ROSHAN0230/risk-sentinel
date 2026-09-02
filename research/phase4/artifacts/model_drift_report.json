@@ -1,0 +1,140 @@
+{
+  "monitoring_timestamp_utc": "2026-09-02T16:43:24.470852+00:00",
+  "data_provenance": "OFFLINE_SIMULATED_BENCHMARK_SLICES",
+  "model_lineage": {
+    "champion_model": "model_b_stateful_hgb",
+    "sha256": "5ea5926344e12215fe6e9fe91b593a99feb581747c2f4272471a773680944735",
+    "reference_slice": "Validation Steps 323-377 (N=973,150)",
+    "observed_slice": "Future Test Steps 378-743 (N=955,744)"
+  },
+  "psi_results": {
+    "psi": 0.0066,
+    "status": "STABLE",
+    "interpretation": "Negligible distribution shift; production distribution consistent with baseline.",
+    "reference_total_samples": 973173,
+    "observed_total_samples": 955744,
+    "bin_details": [
+      {
+        "bin": "[0.000, 0.100)",
+        "ref_prop": 0.999101,
+        "obs_prop": 0.995464,
+        "ref_count": 972298,
+        "obs_count": 951409,
+        "psi_contribution": 1.3e-05
+      },
+      {
+        "bin": "[0.100, 0.200)",
+        "ref_prop": 6.7e-05,
+        "obs_prop": 8.6e-05,
+        "ref_count": 65,
+        "obs_count": 82,
+        "psi_contribution": 5e-06
+      },
+      {
+        "bin": "[0.200, 0.300)",
+        "ref_prop": 3.4e-05,
+        "obs_prop": 3.1e-05,
+        "ref_count": 33,
+        "obs_count": 30,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.300, 0.400)",
+        "ref_prop": 3.8e-05,
+        "obs_prop": 3.1e-05,
+        "ref_count": 37,
+        "obs_count": 30,
+        "psi_contribution": 1e-06
+      },
+      {
+        "bin": "[0.400, 0.500)",
+        "ref_prop": 2e-05,
+        "obs_prop": 1.5e-05,
+        "ref_count": 19,
+        "obs_count": 14,
+        "psi_contribution": 1e-06
+      },
+      {
+        "bin": "[0.500, 0.600)",
+        "ref_prop": 6e-06,
+        "obs_prop": 7e-06,
+        "ref_count": 6,
+        "obs_count": 7,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.600, 0.700)",
+        "ref_prop": 7e-06,
+        "obs_prop": 8e-06,
+        "ref_count": 7,
+        "obs_count": 8,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.700, 0.800)",
+        "ref_prop": 1e-05,
+        "obs_prop": 8e-06,
+        "ref_count": 10,
+        "obs_count": 8,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.800, 0.900)",
+        "ref_prop": 5e-06,
+        "obs_prop": 4e-06,
+        "ref_count": 5,
+        "obs_count": 4,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.900, 0.950)",
+        "ref_prop": 2e-06,
+        "obs_prop": 2e-06,
+        "ref_count": 2,
+        "obs_count": 2,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.950, 0.980)",
+        "ref_prop": 1e-06,
+        "obs_prop": 0.0,
+        "ref_count": 1,
+        "obs_count": 0,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.980, 0.990)",
+        "ref_prop": 1e-06,
+        "obs_prop": 0.0,
+        "ref_count": 1,
+        "obs_count": 0,
+        "psi_contribution": 0.0
+      },
+      {
+        "bin": "[0.990, 0.995)",
+        "ref_prop": 5e-06,
+        "obs_prop": 1.8e-05,
+        "ref_count": 5,
+        "obs_count": 17,
+        "psi_contribution": 1.6e-05
+      },
+      {
+        "bin": "[0.995, 0.999)",
+        "ref_prop": 0.000703,
+        "obs_prop": 0.004324,
+        "ref_count": 684,
+        "obs_count": 4133,
+        "psi_contribution": 0.00658
+      },
+      {
+        "bin": "[0.999, 1.000)",
+        "ref_prop": 0.0,
+        "obs_prop": 0.0,
+        "ref_count": 0,
+        "obs_count": 0,
+        "psi_contribution": 0.0
+      }
+    ]
+  },
+  "governance_rule": "Non-negotiable: Drift metrics provide human monitoring alerts; automatic model replacement is strictly forbidden."
+}

@@ -64,20 +64,20 @@ OPERATING THRESHOLD (θ)          FALSE POSITIVE VOLUME   MISSED FRAUD (FN)     
 
 ## 4. Architectural Resilience & Latency Profiling
 
-Risk Sentinel is profiled against a strict **35.0 ms Gateway Target SLA Budget**:
+Risk Sentinel is profiled against an internal **35.0 ms Gateway Engineering Budget**:
 
-- **Local In-Process Profiling (1,000 back-to-back requests)**:
-  - **p50 Latency**: `2.16 ms`
-  - **p95 Latency**: `5.16 ms`
-  - **p99 Latency**: `6.96 ms`
-  - **Max Latency**: `12.44 ms`
-- **Availability Guarantee**: If the Redis/memory state store degrades ($>15\text{ms}$ latency or network disconnect), the sub-15ms Circuit Breaker activates `Model A Causal Baseline Fallback`, maintaining 100% gateway availability with 0 dropped transactions.
+- **Local In-Process Profiling (1,000 requests, `test_suite_report.json`)**:
+  - **p50 Latency**: `1.75 ms`
+  - **p95 Latency**: `2.67 ms`
+  - **p99 Latency**: `3.51 ms` (Multi-module peak: `6.69 ms`)
+  - **Max Latency**: `12.36 ms`
+- **Availability Resilience**: If the state store degrades ($>15\text{ms}$ latency or network disconnect), the sub-15ms Circuit Breaker activates `Model A Causal Baseline Fallback`, designed to preserve payment availability without dropped transactions.
 
 ---
 
 ## 5. Summary of Competition Readiness & Deliverables
 
-- **Backend API**: Production-grade FastAPI service with Pydantic schema validation.
-- **Frontend UI**: Google Stitch-derived React 18 + TypeScript application with explicit data provenance badges.
-- **Test Coverage**: 37 unit/SLA tests, 8 Phase 2.10 adversarial audits, 6 E2E integration tests, and 8 Phase 2.14 QA suites passing with 100% verifiable evidence.
+- **Backend API**: Production-oriented FastAPI service with Pydantic V2 schema validation and API security controls.
+- **Frontend UI**: React 18 + TypeScript application with explicit data provenance badges.
+- **Test Coverage**: 133 unique automated unit, integration, security, concurrency, and SLA tests passing with 100% verifiable evidence.
 - **Checksum Lineage**: Cryptographically verified SHA-256 model artifacts ensuring immutable deployment integrity.

@@ -3,19 +3,37 @@ Risk Sentinel — FastAPI Production Service
 Exposes /v1/risk/evaluate, /v1/health, /v1/audit/events, and /v1/model/info.
 """
 
-from fastapi import FastAPI, HTTPException, Request, status, Query
+from fastapi import FastAPI, HTTPException, Request, status, Query, Depends
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from typing import Dict, Any, List, Optional
 
 from src.engine.schemas import EvaluateRequest, EvaluateResponse
 from src.engine.decision_engine import RiskDecisionEngine
+from src.engine.infrastructure.security import (
+    SecurityHeadersMiddleware,
+    verify_api_key,
+    default_rate_limiter
+)
 
 app = FastAPI(
     title="Risk Sentinel — AI Risk Decision Engine",
     version="2.9.0",
     description="Defensive payment fraud detection and real-time causal risk management API."
 )
+
+# Attach Security Headers
+app.add_middleware(SecurityHeadersMiddleware)
+
+# In-Memory Rate Limiting Middleware for API endpoints
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    path = request.url.path
+    if path.startswith("/v1/"):
+        client_ip = request.headers.get("X-Forwarded-For") or (request.client.host if request.client else "127.0.0.1")
+        client_key = client_ip.split(",")[0].strip()
+        default_rate_limiter.check_rate_limit(client_key)
+    return await call_next(request)
 
 # Initialize single global engine instance
 engine = RiskDecisionEngine()
@@ -45,7 +63,8 @@ async def general_exception_handler(request: Request, exc: Exception):
     "/v1/risk/evaluate",
     response_model=EvaluateResponse,
     status_code=status.HTTP_200_OK,
-    summary="Evaluate transaction risk in real time"
+    summary="Evaluate transaction risk in real time",
+    dependencies=[Depends(verify_api_key)]
 )
 async def evaluate_transaction(request: EvaluateRequest):
     """
@@ -74,7 +93,11 @@ async def health_check():
 async def get_model_info():
     return engine.model_manager.manifest
 
-@app.get("/v1/audit/events", summary="Query recent immutable audit events")
+@app.get(
+    "/v1/audit/events",
+    summary="Query recent immutable audit events",
+    dependencies=[Depends(verify_api_key)]
+)
 async def get_audit_events(limit: int = 50):
     return engine.audit_logger.get_events(limit=limit)
 
@@ -117,7 +140,8 @@ capture_gate = RazorpayCaptureGate(engine=engine)
 @app.post(
     "/v1/gate/evaluate-and-capture",
     summary="Merchant-Controlled Razorpay Test Mode Capture Gate",
-    description="Evaluates payments in 'authorized' state against the frozen engine and executes capture if approved."
+    description="Evaluates payments in 'authorized' state against the frozen engine and executes capture if approved.",
+    dependencies=[Depends(verify_api_key)]
 )
 async def evaluate_and_capture_gate(request: RazorpayCaptureRequest):
     """
@@ -177,6 +201,24 @@ async def get_benchmark_summary_endpoint():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get(
+    "/v1/analytics/model-drift",
+    summary="Fetch Model Distribution Drift & PSI Report",
+    description="Returns the measured Population Stability Index (PSI) and monitoring band comparing reference validation vs future test slices."
+)
+async def get_model_drift_endpoint():
+    """
+    Returns the empirical Population Stability Index (PSI) report.
+    Provenance: OFFLINE_SIMULATED_BENCHMARK_SLICES.
+    """
+    import os
+    import json
+    report_path = os.path.join("research", "phase4", "artifacts", "model_drift_report.json")
+    if os.path.exists(report_path):
+        with open(report_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(status_code=404, detail="Model drift report not found.")
+
 from src.engine.analytics.replay_service import ReplayService, ReplayRequest
 
 replay_service = ReplayService(prod_engine=engine)
@@ -184,7 +226,8 @@ replay_service = ReplayService(prod_engine=engine)
 @app.post(
     "/v1/replay/evaluate",
     summary="Judge-Facing Fraud Decision Replay",
-    description="Evaluates hypothetical or modified transaction context within an isolated sandbox without mutating production state or audit ledgers."
+    description="Evaluates hypothetical or modified transaction context within an isolated sandbox without mutating production state or audit ledgers.",
+    dependencies=[Depends(verify_api_key)]
 )
 async def evaluate_replay_endpoint(request: ReplayRequest):
     """

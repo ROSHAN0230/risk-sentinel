@@ -12,11 +12,11 @@
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React_18-TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![Tests](https://img.shields.io/badge/106%20Tests%20Passing-100%25-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
+[![Tests](https://img.shields.io/badge/133%20Tests%20Passing-100%25-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
 [![Precision](https://img.shields.io/badge/Precision-96.29%25-blue?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
 [![Recall](https://img.shields.io/badge/Recall-99.65%25-purple?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
 [![Captured](https://img.shields.io/badge/Captured%20Fraud-%246.323%20Billion-emerald?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
-[![Latency](https://img.shields.io/badge/p99%20Latency-6.69%20ms%20(Budget%2035ms)-orange?style=for-the-badge)](research/phase2_9/artifacts/test_suite_report.json)
+[![Latency](https://img.shields.io/badge/p99%20Latency-3.51%20ms%20(Budget%2035ms)-orange?style=for-the-badge)](research/phase2_9/artifacts/test_suite_report.json)
 
 </div>
 
@@ -29,12 +29,12 @@ In enterprise payment gateways, risk systems face a fundamental operational tril
 2. **Gateway Latency & Uptime Fragility**: High-performing stateful models require historical velocity lookups, but database or cache latency spikes can bring down payment processing or breach payment gateway latency budgets.
 3. **The Black-Box Opacity Problem**: Deep learning and slow LLM prompt wrappers (>500ms) fail regulatory compliance audits because they cannot explain decisions in real time without severe latency and hallucination risks.
 
-**Risk Sentinel** solves this with a production-grade, mathematically optimal decision engine designed specifically for the realities of modern payment infrastructure:
-- **Dual-Model Fallback Architecture**: Model B (36-dim Stateful Champion) with an active sub-15ms Circuit Breaker that instantly falls back to Model A (15-dim Causal Baseline) during state store degradation—guaranteeing 100% gateway uptime under 35ms.
-- **Asymmetric Financial Loss Optimization**: Operates at $\theta^* = 0.990$, the mathematically proven global cost minimum across 955,744 transactions, balancing missed fraud against false-alarm friction.
+**Risk Sentinel** solves this with a production-oriented decision engine designed specifically for the realities of modern payment infrastructure:
+- **Dual-Model Fallback Architecture**: Model B (36-dim Stateful Champion) with an active sub-15ms Circuit Breaker that instantly falls back to Model A (15-dim Causal Baseline) during state store degradation—designed to preserve gateway availability without dropped transactions within our 35ms internal engineering budget.
+- **Asymmetric Financial Loss Optimization**: Operates at $\theta^* = 0.990$, the lowest observed scenario cost operating point across tested merchant friction factors, balancing missed fraud against false-alarm friction.
 - **Zero Future Data Leakage**: Point-in-time causal feature construction strictly before transaction execution ($t < \text{execution}$), purging all post-transaction balance fields (`newbalanceOrig`, `newbalanceDest`).
 - **Sub-Millisecond Deterministic Reason Codes**: Resolves 8 certified industry Reason Codes (`RC_EXACT_BALANCE_DRAIN`, `RC_DEST_MULE_FANIN`, etc.) in **$<0.85\text{ ms}$** without LLM latency.
-- **Merchant-Controlled Razorpay Capture Gate**: Intercepts authorized Razorpay payments post-auth and pre-capture, executing real-time settlement capture for approved transfers and suppressing capture on malicious account drains.
+- **Merchant-Controlled Razorpay Capture Gate**: Evaluates authorized payments post-auth and pre-capture via a contract-accurate Razorpay adapter, executing capture for approved transfers and suppressing capture on malicious account drains.
 - **Fraud Decision Replay Studio**: Isolated sandbox enabling risk officers and judges to simulate counterfactual "What-If" scenarios without mutating production state or audit ledgers.
 
 ---
@@ -121,9 +121,9 @@ Total Evaluated: 955,744 | Total Frauds: 4,010 | Total Clean: 951,734
 | **Fraud Dollars Intercepted** | **$6,323,408,725.18** | **99.9937%** of malicious dollar volume protected |
 | **Missed Fraud Loss (FN)** | **$399,045.08** | 14 unintercepted transactions (proves zero metric fabrication) |
 | **Flagged Clean Volume (FP)** | **$9,216,222.88** | 154 benign transfers routed to secondary verification |
-| **PR-AUC (Precision-Recall)** | **0.9850** | Extreme 0.08% fraud class imbalance |
-| **ROC-AUC** | **0.99998** | Global ranking discrimination across full evaluation horizon |
-| **Operating Score In-Process Latency (p99)** | **6.69 ms** | 1,000 requests (under strict 35.0 ms gateway engineering budget) |
+| **PR-AUC (Precision-Recall)** | **0.9850** | Future test steps 378–743 under extreme 0.08% fraud class imbalance |
+| **ROC-AUC** | **0.9998** | Future test steps 378–743 (0.99998 on validation split) |
+| **Operating Score In-Process Latency (p99)** | **3.51 ms** | 1,000 in-process evaluations (peak 6.69 ms; well within 35.0 ms internal engineering budget) |
 
 ---
 
@@ -175,33 +175,45 @@ Standard risk engines optimize for naive accuracy or F1-score, ignoring the mass
 
 $$\text{Total Financial Cost} = \text{Missed Fraud Dollars (FN)} + \alpha \times \text{Flagged Legitimate Volume (FP)}$$
 
-| Operating Threshold (θ) | False Positive Volume | Missed Fraud Loss (FN) | Total Financial Cost (at α = 1.0%) | Policy Assessment |
-| :--- | :--- | :--- | :--- | :--- |
-| **θ = 0.500** (Naive Baseline) | $1,296,800,000.00 | $120,000.00 | $13,088,000.00 | ❌ Massive false-positive merchant friction |
-| **θ = 0.900** (Secondary Gate) | $48,200,000.00 | $210,000.00 | $692,000.00 | ⚠️ Balanced review boundary |
-| **θ = 0.950** (Intermediate) | $26,400,000.00 | $285,000.00 | $549,000.00 | ⚠️ Reduced friction |
-| **θ = 0.970** (Exploratory) | $18,100,000.00 | $340,000.00 | $521,000.00 | ⚠️ Approaching minimum |
-| **θ* = 0.990 (Risk Sentinel)** | **$9,216,222.88** | **$399,045.08** | **$491,207.31** | 🏆 **GLOBAL FINANCIAL COST MINIMUM** |
-| **θ = 0.995** (Overly Permissive) | $5,100,000.00 | $530,000.00 | $581,000.00 | ❌ Missed fraud begins accelerating |
-| **θ = 0.999** (Extreme Permissive) | $1,200,000.00 | $1,240,000.00 | $1,252,000.00 | ❌ Catastrophic balance-drain leakage |
+### Table 6.1 — Validation Threshold Selection Sweep (Steps 323–377, N=973,173)
+*Used strictly to select the operating threshold. $\theta^* = 0.990$ was chosen because it achieved the lowest observed scenario cost across all tested friction factors $\alpha \in [0.1\%, 5.0\%]$ with zero missed validation fraud.*
 
-*Proved across a 15-point validation sweep (Steps 323–377): $\theta^* = 0.990$ achieves the global cost minimum for all merchant friction factors $\alpha \in [0.1\%, 5.0\%]$.*
+| Operating Threshold (θ) | TP | FP | FN | Flagged Clean Volume (FP) | Missed Fraud Loss (FN) | Total Financial Cost (at α = 1.0%) | Assessment |
+| :--- | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| **θ = 0.900** (Secondary Gate) | 570 | 123 | 0 | $8,068,508.54 | $0.00 | $80,685.09 | ⚠️ Balanced secondary review boundary |
+| **θ = 0.950** (Intermediate) | 570 | 121 | 0 | $7,622,862.76 | $0.00 | $76,228.63 | ⚠️ Reduced merchant friction |
+| **θ = 0.970** (Exploratory) | 570 | 120 | 0 | $7,468,348.26 | $0.00 | $74,683.48 | ⚠️ Approaching cost minimum |
+| **θ* = 0.990 (Selected Optimum)** | **570** | **119** | **0** | **$6,434,547.49** | **$0.00** | **$64,345.47** | 🏆 **LOWEST OBSERVED VALIDATION COST** |
+| **θ = 0.995** (Overly Permissive) | 569 | 115 | 1 | $6,367,974.71 | $6,391.60 | $70,071.35 | ❌ Missed fraud begins leaking ($6.3k FN) |
+| **θ = 0.997** (High Leakage) | 562 | 81 | 8 | $5,772,861.18 | $139,282.60 | $197,011.21 | ❌ Accelerated balance-drain loss ($139k FN) |
+| **θ = 0.999** (Catastrophic) | 0 | 0 | 570 | $0.00 | $769,750,597.32 | $769,750,597.32 | ❌ Total fraud leakage (zero fraud caught) |
+
+### Table 6.2 — Frozen Future Held-Out Test Evaluation (Steps 378–743, N=955,744)
+*The selected threshold $\theta^* = 0.990$ was frozen and evaluated strictly out-of-time on chronological held-out test data without retraining or post-hoc threshold tuning.*
+
+| Evaluation Dimension | Value | Financial & Operational Implication |
+| :--- | :--- | :--- |
+| **Frozen Operating Threshold** | **$\theta^* = 0.990$** | High-confidence automated decline / step-up challenge boundary |
+| **Intercepted Fraud Volume** | **$6,323,408,725.18** | **99.9937%** of malicious dollar volume successfully protected |
+| **Unintercepted Fraud Leakage (FN)** | **$399,045.08** | 14 missed transactions out of 4,010 total frauds (0.35% count leakage) |
+| **Flagged Legitimate Volume (FP)** | **$9,216,222.88** | 154 transactions flagged out of 951,734 clean transfers (0.016% false alarm rate) |
+| **Total Realized Financial Loss** | **$491,207.31** | Evaluated at baseline merchant friction factor $\alpha = 1.0\%$ |
 
 ---
 
-## 7. Comparative Technical Audit (Risk Sentinel vs Competitors)
+## 7. Comparative Technical Audit (Risk Sentinel vs Conventional Baselines)
 
-| Architectural Dimension | Typical Hackathon Submissions | Risk Sentinel Decision Engine |
+| Architectural Dimension | Conventional Baseline / Single-Model Approaches | Risk Sentinel Decision Engine |
 | :--- | :--- | :--- |
-| **Fraud Recall Rate** | 27% – 40% (Misses 60-72% of all fraud!) | **99.65% (3,996 of 4,010 intercepted)** |
-| **Dollar Interception** | Untracked / Not calculated | **$6,323,408,725.18 (99.9937% capture)** |
-| **Cold-Start Behavior** | Hard-declines new customers spending > ₹500 | **Causal point-in-time seamless approval** |
-| **Gateway Fault Tolerance** | Single point of failure (spikes crash gateway) | **Dual-Model Sub-15ms Circuit Breaker Fallback** |
-| **Explainability Latency** | Slow LLMs / TreeSHAP (>25–500ms) | **$<0.85\text{ ms}$ Deterministic Causal Reason Codes** |
-| **Software Quality** | 75% Jupyter Notebooks + Streamlit | **Compiled React 18 + TS, 0 Notebooks in Runtime** |
-| **Automated Test Suite** | 10–50 basic unit tests | **106 Automated Tests Passing (100% Regression-Free)** |
-| **Integrity Checks** | None (Silent model drift) | **9 Cryptographically Pinned SHA-256 Hashes** |
-| **Payment Integration** | Plain `order.create` e-commerce script | **Real Merchant Pre-Capture Gate + Replay Studio** |
+| **Fraud Recall Strategy** | Unweighted tree loss (often misses low-prevalence fraud) | **99.65% Recall (3,996 of 4,010 intercepted via balanced class weighting)** |
+| **Dollar Interception** | Optimizes for accuracy; dollar impact untracked | **$6,323,408,725.18 (99.9937% capture on held-out future test)** |
+| **Cold-Start Behavior** | Hard-declines unobserved accounts on balance checks | **Causal point-in-time neutral evaluation without auto-decline** |
+| **Gateway Fault Tolerance** | Single point of failure (state timeouts crash gateway) | **Dual-Model Sub-15ms Circuit Breaker with Model A Causal Fallback** |
+| **Explainability Latency** | Synchronous TreeSHAP or slow LLM wrappers (>50–500ms) | **$<0.85\text{ ms}$ Deterministic Causal Reason Codes (8 Certified Codes)** |
+| **Software Architecture** | Monolithic Jupyter notebooks or unvalidated scripts | **Compiled React 18 + TS UI, Pydantic V2 APIs, zero notebooks in runtime** |
+| **Automated Test Suite** | Ad-hoc manual scripts | **133 Unique Automated Tests (100% Passing, Regression-Free)** |
+| **Integrity Assurance** | Unpinned artifacts vulnerable to silent drift | **9 Cryptographically Pinned SHA-256 Hashes Verified on Startup** |
+| **Payment Integration** | Mock e-commerce checkout without capture controls | **Razorpay-Compatible Pre-Capture Risk Gate + Counterfactual Replay** |
 
 ---
 
@@ -229,23 +241,16 @@ The application will start the unified decision engine and serve the production 
 
 ---
 
-## 9. Comprehensive Automated Test Suite (106 Tests)
+## 9. Comprehensive Automated Test Suite (133 Tests)
 
-Run the full automated test suite verifying all 106 unit, integration, SLA latency, failure matrix, and cryptographic hash tests:
+Run the full automated test suite verifying all 133 unique unit, integration, security, concurrency, SLA latency, failure matrix, and cryptographic hash tests:
 
 ```bash
-# Run all 106 automated tests across the repository
+# Run all 133 unique automated tests across the repository
 python -c "
 import unittest, sys
 loader = unittest.TestLoader()
-suite = unittest.TestSuite()
-suite.addTests(loader.loadTestsFromName('tests.test_benchmark_surface'))
-suite.addTests(loader.loadTestsFromName('tests.test_fraud_decision_replay'))
-suite.addTests(loader.loadTestsFromName('tests.test_razorpay_capture_gate'))
-suite.addTests(loader.loadTestsFromName('tests.test_investigation_workspace'))
-suite.addTests(loader.loadTestsFromName('tests.test_razorpay_webhook'))
-suite.addTests(loader.loadTestsFromName('tests.test_economics_analytics'))
-suite.addTests(loader.discover('tests', pattern='test_*.py'))
+suite = loader.discover('tests', pattern='test_*.py')
 runner = unittest.TextTestRunner(verbosity=2)
 result = runner.run(suite)
 sys.exit(0 if result.wasSuccessful() else 1)
@@ -260,6 +265,7 @@ sys.exit(0 if result.wasSuccessful() else 1)
 risk-sentinel/
 ├── README.md                                  # Master technical & architectural documentation
 ├── SUBMISSION.md                              # Executive submission brief & architectural defense
+├── DEMO_GUIDE.md                              # 2-minute competition walkthrough & oral defense guide
 ├── run_demo.py                                # Zero-friction full-stack application launcher
 ├── requirements.txt                           # Production Python dependencies
 ├── frontend/                                  # React 18 + TypeScript Web Application
@@ -270,7 +276,7 @@ risk-sentinel/
 │   ├── dist/                                  # Compiled production static bundle (served by FastAPI)
 │   └── package.json                           # Frontend manifest & build scripts
 ├── src/engine/                                # Production Risk Decision Engine Core
-│   ├── api.py                                 # FastAPI REST server & static UI mount
+│   ├── api.py                                 # FastAPI REST server, middleware & static UI mount
 │   ├── decision_engine.py                     # [FROZEN] Core RiskDecisionEngine orchestrator
 │   ├── model_manager.py                       # [FROZEN] Checksum-verified model loader & inference
 │   ├── feature_pipeline.py                    # [FROZEN] 15-dim & 36-dim point-in-time feature pipeline
@@ -280,6 +286,10 @@ risk-sentinel/
 │   ├── audit_logger.py                        # [FROZEN] SHA-256 chained tamper-evident audit ledger
 │   ├── schemas.py                             # [FROZEN] Pydantic schemas, risk bands & enums
 │   ├── artifacts/                             # [FROZEN] GBDT model binaries & SHA-256 checksums
+│   ├── infrastructure/                        # Production Hardening Layer (Phase 4A-4D)
+│   │   ├── security.py                        # API key auth, sliding-window rate limiter & security headers
+│   │   ├── redis_provider.py                  # Additive Redis state store provider with circuit breaker
+│   │   └── monitoring/drift_service.py        # Population Stability Index (PSI) engine & shadow evaluator
 │   ├── integrations/                          # Gateway integrations
 │   │   ├── razorpay_capture_gate.py           # Real-time post-auth pre-capture risk gate
 │   │   └── razorpay_webhook_adapter.py        # Webhook ingestion & HMAC signature validator
@@ -288,16 +298,23 @@ risk-sentinel/
 │   │   └── replay_service.py                  # Ephemeral sandbox Decision Replay engine
 │   └── investigations/                        # Investigation Workspace
 │       └── investigation_service.py           # 9-pillar dossier aggregator & SOP guidance
-├── tests/                                     # 106 Automated Unit, Integration & SLA Tests
-│   ├── test_benchmark_surface.py              # Canonical held-out metrics & confusion matrix tests
-│   ├── test_fraud_decision_replay.py          # Ephemeral replay sandbox isolation tests
-│   ├── test_razorpay_capture_gate.py          # HMAC, idempotency, and pre-capture tests
-│   ├── test_investigation_workspace.py        # 9-pillar dossier & SOP tests
-│   ├── test_razorpay_webhook.py               # Webhook signature & schema tests
-│   ├── test_economics_analytics.py            # Financial loss simulation tests
+├── tests/                                     # 133 Unique Automated Unit, Integration & SLA Tests
+│   ├── test_security_auth.py                  # API key verification, rate limiting & header tests (10 tests)
+│   ├── test_redis_state_store.py              # Redis state provider & circuit breaker fallback (8 tests)
+│   ├── test_concurrent_load.py                # Concurrency harness across 1, 5, 10, 25, 50 workers (2 tests)
+│   ├── test_drift_monitoring.py               # PSI distribution shift & shadow gate tests (7 tests)
+│   ├── test_benchmark_surface.py              # Canonical held-out metrics & confusion matrix tests (9 tests)
+│   ├── test_fraud_decision_replay.py          # Ephemeral replay sandbox isolation tests (10 tests)
+│   ├── test_razorpay_capture_gate.py          # HMAC, idempotency, and pre-capture tests (10 tests)
+│   ├── test_investigation_workspace.py        # 9-pillar dossier & SOP tests (10 tests)
+│   ├── test_razorpay_webhook.py               # Webhook signature & schema tests (10 tests)
+│   ├── test_economics_analytics.py            # Financial loss simulation tests (20 tests)
 │   └── run_all_tests.py                       # Master regression suite (37 tests)
 └── research/                                  # Empirical Research & Audit Artifacts
     ├── phase2_7/artifacts/policy_analysis.json# Canonical ground-truth evaluation manifest
+    ├── phase4/artifacts/                      # Phase 4 measured concurrency & drift artifacts
+    │   ├── concurrent_load_results.json       # Measured multi-worker concurrency benchmark
+    │   └── model_drift_report.json            # Empirical validation vs test PSI drift report
     ├── phase_p1_3/                            # Phase 1.3 competition hardening audit
     ├── phase_p2_replay/                       # Phase 2 Decision Replay verification report
     └── phase_p3_benchmark/                    # Phase 3 Benchmark surface verification report
@@ -325,7 +342,10 @@ Every core engine component is verified against its immutable SHA-256 hash befor
 
 ## 12. Institutional & Scientific Disclosures
 
-1. **Dataset Scope**: PaySim is an academic synthetic benchmark simulating mobile money transactions. Statistical properties (such as 99.85% single-use senders and zero fraud in CASH_IN/DEBIT channels) represent empirical findings on the PaySim test horizon, not live Razorpay commercial network traffic.
-2. **Economic Simulation Scope**: The financial loss formulation ($\text{FN Dollars} + \alpha \times \text{Flagged Volume}$) is an exploratory scenario sensitivity model demonstrating threshold optimization; it does not represent Razorpay's private merchant unit economics.
-3. **Gateway SLA Budget**: The 35.0 ms latency target is an internal gateway engineering budget, not an external Razorpay SLA guarantee. Local in-process profiling achieved a measured p99 latency of 6.69 ms across 1,000 back-to-back requests.
-4. **Model Score Interpretation**: Operating scores $S \in [0.0, 1.0]$ are calibrated decision ranking scores under validation class-weight balance, not direct Bayesian posterior probabilities.
+1. **Dataset Scope**: PaySim is an academic synthetic benchmark simulating mobile money transactions. Statistical properties (such as 99.85% single-use senders and zero fraud in PAYMENT/DEBIT/CASH_IN channels) represent empirical findings within the evaluated PaySim chronological slice, not universal rules across commercial payment networks.
+2. **Economic Simulation Scope**: The financial loss formulation ($\text{FN Dollars} + \alpha \times \text{Flagged Volume}$) is an exploratory scenario loss model used to evaluate threshold trade-offs; it does not represent Razorpay's proprietary merchant unit economics.
+3. **Gateway Engineering Budget**: The 35.0 ms latency target is an internal gateway engineering budget / project target, not an external Razorpay SLA guarantee. Single-process in-memory profiling measured a p99 latency of 3.51 ms across 1,000 evaluations (`test_suite_report.json`), with single-worker load testing measuring 3.31 ms–4.46 ms. Under multi-worker concurrent load on local CPU runtime, thread scheduling contention increases p99 latency above 10 workers as documented in `concurrent_load_results.json`.
+4. **Model Score Interpretation**: Operating scores $S \in [0.0, 1.0]$ are monotonic decision ranking scores produced under balanced tree learning, not calibrated Bayesian posterior probabilities of fraud.
+5. **Redis State Provider Scope**: The additive Redis state provider was verified using mock client emulation and simulated connection degradation to confirm automatic circuit breaker fallback to Model A; a live production Redis cluster was not provisioned.
+6. **Model Drift Monitoring Scope**: Population Stability Index ($\text{PSI} = 0.0066$) was computed offline comparing validation and future test benchmark slices under provenance tag `OFFLINE_SIMULATED_BENCHMARK_SLICES`; it represents reproducible offline drift detection rather than live streaming telemetry.
+7. **Razorpay Integration Scope**: The capture gate demonstrates a contract-accurate post-auth risk interception architecture implementing official Razorpay schemas (`POST /v1/payments/{id}/capture`); it does not claim interception of live production transactions across Visa/Mastercard networks.

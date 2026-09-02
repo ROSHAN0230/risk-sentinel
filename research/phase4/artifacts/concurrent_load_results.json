@@ -1,0 +1,107 @@
+{
+  "benchmark_timestamp_utc": "2026-09-02T16:43:24.467178+00:00",
+  "engineering_budget_target_ms": 35.0,
+  "disclaimer": "Local concurrency benchmark against Risk Sentinel implementation. Results depend on hardware and runtime configuration and are NOT a Razorpay SLA or production guarantee.",
+  "concurrency_tiers": [
+    {
+      "concurrency_level": 1,
+      "total_requests": 100,
+      "successful_requests": 100,
+      "failed_requests": 0,
+      "error_rate_pct": 0.0,
+      "wall_time_seconds": 0.1763,
+      "throughput_rps": 567.32,
+      "latency_ms": {
+        "p50": 1.446,
+        "p95": 2.871,
+        "p99": 3.26,
+        "max": 3.26
+      },
+      "decisions": {
+        "APPROVED": 50,
+        "DECLINED": 50,
+        "REVIEW": 0
+      }
+    },
+    {
+      "concurrency_level": 5,
+      "total_requests": 100,
+      "successful_requests": 100,
+      "failed_requests": 0,
+      "error_rate_pct": 0.0,
+      "wall_time_seconds": 0.3249,
+      "throughput_rps": 307.74,
+      "latency_ms": {
+        "p50": 15.752,
+        "p95": 18.657,
+        "p99": 20.142,
+        "max": 20.142
+      },
+      "decisions": {
+        "APPROVED": 50,
+        "DECLINED": 50,
+        "REVIEW": 0
+      }
+    },
+    {
+      "concurrency_level": 10,
+      "total_requests": 100,
+      "successful_requests": 100,
+      "failed_requests": 0,
+      "error_rate_pct": 0.0,
+      "wall_time_seconds": 0.3235,
+      "throughput_rps": 309.09,
+      "latency_ms": {
+        "p50": 31.506,
+        "p95": 37.559,
+        "p99": 39.81,
+        "max": 39.81
+      },
+      "decisions": {
+        "APPROVED": 50,
+        "DECLINED": 50,
+        "REVIEW": 0
+      }
+    },
+    {
+      "concurrency_level": 25,
+      "total_requests": 100,
+      "successful_requests": 100,
+      "failed_requests": 0,
+      "error_rate_pct": 0.0,
+      "wall_time_seconds": 0.3377,
+      "throughput_rps": 296.16,
+      "latency_ms": {
+        "p50": 75.233,
+        "p95": 99.237,
+        "p99": 107.788,
+        "max": 107.788
+      },
+      "decisions": {
+        "APPROVED": 50,
+        "DECLINED": 50,
+        "REVIEW": 0
+      }
+    },
+    {
+      "concurrency_level": 50,
+      "total_requests": 100,
+      "successful_requests": 100,
+      "failed_requests": 0,
+      "error_rate_pct": 0.0,
+      "wall_time_seconds": 0.3733,
+      "throughput_rps": 267.89,
+      "latency_ms": {
+        "p50": 131.204,
+        "p95": 168.869,
+        "p99": 194.923,
+        "max": 194.923
+      },
+      "decisions": {
+        "APPROVED": 50,
+        "DECLINED": 50,
+        "REVIEW": 0
+      }
+    }
+  ]
+}
