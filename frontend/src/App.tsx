@@ -95,7 +95,7 @@ export function App() {
             <span>•</span>
             <span>{health?.engine_version || 'v2.8.0-prod'}</span>
             <span>•</span>
-            <span className="text-blue-400">Google Stitch UI</span>
+            <span className="text-emerald-400">Decision Engine UI</span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">

@@ -1,6 +1,6 @@
 """
 Risk Sentinel — Full-Stack Application & Demo Launcher
-Starts the unified FastAPI backend and Google Stitch React frontend,
+Starts the unified FastAPI backend and React frontend,
 verifies engine health, and automatically opens the browser at http://localhost:8000.
 """
 

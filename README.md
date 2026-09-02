@@ -262,7 +262,7 @@ risk-sentinel/
 ├── SUBMISSION.md                              # Executive submission brief & architectural defense
 ├── run_demo.py                                # Zero-friction full-stack application launcher
 ├── requirements.txt                           # Production Python dependencies
-├── frontend/                                  # Google Stitch React 18 + TypeScript Application
+├── frontend/                                  # React 18 + TypeScript Web Application
 │   ├── src/                                   # UI components, pages, design system tokens
 │   │   ├── pages/                             # StreamPage, InspectorPage, BenchmarksPage, AuditPage
 │   │   ├── components/                        # FraudDecisionReplayViewer, RazorpayCaptureGateViewer
