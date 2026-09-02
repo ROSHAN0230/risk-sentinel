@@ -217,7 +217,45 @@ $$\text{Total Financial Cost} = \text{Missed Fraud Dollars (FN)} + \alpha \times
 
 ---
 
-## 8. Quick Start & Launch
+## 8. Production Hardening & Scale Infrastructure (Phase 4)
+
+To evolve Risk Sentinel beyond a competition prototype into an enterprise-grade portfolio platform, Phase 4 introduced four decoupled production-hardening pillars:
+
+### 8.1 API Security, Authentication & Sliding-Window Rate Limiting
+- **Constant-Time Verification**: API key (`X-API-Key`) and Bearer token (`Authorization: Bearer <key>`) authentication enforced using `secrets.compare_digest()` to prevent timing side-channel attacks.
+- **Zero-Friction Local Mode**: When `RISK_SENTINEL_REQUIRE_AUTH` is unset, local evaluation and browser demo testing execute seamlessly without embedding credentials into client assets.
+- **Thread-Safe Rate Limiting**: Per-IP sliding-window rate limiter (`InMemoryRateLimiter`) with configurable request budgets and automatic background eviction of expired client timestamps to prevent memory leakage. Exceeded budgets return `HTTP 429 Too Many Requests` with a dynamic `Retry-After` header.
+- **Enterprise Security Headers**: `SecurityHeadersMiddleware` injects `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection: 1; mode=block`, and `Referrer-Policy: strict-origin-when-cross-origin` on every HTTP response.
+
+### 8.2 Multi-Worker Concurrency & Scale Benchmarking
+Risk Sentinel includes an automated multi-threaded load benchmark (`tests/test_concurrent_load.py`) that profiles live frozen decision paths under realistic concurrent worker pools:
+
+| Concurrency Tier | Total Requests | Throughput (RPS) | p50 Latency | p95 Latency | p99 Latency | Max Latency | Error Rate |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1 Worker** | 100 requests | **642.8 RPS** | 1.21 ms | 2.53 ms | **3.31 ms** | 3.31 ms | **0.0% (0 errors)** |
+| **5 Workers** | 100 requests | **321.2 RPS** | 15.24 ms | 16.37 ms | **17.71 ms** | 17.71 ms | **0.0% (0 errors)** |
+| **10 Workers** | 100 requests | **313.5 RPS** | 30.81 ms | 34.70 ms | **37.03 ms** | 37.03 ms | **0.0% (0 errors)** |
+| **25 Workers** | 100 requests | **292.4 RPS** | 77.50 ms | 90.67 ms | **94.77 ms** | 105.19 ms | **0.0% (0 errors)** |
+| **50 Workers** | 100 requests | **268.6 RPS** | 133.72 ms | 172.24 ms | **179.35 ms** | 187.45 ms | **0.0% (0 errors)** |
+
+*Artifact: `research/phase4/artifacts/concurrent_load_results.json`.* Under single-threaded and 5-worker concurrency, the engine comfortably satisfies the 35.0 ms internal gateway budget. At higher worker counts on local CPU runtimes, thread scheduling queueing increases latency transparently without a single dropped transaction or unhandled exception.
+
+### 8.3 Additive Redis Distributed State Store Provider
+- **Decoupled State Provider Contract**: `RedisStateStoreProvider` (`src/engine/infrastructure/redis_provider.py`) implements the core `BaseStateStore` interface (`read_entity_state`, `update_entity_state`, `health_check`, `reset`).
+- **Graceful Circuit Breaker Fallback**: Connection timeouts and partition exceptions propagate directly to `StateStoreCircuitBreaker`. The gateway instantly routes to Model A (`MODEL_A_CAUSAL_BASELINE_FALLBACK`), preserving gateway availability and zero dropped authorizations.
+- **Zero-Dependency Local Testing**: Ships with an in-process `MockRedisClient` so developers and judges can run full state-store tests without spinning up external Redis infrastructure.
+
+### 8.4 Model Distribution Drift Monitoring & PSI Engine
+- **Population Stability Index (PSI)**: `PSIDriftEngine` (`src/engine/infrastructure/monitoring/drift_service.py`) calculates distribution shifts between a reference baseline (Validation Steps 323–377) and observed test slices (Future Test Steps 378–743).
+- **Empirical Stability Result**: Evaluated across 10 quantile bins with zero-bin epsilon smoothing ($10^{-6}$):
+  $$\text{PSI} = \sum (P_i - Q_i) \times \ln\left(\frac{P_i}{Q_i}\right) = \mathbf{0.0066} \quad (\text{Status: } \mathbf{STABLE}, \text{ threshold } < 0.10)$$
+- **Strict Human-in-the-Loop Governance**: Drift alerts trigger human notifications; **automatic model retraining or replacement is strictly forbidden**.
+- **Shadow Evaluation Gate**: Allows candidate challenger models to be evaluated side-by-side in production without mutating authoritative decisions (`authoritative: CHAMPION`).
+- **Public REST Endpoint**: Exposed at `GET /v1/analytics/model-drift` for real-time monitoring dashboards.
+
+---
+
+## 9. Quick Start & Launch
 
 ### Prerequisites
 - Python 3.10+ (tested on Python 3.10, 3.12, 3.14)
@@ -241,7 +279,7 @@ The application will start the unified decision engine and serve the production 
 
 ---
 
-## 9. Comprehensive Automated Test Suite (133 Tests)
+## 10. Comprehensive Automated Test Suite (133 Tests)
 
 Run the full automated test suite verifying all 133 unique unit, integration, security, concurrency, SLA latency, failure matrix, and cryptographic hash tests:
 
@@ -259,7 +297,7 @@ sys.exit(0 if result.wasSuccessful() else 1)
 
 ---
 
-## 10. Repository Structure
+## 11. Repository Structure
 
 ```
 risk-sentinel/
@@ -322,7 +360,7 @@ risk-sentinel/
 
 ---
 
-## 11. Immutable Cryptographic Lineage (9 Frozen Core Artifacts)
+## 12. Immutable Cryptographic Lineage (9 Frozen Core Artifacts)
 
 Every core engine component is verified against its immutable SHA-256 hash before loading:
 
@@ -340,7 +378,7 @@ Every core engine component is verified against its immutable SHA-256 hash befor
 
 ---
 
-## 12. Institutional & Scientific Disclosures
+## 13. Institutional & Scientific Disclosures
 
 1. **Dataset Scope**: PaySim is an academic synthetic benchmark simulating mobile money transactions. Statistical properties (such as 99.85% single-use senders and zero fraud in PAYMENT/DEBIT/CASH_IN channels) represent empirical findings within the evaluated PaySim chronological slice, not universal rules across commercial payment networks.
 2. **Economic Simulation Scope**: The financial loss formulation ($\text{FN Dollars} + \alpha \times \text{Flagged Volume}$) is an exploratory scenario loss model used to evaluate threshold trade-offs; it does not represent Razorpay's proprietary merchant unit economics.
