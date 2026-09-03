@@ -3,6 +3,13 @@ Risk Sentinel — FastAPI Production Service
 Exposes /v1/risk/evaluate, /v1/health, /v1/audit/events, and /v1/model/info.
 """
 
+import sys
+try:
+    from sklearn._loss import _loss
+    sys.modules['_loss'] = _loss
+except Exception:
+    pass
+
 from fastapi import FastAPI, HTTPException, Request, status, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
