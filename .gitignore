@@ -1,6 +1,7 @@
 # Raw 493MB PaySim Dataset (exceeds GitHub 100MB limit; models & artifacts are already compiled)
 PS_20174392719_1491204439457_log.csv
 *.csv
+!research/phase2_7/artifacts/threshold_sensitivity.csv
 
 # Local backup snapshots
 backups/
