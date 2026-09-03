@@ -4,6 +4,7 @@ Exposes /v1/risk/evaluate, /v1/health, /v1/audit/events, and /v1/model/info.
 """
 
 from fastapi import FastAPI, HTTPException, Request, status, Query, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from typing import Dict, Any, List, Optional
@@ -20,6 +21,15 @@ app = FastAPI(
     title="Risk Sentinel — AI Risk Decision Engine",
     version="2.9.0",
     description="Defensive payment fraud detection and real-time causal risk management API."
+)
+
+# Enable CORS for external dashboard or cross-origin access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Attach Security Headers

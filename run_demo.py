@@ -11,8 +11,8 @@ import webbrowser
 import urllib.request
 import uvicorn
 
-PORT = 8000
-HOST = "127.0.0.1"
+PORT = int(os.environ.get("PORT", 8000))
+HOST = os.environ.get("HOST", "127.0.0.1")
 
 def main():
     print("=================================================================")
