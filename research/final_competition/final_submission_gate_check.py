@@ -1,10 +1,13 @@
+import os
+import sys
 import subprocess
 import hashlib
 import unittest
 import urllib.request
 import json
-import os
 import re
+
+sys.path.insert(0, os.path.abspath('.'))
 
 print("=================================================================")
 print("        FINAL SUBMISSION GATE — 14-POINT READ-ONLY AUDIT")
