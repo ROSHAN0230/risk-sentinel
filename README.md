@@ -15,8 +15,8 @@
 [![Tests](https://img.shields.io/badge/133%20Tests%20Passing-100%25-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
 [![Precision](https://img.shields.io/badge/Precision-96.29%25-blue?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
 [![Recall](https://img.shields.io/badge/Recall-99.65%25-purple?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
-[![Captured](https://img.shields.io/badge/Captured%20Fraud-%246.323%20Billion-emerald?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
-[![Latency](https://img.shields.io/badge/p99%20Latency-3.51%20ms%20(Budget%2035ms)-orange?style=for-the-badge)](research/phase2_9/artifacts/test_suite_report.json)
+[![Captured](https://img.shields.io/badge/Captured%20PaySim%20Fraud-%246.323%20Billion-emerald?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
+[![Latency](https://img.shields.io/badge/1--Worker%20p99-6.02%20ms%20(Target%2035ms)-orange?style=for-the-badge)](research/phase4/artifacts/concurrent_load_results.json)
 
 </div>
 
@@ -237,13 +237,14 @@ Risk Sentinel includes an automated multi-threaded load benchmark (`tests/test_c
 
 | Concurrency Tier | Total Requests | Throughput (RPS) | p50 Latency | p95 Latency | p99 Latency | Max Latency | Error Rate |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1 Worker** | 100 requests | **642.8 RPS** | 1.21 ms | 2.53 ms | **3.31 ms** | 3.31 ms | **0.0% (0 errors)** |
-| **5 Workers** | 100 requests | **321.2 RPS** | 15.24 ms | 16.37 ms | **17.71 ms** | 17.71 ms | **0.0% (0 errors)** |
-| **10 Workers** | 100 requests | **313.5 RPS** | 30.81 ms | 34.70 ms | **37.03 ms** | 37.03 ms | **0.0% (0 errors)** |
-| **25 Workers** | 100 requests | **292.4 RPS** | 77.50 ms | 90.67 ms | **94.77 ms** | 105.19 ms | **0.0% (0 errors)** |
-| **50 Workers** | 100 requests | **268.6 RPS** | 133.72 ms | 172.24 ms | **179.35 ms** | 187.45 ms | **0.0% (0 errors)** |
+| **1 Worker** | 100 requests | **386.65 RPS** | 2.14 ms | 3.93 ms | **6.02 ms** | 6.02 ms | **0.0% (0 errors)** |
+| **5 Workers** | 100 requests | **292.34 RPS** | 16.57 ms | 18.94 ms | **21.26 ms** | 21.26 ms | **0.0% (0 errors)** |
+| **10 Workers** | 100 requests | **281.36 RPS** | 33.92 ms | 41.07 ms | **43.07 ms** | 43.07 ms | **0.0% (0 errors)** |
+| **25 Workers** | 100 requests | **262.15 RPS** | 84.18 ms | 105.02 ms | **111.07 ms** | 111.07 ms | **0.0% (0 errors)** |
+| **50 Workers** | 100 requests | **228.90 RPS** | 160.11 ms | 198.41 ms | **203.41 ms** | 203.41 ms | **0.0% (0 errors)** |
 
-*Artifact: `research/phase4/artifacts/concurrent_load_results.json`.* Under single-threaded and 5-worker concurrency, the engine comfortably satisfies the 35.0 ms internal gateway budget. At higher worker counts on local CPU runtimes, thread scheduling queueing increases latency transparently without a single dropped transaction or unhandled exception.
+*Artifact: `research/phase4/artifacts/concurrent_load_results.json`.*  
+> ℹ️ **Benchmark Disclosure**: These are local multi-worker concurrency benchmark results (hardware/runtime dependent). The 35.0 ms latency is an **internal project engineering target**, not an official Razorpay production SLA or enterprise performance guarantee. Single-worker execution achieves 2.14ms p50 and 6.02ms p99; under higher concurrent worker pools on local CPU runtimes, thread scheduling increases latency transparently with zero dropped requests or unhandled exceptions.
 
 ### 8.3 Additive Redis Distributed State Store Provider
 - **Decoupled State Provider Contract**: `RedisStateStoreProvider` (`src/engine/infrastructure/redis_provider.py`) implements the core `BaseStateStore` interface (`read_entity_state`, `update_entity_state`, `health_check`, `reset`).
