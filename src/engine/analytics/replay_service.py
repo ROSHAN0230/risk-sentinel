@@ -8,7 +8,7 @@ Strictly isolated: zero production state mutation, zero audit ledger pollution, 
 
 import uuid
 import datetime
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Tuple
 from pydantic import BaseModel, Field
 
 from src.engine.schemas import EvaluateRequest, TransactionType
