@@ -170,7 +170,7 @@ sequenceDiagram
 Risk Sentinel features an ephemeral sandbox **Fraud Decision Replay Studio** (`POST /v1/replay/evaluate`) designed for risk analysts and judges:
 - **Counterfactual "What-If" Exploration**: Modify amount, sender balance, destination account velocity, or friction parameter $\alpha$, and re-evaluate in real time.
 - **Side-by-Side Audit Diffs**: Displays exact comparative score transitions ($\Delta S$), policy changes, and feature diffs.
-- **Zero Production Pollution**: Replay executions run inside an isolated in-memory sandbox; zero mutations to the live state store, zero live Razorpay capture calls, and zero pollution of the immutable audit ledger.
+- **Zero Production Pollution**: Replay executions run inside an isolated in-memory sandbox; zero mutations to the active state store, zero gateway capture calls, and zero pollution of the immutable audit ledger.
 
 ---
 
