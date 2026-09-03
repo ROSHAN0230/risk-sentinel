@@ -34,12 +34,12 @@ In enterprise payment gateways, risk systems face a fundamental operational tril
 2. **Gateway Latency & Uptime Fragility**: High-performing stateful models require historical velocity lookups, but database or cache latency spikes can bring down payment processing or breach payment gateway latency budgets.
 3. **The Black-Box Opacity Problem**: Deep learning and slow LLM prompt wrappers (>500ms) fail regulatory compliance audits because they cannot explain decisions in real time without severe latency and hallucination risks.
 
-**Risk Sentinel** solves this with a production-oriented decision engine designed specifically for the realities of modern payment infrastructure:
-- **Dual-Model Fallback Architecture**: Model B (36-dim Stateful Champion) with an active sub-15ms Circuit Breaker that instantly falls back to Model A (15-dim Causal Baseline) during state store degradation—designed to preserve gateway availability without dropped transactions within our 35ms internal engineering budget.
+**Risk Sentinel** solves this with a defense-oriented decision prototype engineered specifically for payment gateway integration:
+- **Dual-Model Fallback Architecture**: Model B (36-dim Stateful Champion) with a tested circuit-breaker fallback path (using a configured 15 ms state-store latency threshold) that routes to stateless Model A (15-dim Causal Baseline) during state store degradation—designed to maintain payment flow within our 35 ms internal engineering target.
 - **Asymmetric Financial Loss Optimization**: Operates at $\theta^* = 0.990$, the lowest observed scenario cost operating point across tested merchant friction factors, balancing missed fraud against false-alarm friction.
 - **Zero Future Data Leakage**: Point-in-time causal feature construction strictly before transaction execution ($t < \text{execution}$), purging all post-transaction balance fields (`newbalanceOrig`, `newbalanceDest`).
 - **Sub-Millisecond Deterministic Reason Codes**: Resolves 8 certified industry Reason Codes (`RC_EXACT_BALANCE_DRAIN`, `RC_DEST_MULE_FANIN`, etc.) in **$<0.85\text{ ms}$** without LLM latency.
-- **Merchant-Controlled Razorpay Capture Gate**: Evaluates authorized payments post-auth and pre-capture via a contract-accurate Razorpay adapter, executing capture for approved transfers and suppressing capture on malicious account drains.
+- **Razorpay-Compatible Pre-Capture Gate**: Demonstrates post-authorization pre-capture risk evaluation via a contract-tested Razorpay adapter, suppressing capture on malicious account drains and allowing capture for approved transfers.
 - **Fraud Decision Replay Studio**: Isolated sandbox enabling risk officers and judges to simulate counterfactual "What-If" scenarios without mutating production state or audit ledgers.
 
 ---
