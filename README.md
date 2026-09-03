@@ -22,6 +22,11 @@
 
 ---
 
+> 🚀 **Live Interactive Demo**: **[https://risk-sentinel.onrender.com](https://risk-sentinel.onrender.com)**  
+> *Hosted demonstration surface deployed on Render. (Note: On the Render free tier, the instance may take ~30–50s to wake up on initial cold start).*
+
+---
+
 ## 1. Executive Summary
 
 In enterprise payment gateways, risk systems face a fundamental operational trilemma:

@@ -2,7 +2,8 @@
 
 > **Executive Submission Brief for the Razorpay AI Builder / Risk Manager Track**  
 > **Candidate**: AI Builder Applicant  
-> **Project**: Risk Sentinel Decision Engine (`v2.8.0-prod`)
+> **Project**: Risk Sentinel Decision Engine (`v2.8.0-prod`)  
+> **Live Demo**: **[https://risk-sentinel.onrender.com](https://risk-sentinel.onrender.com)**  
 
 ---
 

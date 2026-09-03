@@ -1,5 +1,5 @@
 {
-  "benchmark_timestamp_utc": "2026-09-03T14:17:21.828734+00:00",
+  "benchmark_timestamp_utc": "2026-09-03T14:21:24.431956+00:00",
   "engineering_budget_target_ms": 35.0,
   "disclaimer": "Local concurrency benchmark against Risk Sentinel implementation. Results depend on hardware and runtime configuration and are NOT a Razorpay SLA or production guarantee.",
   "concurrency_tiers": [
@@ -9,13 +9,13 @@
       "successful_requests": 100,
       "failed_requests": 0,
       "error_rate_pct": 0.0,
-      "wall_time_seconds": 0.1808,
-      "throughput_rps": 553.12,
+      "wall_time_seconds": 0.1827,
+      "throughput_rps": 547.2,
       "latency_ms": {
-        "p50": 1.606,
-        "p95": 2.796,
-        "p99": 3.297,
-        "max": 3.297
+        "p50": 1.372,
+        "p95": 3.678,
+        "p99": 5.051,
+        "max": 5.051
       },
       "decisions": {
         "APPROVED": 50,
@@ -29,13 +29,13 @@
       "successful_requests": 100,
       "failed_requests": 0,
       "error_rate_pct": 0.0,
-      "wall_time_seconds": 0.3332,
-      "throughput_rps": 300.13,
+      "wall_time_seconds": 0.3839,
+      "throughput_rps": 260.48,
       "latency_ms": {
-        "p50": 16.369,
-        "p95": 17.58,
-        "p99": 18.235,
-        "max": 18.235
+        "p50": 18.715,
+        "p95": 21.285,
+        "p99": 24.135,
+        "max": 24.135
       },
       "decisions": {
         "APPROVED": 50,
@@ -49,13 +49,13 @@
       "successful_requests": 100,
       "failed_requests": 0,
       "error_rate_pct": 0.0,
-      "wall_time_seconds": 0.3325,
-      "throughput_rps": 300.76,
+      "wall_time_seconds": 0.3907,
+      "throughput_rps": 255.98,
       "latency_ms": {
-        "p50": 31.998,
-        "p95": 38.274,
-        "p99": 44.217,
-        "max": 44.217
+        "p50": 36.589,
+        "p95": 44.178,
+        "p99": 46.668,
+        "max": 46.668
       },
       "decisions": {
         "APPROVED": 50,
@@ -69,13 +69,13 @@
       "successful_requests": 100,
       "failed_requests": 0,
       "error_rate_pct": 0.0,
-      "wall_time_seconds": 0.3546,
-      "throughput_rps": 281.99,
+      "wall_time_seconds": 0.4324,
+      "throughput_rps": 231.28,
       "latency_ms": {
-        "p50": 79.724,
-        "p95": 98.687,
-        "p99": 106.992,
-        "max": 106.992
+        "p50": 97.325,
+        "p95": 114.475,
+        "p99": 121.552,
+        "max": 121.552
       },
       "decisions": {
         "APPROVED": 50,
@@ -89,13 +89,13 @@
       "successful_requests": 100,
       "failed_requests": 0,
       "error_rate_pct": 0.0,
-      "wall_time_seconds": 0.3796,
-      "throughput_rps": 263.47,
+      "wall_time_seconds": 0.5189,
+      "throughput_rps": 192.71,
       "latency_ms": {
-        "p50": 135.264,
-        "p95": 176.983,
-        "p99": 190.701,
-        "max": 190.701
+        "p50": 194.903,
+        "p95": 249.705,
+        "p99": 263.295,
+        "max": 263.295
       },
       "decisions": {
         "APPROVED": 50,
