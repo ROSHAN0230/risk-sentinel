@@ -18,6 +18,7 @@ from typing import Dict, Any, List, Optional
 
 from src.engine.schemas import EvaluateRequest, EvaluateResponse
 from src.engine.decision_engine import RiskDecisionEngine
+from src.engine.infrastructure.redis_provider import create_configured_state_store
 from src.engine.infrastructure.security import (
     SecurityHeadersMiddleware,
     verify_api_key,
@@ -52,8 +53,8 @@ async def rate_limit_middleware(request: Request, call_next):
         default_rate_limiter.check_rate_limit(client_key)
     return await call_next(request)
 
-# Initialize single global engine instance
-engine = RiskDecisionEngine()
+# Initialize single global engine instance with configured state backend
+engine = RiskDecisionEngine(state_store=create_configured_state_store())
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):

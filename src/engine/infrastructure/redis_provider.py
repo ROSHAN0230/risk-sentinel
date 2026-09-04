@@ -12,6 +12,7 @@ src/engine/state_store.py remains 100% frozen.
 """
 
 import os
+import time
 import json
 import logging
 from typing import Dict, Any, Tuple, Optional, Set
@@ -30,12 +31,16 @@ class MockRedisClient:
     """
     def __init__(self):
         self._data: Dict[str, str] = {}
-        self._ttls: Dict[str, int] = {}
+        self._ttls: Dict[str, float] = {}
         self.force_failure = False
 
     def get(self, key: str) -> Optional[str]:
         if self.force_failure:
             raise ConnectionError("MockRedisClient simulated connection drop.")
+        if key in self._ttls and time.time() > self._ttls[key]:
+            self._data.pop(key, None)
+            self._ttls.pop(key, None)
+            return None
         return self._data.get(key)
 
     def set(self, key: str, value: str, ex: Optional[int] = None) -> bool:
@@ -43,7 +48,7 @@ class MockRedisClient:
             raise ConnectionError("MockRedisClient simulated connection drop.")
         self._data[key] = value
         if ex:
-            self._ttls[key] = ex
+            self._ttls[key] = time.time() + float(ex)
         return True
 
     def ping(self) -> bool:
@@ -65,11 +70,14 @@ class RedisStateStoreProvider(BaseStateStore):
         self,
         redis_url: Optional[str] = None,
         redis_client: Optional[Any] = None,
-        ttl_seconds: int = DEFAULT_TTL_SECONDS,
+        ttl_seconds: Optional[int] = None,
         key_prefix: str = "rs:v1"
     ):
         self.redis_url = redis_url or os.getenv("RISK_SENTINEL_REDIS_URL", "redis://localhost:6379/0")
-        self.ttl_seconds = ttl_seconds
+        if ttl_seconds is not None:
+            self.ttl_seconds = ttl_seconds
+        else:
+            self.ttl_seconds = int(os.getenv("RISK_SENTINEL_STATE_TTL_SECONDS", str(DEFAULT_TTL_SECONDS)))
         self.key_prefix = key_prefix
         
         # Inject client or use MockRedisClient if redis module is unavailable or mock injected
@@ -263,7 +271,13 @@ def create_configured_state_store() -> BaseStateStore:
     Factory creating the configured state store based on environment.
     Defaults to InMemoryStateStore for zero-dependency local operation.
     """
-    backend = os.getenv("RISK_SENTINEL_STATE_BACKEND", "memory").lower()
+    backend = os.getenv("RISK_SENTINEL_STATE_BACKEND", "memory").lower().strip()
     if backend == "redis":
         return RedisStateStoreProvider()
-    return InMemoryStateStore()
+    elif backend in ("memory", ""):
+        return InMemoryStateStore()
+    else:
+        raise ValueError(
+            f"Invalid RISK_SENTINEL_STATE_BACKEND: '{backend}'. "
+            f"Must be 'memory' or 'redis'."
+        )

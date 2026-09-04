@@ -8,10 +8,15 @@ Tests:
 5. Corrupted/malformed Redis JSON safely returns None without crashing inference.
 6. Connection drop/failure triggers StateStoreCircuitBreaker fallback to Model A.
 7. RiskDecisionEngine with injected RedisStateStoreProvider renders valid decisions.
-8. Frozen state_store.py checksum remains byte-for-byte identical.
+8. Engine falls back to Model A during Redis outage while declining attacks.
+9. Invalid backend configuration raises ValueError.
+10. TTL expiration safely handles expired keys as cold start.
+11. State Equivalence: Memory and Redis backends render identical scores and decisions.
+12. Distributed State: Multiple independent worker instances sharing a Redis backend observe each other's state.
 """
 
 import os
+import time
 import unittest
 from unittest.mock import patch
 
@@ -45,6 +50,12 @@ class TestRedisStateStore(unittest.TestCase):
             store = create_configured_state_store()
             self.assertIsInstance(store, RedisStateStoreProvider)
 
+    def test_invalid_backend_configuration_raises_error(self):
+        """Invalid RISK_SENTINEL_STATE_BACKEND must fail explicitly with ValueError."""
+        with patch.dict(os.environ, {"RISK_SENTINEL_STATE_BACKEND": "kafka_or_something_else"}):
+            with self.assertRaises(ValueError):
+                create_configured_state_store()
+
     def test_implements_base_state_store_contract(self):
         """RedisStateStoreProvider must be a concrete subclass of BaseStateStore."""
         self.assertIsInstance(self.provider, BaseStateStore)
@@ -55,7 +66,6 @@ class TestRedisStateStore(unittest.TestCase):
 
     def test_state_round_trip(self):
         """State written to provider must be accurately readable."""
-        # Initial read should be empty
         init_state = self.provider.read_entity_state("C100", "M200")
         self.assertIsNone(init_state["sender"])
         self.assertIsNone(init_state["dest"])
@@ -107,6 +117,26 @@ class TestRedisStateStore(unittest.TestCase):
         res = self.provider.read_entity_state("CORRUPT_CUST", "DEST_A")
         self.assertIsNone(res["sender"])
 
+    def test_ttl_expiration(self):
+        """Keys past their TTL expire and are treated as cold start."""
+        short_ttl_provider = RedisStateStoreProvider(
+            redis_client=self.mock_client,
+            ttl_seconds=1,
+            key_prefix="ttl_test"
+        )
+        short_ttl_provider.update_entity_state("C_EXPIRING", "M_EXPIRING", 10, 100.0, "TRANSFER")
+        
+        # Immediately readable
+        state_pre = short_ttl_provider.read_entity_state("C_EXPIRING", "M_EXPIRING")
+        self.assertIsNotNone(state_pre["sender"])
+        
+        # Wait for expiration
+        time.sleep(1.05)
+        
+        # Expired read returns None
+        state_post = short_ttl_provider.read_entity_state("C_EXPIRING", "M_EXPIRING")
+        self.assertIsNone(state_post["sender"])
+
     def test_connection_drop_circuit_breaker_fallback(self):
         """Simulated Redis network drop trips circuit breaker to Model A cleanly."""
         breaker = StateStoreCircuitBreaker(self.provider, timeout_ms=15.0)
@@ -149,10 +179,80 @@ class TestRedisStateStore(unittest.TestCase):
             oldbalanceDest=0.0
         )
         resp = engine.evaluate(req)
-        # Verify Model A fallback occurred
         self.assertEqual(resp.engine_metadata.model_type, "MODEL_A_CAUSAL_BASELINE_FALLBACK")
-        # Attacking balance drain must still be declined by Model A
         self.assertEqual(resp.decision.value, "DECLINED")
+
+    def test_state_equivalence_between_memory_and_redis(self):
+        """Identical transactions processed against Memory and Redis produce identical scores and decisions."""
+        mem_store = InMemoryStateStore()
+        engine_mem = RiskDecisionEngine(state_store=mem_store)
+
+        redis_store = RedisStateStoreProvider(redis_client=MockRedisClient(), key_prefix="equiv_test")
+        engine_redis = RiskDecisionEngine(state_store=redis_store)
+
+        test_txs = [
+            EvaluateRequest(
+                transaction_id="equiv_1",
+                step=450,
+                type=TransactionType.TRANSFER,
+                amount=50000.0,
+                nameOrig="C_EQUIV_USER",
+                oldbalanceOrg=100000.0,
+                nameDest="M_EQUIV_SHOP",
+                oldbalanceDest=0.0
+            ),
+            EvaluateRequest(
+                transaction_id="equiv_2",
+                step=451,
+                type=TransactionType.TRANSFER,
+                amount=50000.0,
+                nameOrig="C_EQUIV_USER",
+                oldbalanceOrg=50000.0,
+                nameDest="M_EQUIV_SHOP",
+                oldbalanceDest=50000.0
+            )
+        ]
+
+        for tx in test_txs:
+            res_mem = engine_mem.evaluate(tx)
+            res_redis = engine_redis.evaluate(tx)
+
+            self.assertAlmostEqual(res_mem.risk_score, res_redis.risk_score, places=5)
+            self.assertEqual(res_mem.decision.value, res_redis.decision.value)
+            self.assertEqual(res_mem.action.value, res_redis.action.value)
+            self.assertEqual(res_mem.reasons.primary_code, res_redis.reasons.primary_code)
+
+    def test_distributed_state_between_two_workers(self):
+        """Two independent engine instances sharing the same Redis client observe each other's state updates."""
+        shared_redis = MockRedisClient()
+
+        worker_a_store = RedisStateStoreProvider(redis_client=shared_redis, key_prefix="shared_cluster")
+        worker_a = RiskDecisionEngine(state_store=worker_a_store)
+
+        worker_b_store = RedisStateStoreProvider(redis_client=shared_redis, key_prefix="shared_cluster")
+        worker_b = RiskDecisionEngine(state_store=worker_b_store)
+
+        # Worker A processes Transaction 1
+        tx1 = EvaluateRequest(
+            transaction_id="cluster_tx_1",
+            step=200,
+            type=TransactionType.TRANSFER,
+            amount=15000.0,
+            nameOrig="C_CLUSTER_SENDER",
+            oldbalanceOrg=50000.0,
+            nameDest="C_CLUSTER_MULE",
+            oldbalanceDest=0.0
+        )
+        worker_a.evaluate(tx1)
+
+        # Worker B inspects state for the same destination
+        state_observed_by_b = worker_b_store.read_entity_state("C_CLUSTER_SENDER_2", "C_CLUSTER_MULE")
+        
+        # Worker B must see the inbound transfer and unique sender recorded by Worker A
+        self.assertIsNotNone(state_observed_by_b["dest"])
+        self.assertEqual(state_observed_by_b["dest"][0], 1)
+        self.assertEqual(state_observed_by_b["dest"][1], 15000.0)
+        self.assertIn("C_CLUSTER_SENDER", state_observed_by_b["dest"][4])
 
 if __name__ == "__main__":
     unittest.main()
