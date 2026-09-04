@@ -27,33 +27,37 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, health }) => 
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <div
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer shrink-0 select-none"
             onClick={() => {
               setActiveTab('dashboard');
               setMobileMenuOpen(false);
             }}
           >
-            <div className="w-10 h-10 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400">
+            <div className="w-10 h-10 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
               <Shield className="w-6 h-6" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg text-slate-100 tracking-tight">Risk Sentinel</span>
-                <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  {engineVer}
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center gap-2.5">
+                <span className="font-bold text-base sm:text-lg text-slate-100 tracking-tight whitespace-nowrap">
+                  Risk Sentinel
+                </span>
+                <span className="text-[10px] uppercase font-mono font-semibold px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 whitespace-nowrap tracking-wider shadow-sm">
+                  {engineVer.toUpperCase()}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono">Causal AI Risk Decision Engine</p>
+              <p className="text-[11px] sm:text-xs text-slate-400 font-mono tracking-tight whitespace-nowrap">
+                Causal AI Risk Decision Engine
+              </p>
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-800/80 p-1 rounded-xl border border-slate-700 shrink-0">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                className={`px-2.5 lg:px-3 py-1.5 rounded-lg text-xs lg:text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === item.id
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white hover:bg-slate-700/60'
@@ -65,8 +69,8 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, health }) => 
           </nav>
 
           {/* System Telemetry Badges */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono">
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono">
               <span className={`w-2 h-2 rounded-full ${isHealthy ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`}></span>
               <span className="text-slate-400">Engine:</span>
               <span className={isHealthy ? 'text-emerald-400 font-semibold' : 'text-red-400'}>
@@ -74,10 +78,10 @@ export const Navbar: React.FC<Props> = ({ activeTab, setActiveTab, health }) => 
               </span>
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs font-mono text-blue-300">
+            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs font-mono text-blue-300">
               <Cpu className="w-3.5 h-3.5 text-blue-400" />
-              <span className="hidden lg:inline">Model B Champion</span>
-              <span className="text-slate-500">|</span>
+              <span className="hidden xl:inline">Model B Champion</span>
+              <span className="hidden xl:inline text-slate-500">|</span>
               <span className="text-slate-300">Target Budget: 35 ms</span>
             </div>
           </div>
