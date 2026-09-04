@@ -74,7 +74,7 @@ export const StreamPage: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col gap-6 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col gap-6 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
       {/* Page Header */}
       <div>
         <div className="flex items-center gap-2.5">

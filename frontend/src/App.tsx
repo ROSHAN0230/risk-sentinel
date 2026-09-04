@@ -54,12 +54,12 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-slate-950 text-slate-100 flex flex-col selection:bg-blue-600 selection:text-white">
       {/* Top Sticky Navbar */}
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} health={health} />
 
       {/* Main View Body */}
-      <main className="flex-1">
+      <main className="flex-1 w-full">
         {activeTab === 'dashboard' && (
           <DashboardPage
             onNavigateToStream={() => setActiveTab('stream')}
