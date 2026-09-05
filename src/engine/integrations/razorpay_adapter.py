@@ -316,7 +316,7 @@ class RazorpayWebhookAdapter:
             from src.engine.transaction_store import default_transaction_store, TransactionRecord
             
             auto_resp_action = "CAPTURE_PERMITTED" if normalized_event.decision == "APPROVED" else "CAPTURE_SUPPRESSED"
-            is_mock = "simulated" in payment.id.lower() or "placeholder" in payment.id.lower() or "test" in payment.id.lower()
+            is_mock = "simulated" in payment.id.lower() or "placeholder" in payment.id.lower() or "contract_proof" in payment.id.lower()
             prov_tag = "SIMULATED_CONTRACT_TEST" if is_mock else "GENUINE_RAZORPAY_TEST_MODE"
 
             tx_rec = TransactionRecord(

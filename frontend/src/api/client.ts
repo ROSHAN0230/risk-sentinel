@@ -19,7 +19,14 @@ import {
   ReplayResponse,
   BenchmarkSummaryResponse,
   TransactionRecord,
-  TransactionSummary
+  TransactionSummary,
+  RazorpayConnectionStatus,
+  RazorpayConnectRequest,
+  CreateOrderRequest,
+  CreateOrderResponse,
+  ProcessCheckoutRequest,
+  LiveVerificationResult,
+  SelfTestResponse
 } from '../types/engine';
 
 const API_BASE = '/v1';
@@ -382,6 +389,82 @@ export async function getTransactionById(transactionId: string): Promise<Transac
   }
   return response.json();
 }
+
+// --- Live Razorpay Test Mode Gateway Client ---
+
+export async function connectRazorpay(request: RazorpayConnectRequest): Promise<RazorpayConnectionStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/connect`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ detail: 'Failed to connect to Razorpay' }));
+    throw new Error(errData.detail || `Connection error (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function getRazorpayStatus(): Promise<RazorpayConnectionStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/status`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Razorpay status (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function disconnectRazorpay(): Promise<RazorpayConnectionStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/disconnect`, {
+    method: 'POST'
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to disconnect Razorpay (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function createRazorpayOrder(request: CreateOrderRequest): Promise<CreateOrderResponse> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ detail: 'Failed to create Razorpay order' }));
+    throw new Error(errData.detail || `Order creation failed (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function processRazorpayCheckout(request: ProcessCheckoutRequest): Promise<any> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/checkout/process`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ detail: 'Failed to process checkout payment' }));
+    throw new Error(errData.detail || `Checkout processing failed (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function verifyRazorpayPayment(paymentId: string): Promise<LiveVerificationResult> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/verify/${encodeURIComponent(paymentId)}`);
+  if (!response.ok) {
+    throw new Error(`Failed to verify payment ${paymentId} (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function runRazorpaySelfTest(): Promise<SelfTestResponse> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/self-test`);
+  if (!response.ok) {
+    throw new Error(`Failed to run Razorpay self-test (${response.status})`);
+  }
+  return response.json();
+}
+
 
 
 

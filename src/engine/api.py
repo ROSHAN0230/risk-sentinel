@@ -188,8 +188,19 @@ async def get_webhook_events(limit: int = 50):
     return [ev.model_dump() for ev in webhook_adapter.get_recent_events(limit=limit)]
 
 from src.engine.integrations.razorpay_capture_gate import RazorpayCaptureGate, RazorpayCaptureRequest
+from src.engine.integrations.razorpay_live_service import (
+    RazorpayLiveService,
+    RazorpayConnectRequest,
+    RazorpayConnectionStatus,
+    CreateOrderRequest,
+    CreateOrderResponse,
+    ProcessCheckoutRequest,
+    LiveVerificationResult,
+    SelfTestResponse
+)
 
 capture_gate = RazorpayCaptureGate(engine=engine)
+razorpay_live_service = RazorpayLiveService(engine=engine)
 
 @app.post(
     "/v1/gate/evaluate-and-capture",
@@ -213,6 +224,122 @@ async def get_gate_events(limit: int = Query(50, ge=1, le=100)):
     """Returns recent capture gate evaluations and actions."""
     events = capture_gate.get_recent_gate_events(limit=limit)
     return [e.model_dump() for e in events]
+
+# --- Live Razorpay Test Mode Gateway Endpoints ---
+
+@app.post(
+    "/v1/integrations/razorpay/connect",
+    summary="Connect and validate Razorpay Test Mode credentials",
+    response_model=RazorpayConnectionStatus
+)
+async def connect_razorpay(request: RazorpayConnectRequest):
+    """
+    Connects Razorpay Test credentials (rzp_test_...).
+    Strictly validates format and performs read-only self check against Razorpay API.
+    Rejects rzp_live_ keys immediately.
+    """
+    try:
+        status = razorpay_live_service.connect(
+            key_id=request.key_id,
+            key_secret=request.key_secret,
+            webhook_secret=request.webhook_secret
+        )
+        # Also sync key to capture gate and webhook adapter
+        capture_gate.key_id = razorpay_live_service.key_id
+        capture_gate.key_secret = razorpay_live_service.key_secret
+        capture_gate.has_live_credentials = razorpay_live_service.has_live_credentials
+        if request.webhook_secret:
+            webhook_adapter.webhook_secret = request.webhook_secret
+        return status
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error connecting to Razorpay: {str(e)}")
+
+@app.get(
+    "/v1/integrations/razorpay/status",
+    summary="Get current Razorpay Test Mode connection status",
+    response_model=RazorpayConnectionStatus
+)
+async def get_razorpay_status():
+    """Returns current Razorpay Test Mode connectivity and masked key information."""
+    return razorpay_live_service.get_status()
+
+@app.post(
+    "/v1/integrations/razorpay/disconnect",
+    summary="Disconnect Razorpay credentials",
+    response_model=RazorpayConnectionStatus
+)
+async def disconnect_razorpay():
+    """Clears currently active Razorpay Test credentials."""
+    status = razorpay_live_service.disconnect()
+    capture_gate.key_id = None
+    capture_gate.key_secret = None
+    capture_gate.has_live_credentials = False
+    return status
+
+@app.post(
+    "/v1/integrations/razorpay/orders",
+    summary="Create a Razorpay Test Mode Order with manual capture",
+    response_model=CreateOrderResponse
+)
+async def create_razorpay_order(request: CreateOrderRequest):
+    """
+    Creates a real Razorpay Order with payment_capture: 0 (manual capture mode)
+    enabling Risk Sentinel's pre-capture merchant risk gate.
+    """
+    try:
+        return razorpay_live_service.create_order(request)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create Razorpay Order: {str(e)}")
+
+@app.post(
+    "/v1/integrations/razorpay/checkout/process",
+    summary="Process Razorpay Standard Checkout payment and execute risk gate"
+)
+async def process_checkout_payment(request: ProcessCheckoutRequest):
+    """
+    End-to-end checkout handler:
+    1. Verifies checkout signature (HMAC-SHA256).
+    2. Fetches payment from Razorpay API.
+    3. Evaluates transaction through frozen Risk Sentinel engine.
+    4. Permitting capture only on APPROVE; strictly suppressing capture on REVIEW/DECLINE.
+    5. Records into TransactionStore and updates audit ledger.
+    """
+    try:
+        return razorpay_live_service.process_checkout_payment(request)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Checkout processing error: {str(e)}")
+
+@app.get(
+    "/v1/integrations/razorpay/verify/{payment_id}",
+    summary="Cross-verify Risk Sentinel decision vs live Razorpay state",
+    response_model=LiveVerificationResult
+)
+async def verify_razorpay_payment(payment_id: str):
+    """
+    Fetches live payment status directly from Razorpay API (GET /v1/payments/{payment_id})
+    and compares it against local TransactionStore decision for discrepancy detection.
+    """
+    return razorpay_live_service.verify_live_payment_crosscheck(payment_id)
+
+@app.get(
+    "/v1/integrations/razorpay/self-test",
+    summary="Run 9-point Razorpay Test Mode integration self-test",
+    response_model=SelfTestResponse
+)
+async def run_razorpay_self_test():
+    """
+    Executes an automated 9-point self-test suite testing credentials,
+    API connectivity, order creation, HMAC signature verification,
+    pre-capture risk evaluation, and capture suppression safety invariants.
+    """
+    return razorpay_live_service.run_self_test()
+
 
 from src.engine.transaction_store import default_transaction_store, TransactionRecord
 

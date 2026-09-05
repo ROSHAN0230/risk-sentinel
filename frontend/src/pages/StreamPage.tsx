@@ -7,6 +7,7 @@ import { DataSourceBadge } from '../components/DataSourceBadge';
 import { evaluateTransaction } from '../api/client';
 import { RazorpayWebhookViewer } from '../components/RazorpayWebhookViewer';
 import { RazorpayCaptureGateViewer } from '../components/RazorpayCaptureGateViewer';
+import { RazorpayLiveCheckoutViewer } from '../components/RazorpayLiveCheckoutViewer';
 import { FraudDecisionReplayViewer } from '../components/FraudDecisionReplayViewer';
 import { TransactionMonitoringFeed } from '../components/TransactionMonitoringFeed';
 import { Activity, Play, ArrowRight, Clock, AlertCircle } from 'lucide-react';
@@ -86,7 +87,7 @@ export const StreamPage: React.FC<Props> = ({
           <DataSourceBadge source="LIVE_ENGINE" />
         </div>
         <p className="text-sm text-slate-400 font-mono mt-0.5">
-          Interactive On-Demand Evaluation Console (Demo Scenario Presets &amp; Custom Live Injection)
+          Interactive On-Demand Evaluation Console (Razorpay Test Mode, Demo Presets &amp; Custom Live Injection)
         </p>
       </div>
 
@@ -99,6 +100,10 @@ export const StreamPage: React.FC<Props> = ({
           <button onClick={() => setErrorMsg(null)} className="text-red-400 hover:text-white font-bold">✕</button>
         </div>
       )}
+
+      {/* Primary Hero: Live Razorpay Test Mode Gateway & Pre-Capture Gate */}
+      <RazorpayLiveCheckoutViewer />
+
 
       {/* Demo Scenario Launcher */}
       <DemoScenarioSelector

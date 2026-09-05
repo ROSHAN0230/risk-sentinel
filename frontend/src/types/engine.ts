@@ -441,4 +441,88 @@ export interface TransactionSummary {
   by_auto_response: Record<string, number>;
 }
 
+export interface RazorpayConnectionStatus {
+  connected: boolean;
+  is_live_credentials: boolean;
+  mode: string;
+  key_id_masked?: string;
+  has_secret: boolean;
+  has_webhook_secret: boolean;
+  verified_at_utc?: string;
+  last_error?: string;
+}
+
+export interface RazorpayConnectRequest {
+  key_id: string;
+  key_secret: string;
+  webhook_secret?: string;
+}
+
+export interface CreateOrderRequest {
+  amount_paise: number;
+  currency?: string;
+  receipt?: string;
+  notes?: Record<string, any>;
+}
+
+export interface CreateOrderResponse {
+  order_id: string;
+  amount_paise: number;
+  amount_inr: number;
+  currency: string;
+  payment_capture: number;
+  status: string;
+  receipt?: string;
+  created_at: number;
+  is_simulated: boolean;
+  key_id?: string;
+  notes?: Record<string, any>;
+}
+
+export interface ProcessCheckoutRequest {
+  order_id: string;
+  payment_id: string;
+  signature: string;
+  amount_paise?: number;
+  notes?: Record<string, any>;
+  merchant_id?: string;
+}
+
+export interface LiveVerificationResult {
+  payment_id: string;
+  order_id?: string;
+  live_payment_found: boolean;
+  live_status?: string;
+  live_captured?: boolean;
+  live_amount_inr?: number;
+  live_method?: string;
+  local_record_found: boolean;
+  local_decision?: string;
+  local_risk_score?: number;
+  local_auto_response?: string;
+  discrepancy_detected: boolean;
+  discrepancy_details?: string;
+  verified_at_utc: string;
+  raw_razorpay_response?: Record<string, any>;
+}
+
+export interface SelfTestItem {
+  step: number;
+  name: string;
+  passed: boolean;
+  category: 'LIVE_PROVEN' | 'CONTRACT_PROVEN' | 'LOCAL_POLICY_INVARIANT_PROVEN' | 'NOT_EXECUTED' | string;
+  details: string;
+  latency_ms: number;
+}
+
+export interface SelfTestResponse {
+  all_passed: boolean;
+  total_tests: number;
+  passed_tests: number;
+  execution_mode: string;
+  tested_at_utc: string;
+  tests: SelfTestItem[];
+}
+
+
 
