@@ -26,7 +26,12 @@ import {
   CreateOrderResponse,
   ProcessCheckoutRequest,
   LiveVerificationResult,
-  SelfTestResponse
+  SelfTestResponse,
+  NormalizedWebhookEvent,
+  WebhookConfigureRequest,
+  RazorpayWebhookStatus,
+  WebhookContractTestRequest,
+  WebhookContractTestResponse
 } from '../types/engine';
 
 const API_BASE = '/v1';
@@ -461,6 +466,50 @@ export async function runRazorpaySelfTest(): Promise<SelfTestResponse> {
   const response = await fetch(`${API_BASE}/integrations/razorpay/self-test`);
   if (!response.ok) {
     throw new Error(`Failed to run Razorpay self-test (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function configureRazorpayWebhook(request: WebhookConfigureRequest): Promise<RazorpayWebhookStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/webhook/configure`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ detail: 'Failed to configure webhook secret' }));
+    throw new Error(errData.detail || `Webhook configuration failed (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function getRazorpayWebhookStatus(): Promise<RazorpayWebhookStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/webhook/status`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch webhook status (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function clearRazorpayWebhook(): Promise<RazorpayWebhookStatus> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/webhook/clear`, {
+    method: 'POST'
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to clear webhook secret (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function runWebhookContractTest(request: WebhookContractTestRequest): Promise<WebhookContractTestResponse> {
+  const response = await fetch(`${API_BASE}/integrations/razorpay/webhook/test-contract`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({ detail: 'Failed to execute webhook contract test' }));
+    throw new Error(errData.detail || `Contract test failed (${response.status})`);
   }
   return response.json();
 }

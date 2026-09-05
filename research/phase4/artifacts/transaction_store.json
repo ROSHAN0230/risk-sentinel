@@ -1,7 +1,7 @@
 [
   {
     "transaction_id": "tx_pay_test_review_003",
-    "timestamp_iso": "2026-09-05T14:24:59.924239+00:00",
+    "timestamp_iso": "2026-09-05T16:13:27.776141+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_review_003",
     "payment_id": "pay_test_review_003",
@@ -25,12 +25,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_d68d7bd5-0d2f-4ef2-b12f-421f8adbee4a",
-    "integrity_hash": "bc46216fd9bc97b6775a81242bc3deb07cd7e4d204cc9c0d3aec63423627142a"
+    "audit_event_id": "eval_71643647-dffe-4efd-888f-3825aad45ddd",
+    "integrity_hash": "60c39651378bd19bc83424ffff67f9f6659eec267870e1c3d7c6b01e72a20429"
   },
   {
     "transaction_id": "tx_pay_test_drain_002",
-    "timestamp_iso": "2026-09-05T14:24:59.889088+00:00",
+    "timestamp_iso": "2026-09-05T16:13:27.749213+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_drain_002",
     "payment_id": "pay_test_drain_002",
@@ -54,12 +54,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_5e52ca1a-05eb-4822-b8f3-76d37d4adb86",
-    "integrity_hash": "bdb01c6140760fe7b7b9ae19dbc70d7ba1ad6eeeb7573622c91849691c09e35c"
+    "audit_event_id": "eval_a3614b4d-eef4-461a-9349-106f730b7033",
+    "integrity_hash": "89e42d888d976e09bb1c4c553bcdb5cf3f4a87c78d203fd5f7396d3386a87179"
   },
   {
     "transaction_id": "tx_sec_003",
-    "timestamp_iso": "2026-09-05T14:24:57.680555+00:00",
+    "timestamp_iso": "2026-09-05T16:13:25.547110+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -80,12 +80,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_22d70d5c-6747-4588-8995-6abd11cb4076",
-    "integrity_hash": "eval_22d70d5c-6747-4588-8995-6abd11cb4076"
+    "audit_event_id": "eval_976f4c7a-6a4c-4e36-9c68-80393a1c1e59",
+    "integrity_hash": "eval_976f4c7a-6a4c-4e36-9c68-80393a1c1e59"
   },
   {
     "transaction_id": "tx_sec_004",
-    "timestamp_iso": "2026-09-05T14:24:57.663644+00:00",
+    "timestamp_iso": "2026-09-05T16:13:25.534055+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -106,12 +106,142 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_67d2e2d5-0de3-48ab-ba2f-ac7208afb25d",
-    "integrity_hash": "eval_67d2e2d5-0de3-48ab-ba2f-ac7208afb25d"
+    "audit_event_id": "eval_77c14e73-42b2-4905-992d-29ee859920bd",
+    "integrity_hash": "eval_77c14e73-42b2-4905-992d-29ee859920bd"
+  },
+  {
+    "transaction_id": "tx_pay_contract_proof_9999_evt_pay_",
+    "timestamp_iso": "2026-09-05T16:13:24.206793+00:00",
+    "provenance": "SIMULATED_CONTRACT_TEST",
+    "order_id": null,
+    "payment_id": "pay_contract_proof_9999",
+    "amount_inr": 2500.0,
+    "currency": "INR",
+    "channel_type": "upi",
+    "sender_masked": "+9******10",
+    "dest_masked": "customer@okhdfcbank",
+    "merchant_id": "acc_razorpay_merchant_01",
+    "risk_score": 0.00179,
+    "risk_band": "LOW_RISK",
+    "decision": "APPROVED",
+    "policy_action": "APPROVE",
+    "primary_reason_code": "RC_HIGH_RISK_CHANNEL_COMBO",
+    "reasons_narrative": "Outflow routed to uninitialized/zero-balance destination via high-risk TRANSFER channel.",
+    "auto_response_action": "CAPTURE_PERMITTED",
+    "auto_response_status": "EVALUATED_ENRICHED_TEST_MODE",
+    "auto_response_details": null,
+    "model_version": "v1.0.0-HGB",
+    "policy_version": "v1.2.0-frozen",
+    "audit_event_id": "eval_9d9a6949-132e-44bb-9c38-8bb622b4dfe7",
+    "integrity_hash": "f4514d61fcdef65f0d35444df7f3a02f1e5bbda532389afc2f8221e7d2466856"
+  },
+  {
+    "transaction_id": "tx_pay_contract_proof_48ea805a_evt_pay_",
+    "timestamp_iso": "2026-09-05T16:13:24.194126+00:00",
+    "provenance": "SIMULATED_CONTRACT_TEST",
+    "order_id": null,
+    "payment_id": "pay_contract_proof_48ea805a",
+    "amount_inr": 1500.0,
+    "currency": "INR",
+    "channel_type": "upi",
+    "sender_masked": "+9******10",
+    "dest_masked": "contract_tester@okhdfcbank",
+    "merchant_id": "acc_rzp_contract_test",
+    "risk_score": null,
+    "risk_band": null,
+    "decision": null,
+    "policy_action": null,
+    "primary_reason_code": null,
+    "reasons_narrative": "Razorpay payment event does not contain the banking-balance context required by the frozen PaySim-trained feature contract. Causal features oldbalanceOrg, oldbalanceDest, and step are unavailable in raw gateway webhooks.",
+    "auto_response_action": "CAPTURE_SUPPRESSED",
+    "auto_response_status": "INSUFFICIENT_FEATURES_FOR_MODEL_EVALUATION",
+    "auto_response_details": null,
+    "model_version": "v1.0.0-HGB",
+    "policy_version": "v1.2.0-frozen",
+    "audit_event_id": null,
+    "integrity_hash": "c9cf2525e500bd528edb24c9049e05b3159b3b2436da0005dd8493025c82932f"
+  },
+  {
+    "transaction_id": "tx_pay_contract_proof_2d1ecc45_evt_pay_",
+    "timestamp_iso": "2026-09-05T16:13:24.175269+00:00",
+    "provenance": "SIMULATED_CONTRACT_TEST",
+    "order_id": null,
+    "payment_id": "pay_contract_proof_2d1ecc45",
+    "amount_inr": 84.5,
+    "currency": "INR",
+    "channel_type": "upi",
+    "sender_masked": "+9******10",
+    "dest_masked": "contract_tester@okhdfcbank",
+    "merchant_id": "acc_rzp_contract_test",
+    "risk_score": 0.00179,
+    "risk_band": "LOW_RISK",
+    "decision": "APPROVED",
+    "policy_action": "APPROVE",
+    "primary_reason_code": "RC_BENIGN_BASELINE",
+    "reasons_narrative": "Normal transaction velocity, adequate balance headroom, and established channel baseline.",
+    "auto_response_action": "CAPTURE_PERMITTED",
+    "auto_response_status": "EVALUATED_ENRICHED_TEST_MODE",
+    "auto_response_details": null,
+    "model_version": "v1.0.0-HGB",
+    "policy_version": "v1.2.0-frozen",
+    "audit_event_id": "eval_f68d791d-6684-4352-acd7-b88bab357d3b",
+    "integrity_hash": "8fc183c8f947080ab74d3f413571ff85b50632b2614e1b964d19d3f7e35c4786"
+  },
+  {
+    "transaction_id": "tx_pay_contract_proof_879a0616_evt_pay_",
+    "timestamp_iso": "2026-09-05T16:13:24.165002+00:00",
+    "provenance": "SIMULATED_CONTRACT_TEST",
+    "order_id": null,
+    "payment_id": "pay_contract_proof_879a0616",
+    "amount_inr": 284100.5,
+    "currency": "INR",
+    "channel_type": "upi",
+    "sender_masked": "+9******10",
+    "dest_masked": "contract_tester@okhdfcbank",
+    "merchant_id": "acc_rzp_contract_test",
+    "risk_score": 0.998092,
+    "risk_band": "HIGH_RISK",
+    "decision": "DECLINED",
+    "policy_action": "DECLINE",
+    "primary_reason_code": "RC_EXACT_BALANCE_DRAIN",
+    "reasons_narrative": "Transaction attempts exact 100% liquidation of available sender balance ($284,100.50) via high-risk TRANSFER channel.",
+    "auto_response_action": "CAPTURE_SUPPRESSED",
+    "auto_response_status": "EVALUATED_ENRICHED_TEST_MODE",
+    "auto_response_details": null,
+    "model_version": "v1.0.0-HGB",
+    "policy_version": "v1.2.0-frozen",
+    "audit_event_id": "eval_b7d96517-cc11-4fa4-83a9-59498c2e7d88",
+    "integrity_hash": "c42358c9aba8941147909f5832a58f385939369777693d96c5c878dd049412d3"
+  },
+  {
+    "transaction_id": "tx_pay_dev_mode_001_evt_pay_",
+    "timestamp_iso": "2026-09-05T16:13:24.136903+00:00",
+    "provenance": "GENUINE_RAZORPAY_TEST_MODE",
+    "order_id": null,
+    "payment_id": "pay_dev_mode_001",
+    "amount_inr": 2500.0,
+    "currency": "INR",
+    "channel_type": "upi",
+    "sender_masked": "+9******10",
+    "dest_masked": "customer@okhdfcbank",
+    "merchant_id": "acc_razorpay_merchant_01",
+    "risk_score": null,
+    "risk_band": null,
+    "decision": null,
+    "policy_action": null,
+    "primary_reason_code": null,
+    "reasons_narrative": "Razorpay payment event does not contain the banking-balance context required by the frozen PaySim-trained feature contract. Causal features oldbalanceOrg, oldbalanceDest, and step are unavailable in raw gateway webhooks.",
+    "auto_response_action": "CAPTURE_SUPPRESSED",
+    "auto_response_status": "INSUFFICIENT_FEATURES_FOR_MODEL_EVALUATION",
+    "auto_response_details": null,
+    "model_version": "v1.0.0-HGB",
+    "policy_version": "v1.2.0-frozen",
+    "audit_event_id": null,
+    "integrity_hash": "a134b093a2063d8287bc3d770734fe9de2ac707554b27edf92eda851e5b0875b"
   },
   {
     "transaction_id": "tx_pay_lineage_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.321594+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.117558+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_lineage_001",
@@ -132,12 +262,12 @@
     "auto_response_details": null,
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_f700c626-bbe4-445d-bfed-eac75f7dcee3",
-    "integrity_hash": "9ba48c1e120591911086cb71d007c12de44259a8101a2b2da7fc96936764e478"
+    "audit_event_id": "eval_5714fa1d-4c11-44bf-acac-c21b0e154e19",
+    "integrity_hash": "c38d07e628eb90e5be34b125eb1059804dd23e042f8fec6395680c90c6c11188"
   },
   {
     "transaction_id": "tx_pay_audit_query_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.305363+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.101452+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_audit_query_001",
@@ -159,11 +289,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "5af95e67520bdbd0eb0c44c4e8f7f47b6fbff41747fb68d25cc571469b0993a8"
+    "integrity_hash": "9d73f1c8718cb8c76e87a7c55fa89317e91e0e06c1b9552fe22008239db13552"
   },
   {
     "transaction_id": "tx_pay_partial_notes_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.295414+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.092434+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_partial_notes_001",
@@ -185,11 +315,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "b8f5dc2deca49482710efd9f218734d33c01ce74a02b6c51e6f0701f157329ac"
+    "integrity_hash": "b7a13299aa64ea4f678173cf5c133cb37f28e413774427310482ccc63a241b7e"
   },
   {
     "transaction_id": "tx_pay_enriched_drain_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.282609+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.076498+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_enriched_drain_001",
@@ -210,12 +340,12 @@
     "auto_response_details": null,
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_3320461f-85ad-4bd8-ae82-5261fa9baec2",
-    "integrity_hash": "2219c648f10c9beff0ad37a4b532ee934fd3c66115d2452faee0ff1e48ddcb97"
+    "audit_event_id": "eval_adda1a81-c26d-436e-92aa-983a538e852f",
+    "integrity_hash": "e0123e3484b3f4eb9b7e87e0d2dcede0b19aa828b52b0557bc9aa6a4f40617ae"
   },
   {
     "transaction_id": "tx_pay_purity_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.275894+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.068608+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_purity_001",
@@ -237,11 +367,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "d9eb208a5a391c9c6e750d49023613be70607340dee2a49df781ee2926c32be0"
+    "integrity_hash": "540fc70bc0488dfbb2c49d680366dc2dc2390b50c171ca72526eabce868e01e8"
   },
   {
     "transaction_id": "tx_pay_raw_gateway_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.269811+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.061137+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_raw_gateway_001",
@@ -263,11 +393,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "243c59903a2bbbc9720929fdd0b39dd6fe79bf71ce76886a19259415d62bc517"
+    "integrity_hash": "8741e5b6f5b2872ce0ebce777013b6d9cce211a93d165a7f9ab8d08bba75e4ab"
   },
   {
     "transaction_id": "tx_pay_idem_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.259909+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.047070+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_idem_001",
@@ -289,11 +419,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "602827e0753794303d3253e6b519dfa3d4434d064a764352963106a76effa3c6"
+    "integrity_hash": "c341c145ba09721efac36730b86e2575fbb3a374b44deb9914fa687d637896c8"
   },
   {
     "transaction_id": "tx_pay_valid_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T14:24:56.244806+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.025957+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_valid_001",
@@ -315,11 +445,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "722ffeb1131d3aaacb302833bab629ddd0476c1852d869f4b9c27e4d02d59431"
+    "integrity_hash": "2ef2f094c5ef94839999ecde4b08172a928ad7e1e357d0dee2a4e389f135125d"
   },
   {
     "transaction_id": "tx_pay_CONTRACT_NOCONTEXT_001",
-    "timestamp_iso": "2026-09-05T14:24:56.237980+00:00",
+    "timestamp_iso": "2026-09-05T16:13:24.017302+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": "order_NOCONTEXT_001",
     "payment_id": "pay_CONTRACT_NOCONTEXT_001",
@@ -344,6 +474,6 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "a3f42711e3ce82edd5a8c75e78aad2c600417b4c5bc5852a79dd89cffa59a4f0"
+    "integrity_hash": "587ed21f88934143c5f20fc0d115d1493b1b8f2a9a6e8b29e3b12bcb37be9f54"
   }
 ]

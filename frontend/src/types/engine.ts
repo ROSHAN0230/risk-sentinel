@@ -524,5 +524,36 @@ export interface SelfTestResponse {
   tests: SelfTestItem[];
 }
 
+export interface WebhookConfigureRequest {
+  webhook_secret: string;
+}
+
+export interface RazorpayWebhookStatus {
+  webhook_configured: boolean;
+  webhook_secret_masked?: string;
+  endpoint_url: string;
+  events_received_count: number;
+  last_event_at_utc?: string;
+  last_event_id?: string;
+  last_event_status?: string;
+}
+
+export interface WebhookContractTestRequest {
+  scenario: 'DRAIN_ATTEMPT' | 'BENIGN_PAYMENT' | 'RAW_GATEWAY' | string;
+  amount_inr?: number;
+  payment_id?: string;
+}
+
+export interface WebhookContractTestResponse {
+  success: boolean;
+  signature_verified: boolean;
+  scenario: string;
+  generated_event: Record<string, any>;
+  normalized_event: NormalizedWebhookEvent;
+  auto_response_action: string;
+  provenance: string;
+  tested_at_utc: string;
+}
+
 
 

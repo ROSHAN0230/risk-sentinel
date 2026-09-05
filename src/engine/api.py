@@ -155,7 +155,14 @@ async def get_model_info():
 async def get_audit_events(limit: int = 50):
     return engine.audit_logger.get_events(limit=limit)
 
-from src.engine.integrations.razorpay_adapter import RazorpayWebhookAdapter
+from src.engine.integrations.razorpay_adapter import (
+    RazorpayWebhookAdapter,
+    WebhookConfigureRequest,
+    RazorpayWebhookStatus,
+    WebhookContractTestRequest,
+    WebhookContractTestResponse,
+    NormalizedWebhookEvent
+)
 
 webhook_adapter = RazorpayWebhookAdapter(engine=engine)
 
@@ -186,6 +193,51 @@ async def handle_razorpay_webhook(request: Request):
 async def get_webhook_events(limit: int = 50):
     """Returns recent normalized Razorpay Test Mode webhook events."""
     return [ev.model_dump() for ev in webhook_adapter.get_recent_events(limit=limit)]
+
+@app.post(
+    "/v1/integrations/razorpay/webhook/configure",
+    summary="Configure Razorpay Webhook Secret for HMAC verification",
+    response_model=RazorpayWebhookStatus
+)
+async def configure_razorpay_webhook(request: WebhookConfigureRequest):
+    """
+    Configures the Razorpay Webhook secret in server memory for HMAC-SHA256 signature verification.
+    The secret is never stored in persistent browser storage or returned in unmasked format.
+    """
+    razorpay_live_service._webhook_secret = request.webhook_secret.strip()
+    return webhook_adapter.configure_secret(request.webhook_secret)
+
+@app.get(
+    "/v1/integrations/razorpay/webhook/status",
+    summary="Get Razorpay Webhook configuration and delivery status",
+    response_model=RazorpayWebhookStatus
+)
+async def get_razorpay_webhook_status():
+    """Returns the current webhook secret status, masked token, endpoint URL, and delivery counters."""
+    return webhook_adapter.get_status()
+
+@app.post(
+    "/v1/integrations/razorpay/webhook/clear",
+    summary="Clear active Webhook Secret",
+    response_model=RazorpayWebhookStatus
+)
+async def clear_razorpay_webhook():
+    """Clears the active webhook secret from server memory."""
+    razorpay_live_service._webhook_secret = None
+    return webhook_adapter.clear_secret()
+
+@app.post(
+    "/v1/integrations/razorpay/webhook/test-contract",
+    summary="Execute signed Razorpay-compatible Webhook Contract Test",
+    response_model=WebhookContractTestResponse
+)
+async def test_razorpay_webhook_contract(request: WebhookContractTestRequest):
+    """
+    Generates a cryptographically signed Razorpay-compatible test event,
+    submits it to the webhook processing pipeline, evaluates risk, and audits the result.
+    Tagged explicitly with provenance: SIMULATED_CONTRACT_TEST.
+    """
+    return webhook_adapter.generate_and_process_contract_test(request)
 
 from src.engine.integrations.razorpay_capture_gate import RazorpayCaptureGate, RazorpayCaptureRequest
 from src.engine.integrations.razorpay_live_service import (

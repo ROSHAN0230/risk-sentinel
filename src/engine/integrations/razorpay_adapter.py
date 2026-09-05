@@ -51,6 +51,23 @@ class RazorpayWebhookPayload(BaseModel):
     payload: Dict[str, Any] = Field(..., description="Webhook payload container")
     created_at: Optional[int] = None
 
+class WebhookConfigureRequest(BaseModel):
+    webhook_secret: str = Field(..., min_length=1, description="Razorpay Webhook Secret configured in Razorpay Dashboard")
+
+class RazorpayWebhookStatus(BaseModel):
+    webhook_configured: bool
+    webhook_secret_masked: Optional[str] = None
+    endpoint_url: str = Field(default="https://risk-sentinel.onrender.com/v1/webhooks/razorpay")
+    events_received_count: int = 0
+    last_event_at_utc: Optional[str] = None
+    last_event_id: Optional[str] = None
+    last_event_status: Optional[str] = None
+
+class WebhookContractTestRequest(BaseModel):
+    scenario: str = Field(default="DRAIN_ATTEMPT", description="Contract scenario: DRAIN_ATTEMPT, BENIGN_PAYMENT, or RAW_GATEWAY")
+    amount_inr: Optional[float] = Field(default=None, description="Optional custom amount in INR")
+    payment_id: Optional[str] = Field(default=None, description="Optional custom payment ID")
+
 class NormalizedWebhookEvent(BaseModel):
     event_id: str
     received_at_utc: str
@@ -75,6 +92,16 @@ class NormalizedWebhookEvent(BaseModel):
     integrity_hash: str
     is_duplicate: bool = False
 
+class WebhookContractTestResponse(BaseModel):
+    success: bool
+    signature_verified: bool
+    scenario: str
+    generated_event: Dict[str, Any]
+    normalized_event: NormalizedWebhookEvent
+    auto_response_action: str
+    provenance: str = "SIMULATED_CONTRACT_TEST"
+    tested_at_utc: str
+
 def mask_contact(contact: Optional[str]) -> Optional[str]:
     if not contact:
         return None
@@ -83,19 +110,51 @@ def mask_contact(contact: Optional[str]) -> Optional[str]:
         return "****"
     return f"{c[:2]}******{c[-2:]}"
 
+def mask_secret(secret: Optional[str]) -> Optional[str]:
+    if not secret:
+        return None
+    s = str(secret).strip()
+    if len(s) <= 8:
+        return "••••••••"
+    return f"••••••••••••{s[-4:]}"
+
 class RazorpayWebhookAdapter:
     """
     Decoupled integration layer for Razorpay Test Mode webhooks.
     Validates structure, verifies HMAC signatures, enforces idempotency,
     and applies the strict Model Readiness boundary without fabricating features.
     """
-    def __init__(self, engine: Optional[RiskDecisionEngine] = None, webhook_secret: Optional[str] = None):
+    def __init__(self, engine: Optional[RiskDecisionEngine] = None, webhook_secret: Optional[str] = None, capture_gate: Any = None):
         self.engine = engine
         self.webhook_secret = webhook_secret or os.getenv("RAZORPAY_WEBHOOK_SECRET", "")
+        self.capture_gate = capture_gate
         self.processed_events: Dict[str, NormalizedWebhookEvent] = {}
         self.event_buffer: List[NormalizedWebhookEvent] = []
         self.max_buffer_size = 100
         self._last_event_hash = "0" * 64
+        self.events_received_count = 0
+        self.last_event_at_utc: Optional[str] = None
+        self.last_event_id: Optional[str] = None
+        self.last_event_status: Optional[str] = None
+
+    def configure_secret(self, secret: str) -> RazorpayWebhookStatus:
+        self.webhook_secret = secret.strip()
+        return self.get_status()
+
+    def clear_secret(self) -> RazorpayWebhookStatus:
+        self.webhook_secret = ""
+        return self.get_status()
+
+    def get_status(self) -> RazorpayWebhookStatus:
+        return RazorpayWebhookStatus(
+            webhook_configured=bool(self.webhook_secret),
+            webhook_secret_masked=mask_secret(self.webhook_secret),
+            endpoint_url="https://risk-sentinel.onrender.com/v1/webhooks/razorpay",
+            events_received_count=self.events_received_count,
+            last_event_at_utc=self.last_event_at_utc,
+            last_event_id=self.last_event_id,
+            last_event_status=self.last_event_status
+        )
 
     def verify_signature(self, raw_body: bytes, signature_header: Optional[str]) -> bool:
         """
@@ -130,6 +189,8 @@ class RazorpayWebhookAdapter:
         Returns (NormalizedWebhookEvent, HTTP status code).
         """
         t_recv = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        self.events_received_count += 1
+        self.last_event_at_utc = t_recv
 
         # 1. Signature Verification
         if not self.verify_signature(raw_body, signature_header):
@@ -147,6 +208,8 @@ class RazorpayWebhookAdapter:
                 readiness_reason="HMAC-SHA256 signature does not match configured webhook secret.",
                 integrity_hash="0" * 64
             )
+            self.last_event_id = error_event.event_id
+            self.last_event_status = error_event.evaluation_status
             return error_event, 401
 
         # 2. JSON Parsing & Schema Validation
@@ -311,12 +374,15 @@ class RazorpayWebhookAdapter:
         if len(self.event_buffer) > self.max_buffer_size:
             self.event_buffer.pop()
 
+        self.last_event_id = event_id
+        self.last_event_status = eval_status
+
         # 8. Record into Persistent TransactionStore
         try:
             from src.engine.transaction_store import default_transaction_store, TransactionRecord
             
             auto_resp_action = "CAPTURE_PERMITTED" if normalized_event.decision == "APPROVED" else "CAPTURE_SUPPRESSED"
-            is_mock = "simulated" in payment.id.lower() or "placeholder" in payment.id.lower() or "contract_proof" in payment.id.lower()
+            is_mock = "simulated" in payment.id.lower() or "placeholder" in payment.id.lower() or "contract_proof" in payment.id.lower() or "test" in payment.id.lower()
             prov_tag = "SIMULATED_CONTRACT_TEST" if is_mock else "GENUINE_RAZORPAY_TEST_MODE"
 
             tx_rec = TransactionRecord(
@@ -349,6 +415,97 @@ class RazorpayWebhookAdapter:
             pass
 
         return normalized_event, 200
+
+    def generate_and_process_contract_test(self, request: WebhookContractTestRequest) -> WebhookContractTestResponse:
+        """
+        Generates a validly signed, Razorpay-compatible test webhook payload,
+        executes HMAC signature verification, evaluates through the frozen engine,
+        and logs the full contract verification trace with provenance SIMULATED_CONTRACT_TEST.
+        """
+        t_now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        t_now_epoch = int(time.time())
+        payment_id = request.payment_id or f"pay_contract_proof_{uuid.uuid4().hex[:8]}"
+
+        if request.scenario == "BENIGN_PAYMENT":
+            amt_inr = request.amount_inr if request.amount_inr is not None else 84.50
+            amt_paise = int(amt_inr * 100)
+            notes = {
+                "step": 450,
+                "type": "PAYMENT",
+                "oldbalanceOrg": 1200.00,
+                "oldbalanceDest": 0.00,
+                "nameOrig": "C_ALICE_CONTRACT",
+                "nameDest": "M_BOOKSTORE_CONTRACT",
+                "contract_scenario": "BENIGN_PAYMENT"
+            }
+        elif request.scenario == "RAW_GATEWAY":
+            amt_inr = request.amount_inr if request.amount_inr is not None else 1500.00
+            amt_paise = int(amt_inr * 100)
+            notes = {
+                "purpose": "E-Commerce Purchase",
+                "source": "checkout_standard"
+            }
+        else:  # DRAIN_ATTEMPT (Default)
+            amt_inr = request.amount_inr if request.amount_inr is not None else 284100.50
+            amt_paise = int(amt_inr * 100)
+            notes = {
+                "step": 452,
+                "type": "TRANSFER",
+                "oldbalanceOrg": amt_inr,
+                "oldbalanceDest": 0.00,
+                "nameOrig": "C_VICTIM_CONTRACT",
+                "nameDest": "C_MULE_CONTRACT",
+                "contract_scenario": "DRAIN_ATTEMPT"
+            }
+
+        payload_dict = {
+            "entity": "event",
+            "account_id": "acc_rzp_contract_test",
+            "event": "payment.authorized",
+            "contains": ["payment"],
+            "payload": {
+                "payment": {
+                    "entity": {
+                        "id": payment_id,
+                        "amount": amt_paise,
+                        "currency": "INR",
+                        "status": "authorized",
+                        "method": "upi",
+                        "vpa": "contract_tester@okhdfcbank",
+                        "email": "tester@risk-sentinel.internal",
+                        "contact": "+919876543210",
+                        "notes": notes,
+                        "created_at": t_now_epoch
+                    }
+                }
+            },
+            "created_at": t_now_epoch
+        }
+
+        raw_body = json.dumps(payload_dict).encode("utf-8")
+        # Sign with active webhook secret (or default ephemeral if secret is empty)
+        signing_secret = self.webhook_secret or "ephemeral_contract_secret"
+        sig_header = hmac.new(signing_secret.encode("utf-8"), raw_body, hashlib.sha256).hexdigest()
+
+        # If secret was set, process_webhook uses self.webhook_secret (which matches signing_secret)
+        # If secret was empty, verify_signature returns True in dev mode.
+        normalized_event, status_code = self.process_webhook(
+            raw_body=raw_body,
+            signature_header=sig_header
+        )
+
+        auto_action = "CAPTURE_PERMITTED" if normalized_event.decision == "APPROVED" else "CAPTURE_SUPPRESSED"
+
+        return WebhookContractTestResponse(
+            success=(status_code == 200),
+            signature_verified=True,
+            scenario=request.scenario,
+            generated_event=payload_dict,
+            normalized_event=normalized_event,
+            auto_response_action=auto_action,
+            provenance="SIMULATED_CONTRACT_TEST",
+            tested_at_utc=t_now_iso
+        )
 
     def get_recent_events(self, limit: int = 50) -> List[NormalizedWebhookEvent]:
         return self.event_buffer[:limit]

@@ -239,5 +239,146 @@ class TestRazorpayWebhook(unittest.TestCase):
         self.assertEqual(data["engine_metadata"]["policy_version"], "v1.2.0-frozen")
         self.assertEqual(data["engine_metadata"]["operating_threshold"], 0.990)
 
+    # 11. Missing Signature Header when Secret is Configured
+    def test_11_missing_signature_header_rejected(self):
+        webhook_adapter.webhook_secret = "secret_configured_active_123"
+        payload = self.make_sample_payload(payment_id="pay_missing_sig_001")
+        raw_body = json.dumps(payload).encode("utf-8")
+
+        resp = self.client.post("/v1/webhooks/razorpay", content=raw_body)
+        self.assertEqual(resp.status_code, 401)
+        data = resp.json()
+        self.assertEqual(data["evaluation_status"], "REJECTED_INVALID_SIGNATURE")
+
+    # 12. Signature Verification Bypassed in Dev Mode (Empty Secret)
+    def test_12_signature_bypassed_when_secret_empty(self):
+        webhook_adapter.webhook_secret = ""
+        payload = self.make_sample_payload(payment_id="pay_dev_mode_001")
+        raw_body = json.dumps(payload).encode("utf-8")
+
+        resp = self.client.post("/v1/webhooks/razorpay", content=raw_body)
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertEqual(data["payment_id"], "pay_dev_mode_001")
+
+    # 13. Webhook Configure Endpoint Sets Secret and Returns Masked Status
+    def test_13_webhook_configure_endpoint(self):
+        resp = self.client.post(
+            "/v1/integrations/razorpay/webhook/configure",
+            json={"webhook_secret": "my_new_super_secret_webhook_key_9999"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertTrue(data["webhook_configured"])
+        self.assertTrue(data["webhook_secret_masked"].startswith("••••••••"))
+        self.assertTrue(data["webhook_secret_masked"].endswith("9999"))
+        self.assertNotIn("my_new_super_secret", data["webhook_secret_masked"])
+        self.assertEqual(webhook_adapter.webhook_secret, "my_new_super_secret_webhook_key_9999")
+
+    # 14. Webhook Status Endpoint Reports State and Delivery Telemetry
+    def test_14_webhook_status_endpoint(self):
+        webhook_adapter.webhook_secret = "test_status_key_1234"
+        webhook_adapter.events_received_count = 5
+        webhook_adapter.last_event_at_utc = "2026-09-05T12:00:00Z"
+
+        resp = self.client.get("/v1/integrations/razorpay/webhook/status")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertTrue(data["webhook_configured"])
+        self.assertEqual(data["events_received_count"], 5)
+        self.assertEqual(data["last_event_at_utc"], "2026-09-05T12:00:00Z")
+        self.assertIn("endpoint_url", data)
+
+    # 15. Webhook Clear Endpoint Clears Secret
+    def test_15_webhook_clear_endpoint(self):
+        webhook_adapter.webhook_secret = "secret_to_clear"
+        resp = self.client.post("/v1/integrations/razorpay/webhook/clear")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertFalse(data["webhook_configured"])
+        self.assertIsNone(data["webhook_secret_masked"])
+        self.assertEqual(webhook_adapter.webhook_secret, "")
+
+    # 16. Webhook Contract Test (Drain Attempt Scenario -> DECLINE -> CAPTURE_SUPPRESSED)
+    def test_16_webhook_contract_test_drain_attempt(self):
+        webhook_adapter.webhook_secret = TEST_SECRET
+        resp = self.client.post(
+            "/v1/integrations/razorpay/webhook/test-contract",
+            json={"scenario": "DRAIN_ATTEMPT"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertTrue(data["success"])
+        self.assertTrue(data["signature_verified"])
+        self.assertEqual(data["provenance"], "SIMULATED_CONTRACT_TEST")
+        self.assertEqual(data["scenario"], "DRAIN_ATTEMPT")
+        self.assertEqual(data["normalized_event"]["decision"], "DECLINED")
+        self.assertEqual(data["auto_response_action"], "CAPTURE_SUPPRESSED")
+        self.assertGreaterEqual(data["normalized_event"]["risk_score"], 0.990)
+
+    # 17. Webhook Contract Test (Benign Payment Scenario -> APPROVE -> CAPTURE_PERMITTED)
+    def test_17_webhook_contract_test_benign_payment(self):
+        webhook_adapter.webhook_secret = TEST_SECRET
+        resp = self.client.post(
+            "/v1/integrations/razorpay/webhook/test-contract",
+            json={"scenario": "BENIGN_PAYMENT"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertTrue(data["success"])
+        self.assertTrue(data["signature_verified"])
+        self.assertEqual(data["normalized_event"]["decision"], "APPROVED")
+        self.assertEqual(data["auto_response_action"], "CAPTURE_PERMITTED")
+        self.assertLess(data["normalized_event"]["risk_score"], 0.700)
+
+    # 18. Webhook Contract Test (Raw Gateway Scenario -> INSUFFICIENT_FEATURES -> CAPTURE_SUPPRESSED)
+    def test_18_webhook_contract_test_raw_gateway(self):
+        webhook_adapter.webhook_secret = TEST_SECRET
+        resp = self.client.post(
+            "/v1/integrations/razorpay/webhook/test-contract",
+            json={"scenario": "RAW_GATEWAY"}
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertTrue(data["success"])
+        self.assertEqual(data["normalized_event"]["evaluation_status"], "INSUFFICIENT_FEATURES_FOR_MODEL_EVALUATION")
+        self.assertEqual(data["auto_response_action"], "CAPTURE_SUPPRESSED")
+        self.assertIsNone(data["normalized_event"]["decision"])
+
+    # 19. Missing Payment Entity Rejection (Schema Guard)
+    def test_19_missing_payment_entity_rejected(self):
+        payload = {
+            "entity": "event",
+            "account_id": "acc_empty",
+            "event": "payment.authorized",
+            "payload": {}
+        }
+        raw_body = json.dumps(payload).encode("utf-8")
+        sig = self.compute_signature(raw_body)
+        resp = self.client.post("/v1/webhooks/razorpay", content=raw_body, headers={"X-Razorpay-Signature": sig})
+        self.assertEqual(resp.status_code, 422)
+        data = resp.json()
+        self.assertEqual(data["evaluation_status"], "REJECTED_MISSING_PAYMENT_ENTITY")
+
+    # 20. Persistent TransactionStore Provenance Tagging
+    def test_20_transaction_store_provenance_tagging(self):
+        from src.engine.transaction_store import default_transaction_store
+
+        # Simulate contract payment
+        notes = {
+            "step": 452, "type": "TRANSFER",
+            "oldbalanceOrg": 50000.0, "oldbalanceDest": 0.0,
+            "nameOrig": "C_PROV_TEST", "nameDest": "C_PROV_DEST"
+        }
+        payload = self.make_sample_payload(payment_id="pay_contract_proof_9999", notes=notes)
+        raw_body = json.dumps(payload).encode("utf-8")
+        sig = self.compute_signature(raw_body)
+        self.client.post("/v1/webhooks/razorpay", content=raw_body, headers={"X-Razorpay-Signature": sig})
+
+        txs = default_transaction_store.get_transactions(limit=10)
+        matching = [t for t in txs if "pay_contract_proof_9999" in t.transaction_id or t.payment_id == "pay_contract_proof_9999"]
+        self.assertGreaterEqual(len(matching), 1)
+        self.assertEqual(matching[0].provenance, "SIMULATED_CONTRACT_TEST")
+
 if __name__ == "__main__":
     unittest.main()
