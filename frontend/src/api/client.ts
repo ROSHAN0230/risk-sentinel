@@ -17,7 +17,9 @@ import {
   CaptureGateResult,
   ReplayRequest,
   ReplayResponse,
-  BenchmarkSummaryResponse
+  BenchmarkSummaryResponse,
+  TransactionRecord,
+  TransactionSummary
 } from '../types/engine';
 
 const API_BASE = '/v1';
@@ -346,6 +348,41 @@ export async function getBenchmarkSummary(): Promise<BenchmarkSummaryResponse> {
   }
   return response.json();
 }
+
+export async function getTransactions(params?: {
+  limit?: number;
+  provenance?: string;
+  decision?: string;
+}): Promise<TransactionRecord[]> {
+  const query = new URLSearchParams();
+  if (params?.limit) query.set('limit', String(params.limit));
+  if (params?.provenance) query.set('provenance', params.provenance);
+  if (params?.decision) query.set('decision', params.decision);
+
+  const qs = query.toString() ? `?${query.toString()}` : '';
+  const response = await fetch(`${API_BASE}/transactions${qs}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch transactions (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function getTransactionSummary(): Promise<TransactionSummary> {
+  const response = await fetch(`${API_BASE}/transactions/summary`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch transaction summary (${response.status})`);
+  }
+  return response.json();
+}
+
+export async function getTransactionById(transactionId: string): Promise<TransactionRecord> {
+  const response = await fetch(`${API_BASE}/transactions/${encodeURIComponent(transactionId)}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch transaction ${transactionId} (${response.status})`);
+  }
+  return response.json();
+}
+
 
 
 

@@ -376,6 +376,64 @@ class RazorpayCaptureGate:
         if len(self.gate_events_buffer) > self.max_buffer_size:
             self.gate_events_buffer.pop()
 
+        # 8. Record into Persistent TransactionStore with Defensive Auto-Response
+        try:
+            from src.engine.transaction_store import default_transaction_store, TransactionRecord, mask_account_id
+            
+            # Defensive auto-response semantics:
+            # APPROVE -> capture permitted (CAPTURED if API succeeds)
+            # REVIEW / HOLD / DECLINE -> capture suppressed
+            if result.decision == "APPROVED" and result.capture_action == "CAPTURE_CALLED":
+                auto_resp_action = "CAPTURE_PERMITTED"
+            elif result.decision == "DECLINED":
+                auto_resp_action = "CAPTURE_SUPPRESSED"
+            elif result.decision in ("REVIEW_REQUIRED", "NOT_EVALUATED"):
+                auto_resp_action = "CAPTURE_SUPPRESSED"
+            else:
+                auto_resp_action = "CAPTURE_SUPPRESSED" if result.capture_action == "CAPTURE_SUPPRESSED" else "CAPTURE_PERMITTED"
+
+            # Determine provenance
+            is_mock_or_sim = (
+                not self.has_live_credentials
+                or "simulated" in request.payment_id.lower()
+                or "placeholder" in request.payment_id.lower()
+                or "contract_proof" in request.payment_id.lower()
+                or "test_benign" in request.payment_id.lower()
+                or "test_drain" in request.payment_id.lower()
+                or "demo" in request.payment_id.lower()
+            )
+            provenance_tag = "SIMULATED_CONTRACT_TEST" if is_mock_or_sim else "GENUINE_RAZORPAY_TEST_MODE"
+
+            tx_rec = TransactionRecord(
+                transaction_id=f"tx_{request.payment_id}",
+                timestamp_iso=t_recv,
+                provenance=provenance_tag,
+                order_id=request.order_id,
+                payment_id=request.payment_id,
+                amount_inr=amount_inr,
+                currency=request.currency,
+                channel_type=str(notes.get("type", request.method or "PAYMENT")),
+                sender_masked=mask_contact(request.contact) or mask_account_id(notes.get("nameOrig")),
+                dest_masked=request.vpa or mask_account_id(notes.get("nameDest")),
+                merchant_id=request.merchant_id or "default_merchant",
+                risk_score=risk_score,
+                risk_band="LOW_RISK" if (risk_score is not None and risk_score < 0.70) else ("MEDIUM_RISK" if (risk_score is not None and risk_score < 0.990) else ("HIGH_RISK" if risk_score is not None else None)),
+                decision=decision,
+                policy_action=action,
+                primary_reason_code=primary_reason,
+                reasons_narrative=reasons_dict.get("narrative") if reasons_dict else None,
+                auto_response_action=auto_resp_action,
+                auto_response_status=result.capture_status,
+                auto_response_details=result.capture_api_response,
+                model_version="v1.0.0-HGB",
+                policy_version="v1.2.0-frozen",
+                audit_event_id=audit_event_id,
+                integrity_hash=integrity_hash
+            )
+            default_transaction_store.record(tx_rec)
+        except Exception:
+            pass
+
         return result
 
     def get_recent_gate_events(self, limit: int = 50) -> List[CaptureGateResult]:

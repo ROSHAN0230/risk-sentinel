@@ -91,6 +91,42 @@ async def evaluate_transaction(request: EvaluateRequest):
     """
     try:
         response = engine.evaluate(request)
+        
+        # Record into Persistent TransactionStore
+        try:
+            from src.engine.transaction_store import default_transaction_store, TransactionRecord, mask_account_id
+            
+            is_demo = "demo" in request.transaction_id.lower() or request.transaction_id.startswith("DEMO-") or request.transaction_id.startswith("tx_demo")
+            prov = "DEMO_FIXTURE" if is_demo else "API_DIRECT"
+            auto_resp = "CAPTURE_PERMITTED" if response.decision.value == "APPROVED" else "CAPTURE_SUPPRESSED"
+            
+            tx_rec = TransactionRecord(
+                transaction_id=request.transaction_id,
+                timestamp_iso=response.timestamp_iso,
+                provenance=prov,
+                amount_inr=request.amount,
+                currency="INR",
+                channel_type=request.type.value if hasattr(request.type, 'value') else str(request.type),
+                sender_masked=mask_account_id(request.nameOrig),
+                dest_masked=mask_account_id(request.nameDest),
+                merchant_id=request.merchant_id or "default_merchant",
+                risk_score=response.risk_score,
+                risk_band=response.risk_band.value if hasattr(response.risk_band, 'value') else str(response.risk_band),
+                decision=response.decision.value if hasattr(response.decision, 'value') else str(response.decision),
+                policy_action=response.action.value if hasattr(response.action, 'value') else str(response.action),
+                primary_reason_code=response.reasons.primary_code,
+                reasons_narrative=response.reasons.narrative,
+                auto_response_action=auto_resp,
+                auto_response_status="DIRECT_EVALUATION",
+                model_version=response.engine_metadata.model_version,
+                policy_version=response.engine_metadata.policy_version,
+                audit_event_id=response.evaluation_id,
+                integrity_hash=response.evaluation_id
+            )
+            default_transaction_store.record(tx_rec)
+        except Exception:
+            pass
+
         return response
     except ValueError as ve:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(ve))
@@ -177,6 +213,40 @@ async def get_gate_events(limit: int = Query(50, ge=1, le=100)):
     """Returns recent capture gate evaluations and actions."""
     events = capture_gate.get_recent_gate_events(limit=limit)
     return [e.model_dump() for e in events]
+
+from src.engine.transaction_store import default_transaction_store, TransactionRecord
+
+@app.get(
+    "/v1/transactions",
+    summary="Query real-time persisted transaction stream & auto-response records",
+    response_model=List[TransactionRecord]
+)
+async def get_transactions_endpoint(
+    limit: int = Query(50, ge=1, le=200),
+    provenance: Optional[str] = Query(None, description="Filter by provenance (GENUINE_RAZORPAY_TEST_MODE, SIMULATED_CONTRACT_TEST, DEMO_FIXTURE, API_DIRECT)"),
+    decision: Optional[str] = Query(None, description="Filter by decision (APPROVED, REVIEW_REQUIRED, DECLINED)")
+):
+    """Returns recent persisted transaction monitoring records with provenance and auto-response actions."""
+    return default_transaction_store.get_transactions(limit=limit, provenance=provenance, decision=decision)
+
+@app.get(
+    "/v1/transactions/summary",
+    summary="Query summary statistics across all monitored transactions"
+)
+async def get_transactions_summary_endpoint():
+    """Returns aggregated transaction metrics by provenance, decision, and auto-response action."""
+    return default_transaction_store.get_summary()
+
+@app.get(
+    "/v1/transactions/{transaction_id}",
+    summary="Fetch single monitored transaction details"
+)
+async def get_transaction_by_id_endpoint(transaction_id: str):
+    """Retrieves single transaction record by ID."""
+    record = default_transaction_store.get_by_id(transaction_id)
+    if not record:
+        raise HTTPException(status_code=404, detail=f"Transaction '{transaction_id}' not found.")
+    return record.model_dump()
 
 from src.engine.analytics.economics_service import EconomicsService
 

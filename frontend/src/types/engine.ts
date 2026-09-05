@@ -399,3 +399,46 @@ export interface BenchmarkSummaryResponse {
   threshold_provenance_note: string;
 }
 
+export type TransactionProvenance =
+  | 'GENUINE_RAZORPAY_TEST_MODE'
+  | 'SIMULATED_CONTRACT_TEST'
+  | 'DEMO_FIXTURE'
+  | 'API_DIRECT'
+  | string;
+
+export interface TransactionRecord {
+  transaction_id: string;
+  timestamp_iso: string;
+  provenance: TransactionProvenance;
+  order_id?: string;
+  payment_id?: string;
+  amount_inr: number;
+  currency: string;
+  channel_type: string;
+  sender_masked: string;
+  dest_masked: string;
+  merchant_id: string;
+  risk_score?: number;
+  risk_band?: string;
+  decision?: string;
+  policy_action?: string;
+  primary_reason_code?: string;
+  reasons_narrative?: string;
+  auto_response_action: 'CAPTURE_PERMITTED' | 'CAPTURE_SUPPRESSED' | 'NOT_APPLICABLE' | 'CAPTURE_FAILED' | string;
+  auto_response_status: 'CAPTURED' | 'HELD_DECLINED' | 'HELD_REVIEW_REQUIRED' | 'HELD_INSUFFICIENT_CONTEXT' | 'HELD_NON_AUTHORIZED' | 'PENDING_REVIEW' | 'DIRECT_EVALUATION' | string;
+  auto_response_details?: Record<string, any>;
+  model_version: string;
+  policy_version: string;
+  audit_event_id?: string;
+  integrity_hash: string;
+}
+
+export interface TransactionSummary {
+  total_transactions: number;
+  total_volume_inr: number;
+  by_provenance: Record<string, number>;
+  by_decision: Record<string, number>;
+  by_auto_response: Record<string, number>;
+}
+
+

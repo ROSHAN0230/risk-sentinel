@@ -311,6 +311,43 @@ class RazorpayWebhookAdapter:
         if len(self.event_buffer) > self.max_buffer_size:
             self.event_buffer.pop()
 
+        # 8. Record into Persistent TransactionStore
+        try:
+            from src.engine.transaction_store import default_transaction_store, TransactionRecord
+            
+            auto_resp_action = "CAPTURE_PERMITTED" if normalized_event.decision == "APPROVED" else "CAPTURE_SUPPRESSED"
+            is_mock = "simulated" in payment.id.lower() or "placeholder" in payment.id.lower() or "test" in payment.id.lower()
+            prov_tag = "SIMULATED_CONTRACT_TEST" if is_mock else "GENUINE_RAZORPAY_TEST_MODE"
+
+            tx_rec = TransactionRecord(
+                transaction_id=f"tx_{payment.id}_{event_id[:8]}",
+                timestamp_iso=t_recv,
+                provenance=prov_tag,
+                order_id=payment.order_id,
+                payment_id=payment.id,
+                amount_inr=amount_inr,
+                currency=payment.currency,
+                channel_type=payment.method or "PAYMENT",
+                sender_masked=normalized_event.customer_contact_masked or "N/A",
+                dest_masked=normalized_event.customer_vpa or "N/A",
+                merchant_id=normalized_event.merchant_id,
+                risk_score=risk_score,
+                risk_band="LOW_RISK" if (risk_score is not None and risk_score < 0.70) else ("MEDIUM_RISK" if (risk_score is not None and risk_score < 0.990) else ("HIGH_RISK" if risk_score is not None else None)),
+                decision=decision,
+                policy_action=action,
+                primary_reason_code=reasons.get("primary_code") if reasons else None,
+                reasons_narrative=reasons.get("narrative") if reasons else readiness_reason,
+                auto_response_action=auto_resp_action,
+                auto_response_status=normalized_event.evaluation_status,
+                model_version="v1.0.0-HGB",
+                policy_version="v1.2.0-frozen",
+                audit_event_id=audit_id,
+                integrity_hash=integrity_hash
+            )
+            default_transaction_store.record(tx_rec)
+        except Exception:
+            pass
+
         return normalized_event, 200
 
     def get_recent_events(self, limit: int = 50) -> List[NormalizedWebhookEvent]:

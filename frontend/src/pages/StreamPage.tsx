@@ -8,6 +8,7 @@ import { evaluateTransaction } from '../api/client';
 import { RazorpayWebhookViewer } from '../components/RazorpayWebhookViewer';
 import { RazorpayCaptureGateViewer } from '../components/RazorpayCaptureGateViewer';
 import { FraudDecisionReplayViewer } from '../components/FraudDecisionReplayViewer';
+import { TransactionMonitoringFeed } from '../components/TransactionMonitoringFeed';
 import { Activity, Play, ArrowRight, Clock, AlertCircle } from 'lucide-react';
 
 interface Props {
@@ -24,6 +25,7 @@ export const StreamPage: React.FC<Props> = ({
   const [selectedDemoId, setSelectedDemoId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [feedRefreshTrigger, setFeedRefreshTrigger] = useState<number>(0);
 
   // Custom Transaction State
   const [customType, setCustomType] = useState<'TRANSFER' | 'CASH_OUT' | 'PAYMENT'>('TRANSFER');
@@ -40,6 +42,7 @@ export const StreamPage: React.FC<Props> = ({
     try {
       const resp = await evaluateTransaction(fixture.request);
       setRecentEvaluations((prev) => [resp, ...prev.slice(0, 19)]);
+      setFeedRefreshTrigger((prev) => prev + 1);
     } catch (err: any) {
       setErrorMsg(err.message || 'Error communicating with decision engine backend.');
     } finally {
@@ -66,6 +69,7 @@ export const StreamPage: React.FC<Props> = ({
     try {
       const resp = await evaluateTransaction(req);
       setRecentEvaluations((prev) => [resp, ...prev.slice(0, 19)]);
+      setFeedRefreshTrigger((prev) => prev + 1);
     } catch (err: any) {
       setErrorMsg(err.message || 'Validation or evaluation error');
     } finally {
@@ -231,6 +235,9 @@ export const StreamPage: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
+      {/* Real-Time Transaction Monitoring & Auto-Response Feed (Persistent Store) */}
+      <TransactionMonitoringFeed refreshTrigger={feedRefreshTrigger} />
 
       {/* Phase 2: Judge-Facing Fraud Decision Replay Studio */}
       <FraudDecisionReplayViewer />
