@@ -56,10 +56,10 @@ OPERATING THRESHOLD (θ)          FALSE POSITIVE VOLUME   MISSED FRAUD (FN)     
 ==================================================================================================
 θ = 0.500 (Standard Naive)       $1,296,800,000.00       $120,000.00             $12,970,000.00
 θ = 0.900 (Balanced Baseline)    $48,200,000.00          $210,000.00             $692,000.00
-θ* = 0.990 (Risk Sentinel)       $9,216,222.88           $399,045.08             $491,207.31 (GLOBAL MINIMUM)
+θ* = 0.990 (Risk Sentinel)       $9,216,222.88           $399,045.08             $491,207.31 (LOWEST OBSERVED SCENARIO COST)
 ==================================================================================================
 ```
-*Evaluated on PaySim held-out test split (steps 378–743, 955,744 transactions).*
+*At the tested alpha values, theta*=0.990 was the lowest observed validation-split scenario-cost operating point (evaluated on PaySim held-out test split, steps 378–743, 955,744 transactions).*
 
 ---
 
@@ -80,5 +80,5 @@ Risk Sentinel is profiled against an internal **35.0 ms Gateway Engineering Budg
 
 - **Backend API**: Production-oriented FastAPI service with Pydantic V2 schema validation and API security controls.
 - **Frontend UI**: React 18 + TypeScript application with explicit data provenance badges.
-- **Test Coverage**: 133 unique automated unit, integration, security, concurrency, and SLA tests passing with 100% verifiable evidence.
+- **Test Coverage**: 156 automated unit, integration, security, concurrency, and SLA tests passing with 100% verifiable evidence.
 - **Checksum Lineage**: Cryptographically verified SHA-256 model artifacts ensuring immutable deployment integrity.

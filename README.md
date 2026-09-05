@@ -12,7 +12,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React_18-TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![Tests](https://img.shields.io/badge/133%20Tests%20Passing-100%25-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
+[![Tests](https://img.shields.io/badge/156%20Tests%20Passing-100%25-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
 [![Precision](https://img.shields.io/badge/Precision-96.29%25-blue?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
 [![Recall](https://img.shields.io/badge/Recall-99.65%25-purple?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
 [![Captured](https://img.shields.io/badge/Captured%20PaySim%20Fraud-%246.323%20Billion-emerald?style=for-the-badge)](research/phase2_7/artifacts/policy_analysis.json)
@@ -90,7 +90,7 @@ flowchart TD
     subgraph ACTIONS ["Layer 5 — Automated Response & Compliance"]
         P["Deterministic Reason Resolver (&lt; 0.85ms) (8 Certified Reason Codes)"]
         P --> Q["Razorpay Test Mode Capture Gate (POST /v1/payments/capture)"]
-        Q -- "APPROVE" --> R([CAPTURE_CALLED — Funds Settled])
+        Q -- "APPROVE" --> R([CAPTURE_CALLED — Capture Permitted])
         Q -- "DECLINE" --> S([CAPTURE_SUPPRESSED — Funds Protected])
         P --> T["Immutable Cryptographic Ledger (Chained SHA-256 Blocks + PII Masking)"]
     end
@@ -134,7 +134,7 @@ Total Evaluated: 955,744 | Total Frauds: 4,010 | Total Clean: 951,734
 
 ## 4. Razorpay Test Mode Capture Gate Integration
 
-Risk Sentinel implements a merchant-controlled pre-capture risk gate that sits directly between authorization and final settlement:
+Risk Sentinel implements a merchant-controlled pre-capture risk gate that sits directly between authorization and manual capture:
 
 ```mermaid
 sequenceDiagram

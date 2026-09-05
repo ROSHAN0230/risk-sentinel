@@ -1,7 +1,7 @@
 [
   {
     "transaction_id": "tx_pay_test_review_003",
-    "timestamp_iso": "2026-09-05T01:56:23.537958+00:00",
+    "timestamp_iso": "2026-09-05T04:34:00.570079+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_review_003",
     "payment_id": "pay_test_review_003",
@@ -25,12 +25,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_bb0d9f0c-2843-43ae-8270-34f30b757e33",
-    "integrity_hash": "d8ad71d3e08f01dccf4503cd4861c3b2c36ab27d152573918d25d818a9c11001"
+    "audit_event_id": "eval_66f34c42-4179-43a6-8e32-96ff7b06eae7",
+    "integrity_hash": "f56b02369baa5ee344b5fe3e8880dde04c8117bdc85e9cf059894af37b8478eb"
   },
   {
     "transaction_id": "tx_sec_003",
-    "timestamp_iso": "2026-09-05T01:56:21.284438+00:00",
+    "timestamp_iso": "2026-09-05T04:33:58.325425+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -51,12 +51,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_02f016f2-91bf-423a-bc56-081636299752",
-    "integrity_hash": "eval_02f016f2-91bf-423a-bc56-081636299752"
+    "audit_event_id": "eval_86254441-1748-4b64-9809-cdc6b5d8cf6b",
+    "integrity_hash": "eval_86254441-1748-4b64-9809-cdc6b5d8cf6b"
   },
   {
     "transaction_id": "tx_sec_004",
-    "timestamp_iso": "2026-09-05T01:56:21.270363+00:00",
+    "timestamp_iso": "2026-09-05T04:33:58.312615+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -77,12 +77,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_eadb7204-e8b2-497a-9bc7-e81a1093d709",
-    "integrity_hash": "eval_eadb7204-e8b2-497a-9bc7-e81a1093d709"
+    "audit_event_id": "eval_08365d12-b421-41f6-a531-b795c4fc0ff5",
+    "integrity_hash": "eval_08365d12-b421-41f6-a531-b795c4fc0ff5"
   },
   {
     "transaction_id": "tx_pay_lineage_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.939880+00:00",
+    "timestamp_iso": "2026-09-05T04:33:57.018768+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_lineage_001",
@@ -103,12 +103,12 @@
     "auto_response_details": null,
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_3199c976-ae2f-4896-8550-7d2bfd70c8bc",
-    "integrity_hash": "dea62669e0c15a38c7c534841cfe4eecd57acb0c716f8923ce110f2e7a0034ac"
+    "audit_event_id": "eval_3528a823-1fad-4f97-b09d-69790fb20e6e",
+    "integrity_hash": "f62aa446ff0e0acb81ba0726c67920f3cb76d0f53020f0db5a75463f70570c89"
   },
   {
     "transaction_id": "tx_pay_audit_query_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.924252+00:00",
+    "timestamp_iso": "2026-09-05T04:33:57.002005+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_audit_query_001",
@@ -130,11 +130,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "97fec98a5cdd6d1409d1a6c5067b66de80f3e1ed7e7e0852f8fd48b0ece1a668"
+    "integrity_hash": "050d0301645f9f0b5e2f39a2b79c9ec20278c821471a9d17413913c23273ba7c"
   },
   {
     "transaction_id": "tx_pay_partial_notes_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.914991+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.990163+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_partial_notes_001",
@@ -156,11 +156,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "0d03141338575417246732ed75fd637d8a21c8f01865bf4cc588cdb3b38ab217"
+    "integrity_hash": "a21b1682dac1693c483f319169c9f4dc125921fa4d9ba27cf36fc1ae658dca47"
   },
   {
     "transaction_id": "tx_pay_enriched_drain_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.897161+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.973817+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_enriched_drain_001",
@@ -181,12 +181,12 @@
     "auto_response_details": null,
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_f70cd56e-49b2-4de9-8c3d-0b617ce12469",
-    "integrity_hash": "616b1ed0c0957c7382fc8f6e842125c1178d80fcf4040efb563b7d697a64b83e"
+    "audit_event_id": "eval_531a88f9-68bd-45a5-a9f3-79897786257b",
+    "integrity_hash": "dd0d6119cb6866c0b87cb9cf404af97a55b0613437a221e630675c6d270e56e7"
   },
   {
     "transaction_id": "tx_pay_purity_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.886609+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.963851+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_purity_001",
@@ -208,11 +208,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "e5f5a249ed85aeaf07122586a285b1cfae6e0de25c03ae144c31b0e92882d0eb"
+    "integrity_hash": "398a234d26af39e439abba4fe553fd700bc35ab9952f85a9c2d1792d97f86e54"
   },
   {
     "transaction_id": "tx_pay_raw_gateway_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.869496+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.952519+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_raw_gateway_001",
@@ -234,11 +234,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "52f3cbb8e14b9cc010c971b532de88a6e6b8fa42728828e3097ce3eda1783f1a"
+    "integrity_hash": "886e29854008eb43b04c4d990eb4a5241eb4a10ba24ebccc75e0cad782bc641b"
   },
   {
     "transaction_id": "tx_pay_idem_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.854834+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.930736+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_idem_001",
@@ -260,11 +260,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "bb20381d6a10548b21180e6704404fd537d45bdb4fb027fdb07ebeec02a03a58"
+    "integrity_hash": "d451cc4ad408ce9c4c1cce1a4be08c5b711cdb54a1909264f5ed39201d0ec910"
   },
   {
     "transaction_id": "tx_pay_valid_001_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.831464+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.906753+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": null,
     "payment_id": "pay_valid_001",
@@ -286,11 +286,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "a106cbfb4a1f40df0509ed17181aa2f0424583e943be178dae051cb05d619bfc"
+    "integrity_hash": "125a23e41c4cbaaf0d3c6eb70e8d2f92b9cf54443cb6c7f9c6d67233c059f1bd"
   },
   {
     "transaction_id": "tx_pay_E2E_STATE_MACHINE_PASS_99_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.820425+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.898140+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": "order_TY0AGBmXvRPIID",
     "payment_id": "pay_E2E_STATE_MACHINE_PASS_99",
@@ -312,11 +312,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "8326f358172b8b4c4479c7543d62c3c538deaa37a5c6176bc646a2c512c6131c"
+    "integrity_hash": "5456d2ed4804db1f8fc2373063132fc33b72de203f3e9bfaed0b691c76924c9f"
   },
   {
     "transaction_id": "tx_pay_E2E_STATE_MACHINE_PASS_99",
-    "timestamp_iso": "2026-09-05T01:56:19.813800+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.892183+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_TY0AGBmXvRPIID",
     "payment_id": "pay_E2E_STATE_MACHINE_PASS_99",
@@ -341,12 +341,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_9cc406d8-914d-4bf2-b2f2-49d03656f005",
-    "integrity_hash": "b38df63ab17a25ea086f624d00918586510f86493d8ff014d37383453bf71729"
+    "audit_event_id": "eval_f34391a8-e5e9-4fa8-ae06-10885eccf0e0",
+    "integrity_hash": "7e037fb9f89e727d7d23308d0972a368ba0d7472de29889769c5be856bbab3b2"
   },
   {
     "transaction_id": "tx_pay_CONTRACT_PROOF_WEBHOOK_08_evt_pay_",
-    "timestamp_iso": "2026-09-05T01:56:19.804377+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.885692+00:00",
     "provenance": "GENUINE_RAZORPAY_TEST_MODE",
     "order_id": "order_TY0AGBmXvRPIID",
     "payment_id": "pay_CONTRACT_PROOF_WEBHOOK_08",
@@ -367,12 +367,12 @@
     "auto_response_details": null,
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_95f2f287-7479-4dca-9d75-0d4bf5ae62f8",
-    "integrity_hash": "0ce2a1c773b57e60e53db52fd4c0a4229bdc440daea2c1c90fa9f5dc7fd496b1"
+    "audit_event_id": "eval_480f0815-cd00-46d9-86f2-f6cc838e5401",
+    "integrity_hash": "484cebe8dc19c177682da2532f89fe43e4fcfd5b98a61d5fdd5587e950239275"
   },
   {
     "transaction_id": "tx_pay_CONTRACT_PROOF_FRAUD_DRAIN_007",
-    "timestamp_iso": "2026-09-05T01:56:19.797251+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.876963+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_TY0AGBmXvRPIID",
     "payment_id": "pay_CONTRACT_PROOF_FRAUD_DRAIN_007",
@@ -396,12 +396,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_625c9eff-7498-4d0f-84a7-e87558175ab2",
-    "integrity_hash": "1de85efdbb0e38f770927bbcf9dcbb6fb6293bfb0bf6719f5f6f7d520c2b6080"
+    "audit_event_id": "eval_9dc053f3-fba3-429c-991e-b0eede86dcee",
+    "integrity_hash": "99e52a262ea966c081d58b39b32e3d174754429d8e0f84a270be51d945bbbd4c"
   },
   {
     "transaction_id": "tx_pay_CONTRACT_PROOF_REAL_HANDOFF_987654",
-    "timestamp_iso": "2026-09-05T01:56:19.786513+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.867150+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_TY0AGBmXvRPIID",
     "payment_id": "pay_CONTRACT_PROOF_REAL_HANDOFF_987654",
@@ -425,12 +425,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_a85039b9-d9d4-4062-8f5d-e3bbb389e5af",
-    "integrity_hash": "5ffdd897a38b06fc5bbeeb1e1d285b57a1dbbd23978f320219a6578fab1dd68d"
+    "audit_event_id": "eval_1394175b-6c39-4c1f-9527-7aadeb0aea78",
+    "integrity_hash": "e2ea2336c475eb098860c921bb07e06f04227f5893c530b0da36845f4f3be7c3"
   },
   {
     "transaction_id": "tx_pay_test_api_013",
-    "timestamp_iso": "2026-09-05T01:56:19.712697+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.807051+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_test_api_013",
     "payment_id": "pay_test_api_013",
@@ -461,12 +461,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_1d7369f4-bdb9-444c-a75b-47e05e50175f",
-    "integrity_hash": "ecd10a4343a77f2a68b7c9e9bc88f985c4e7ca81c6350ca881bd70ade49a8716"
+    "audit_event_id": "eval_5e4412f2-5713-48ed-b01c-f66210da827f",
+    "integrity_hash": "21652ce620b90c85efad951b57b13fc55dd1cb9d6d70a458124ce2fa01907058"
   },
   {
     "transaction_id": "tx_pay_test_timeout_011",
-    "timestamp_iso": "2026-09-05T01:56:19.699207+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.786677+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_timeout_011",
@@ -490,12 +490,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_b6638869-c399-4729-8df4-86e8d08265dd",
-    "integrity_hash": "f2edeee617f4f4d2537a08cad6d0f0aebfd257e261e89ede9630599a193e2084"
+    "audit_event_id": "eval_0b9ecf1f-8579-4e48-a0cc-a5e8723c229d",
+    "integrity_hash": "42fb97c8bab494d72ed65ebc4f2bd4eb6de89d1266f3d4cfe63c8ddc54d0577e"
   },
   {
     "transaction_id": "tx_pay_test_chain_008b",
-    "timestamp_iso": "2026-09-05T01:56:19.690230+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.776769+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_chain_008b",
@@ -526,12 +526,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_649cb3c7-bdc5-4646-a715-cfafac7e685d",
-    "integrity_hash": "cce55874c4dd324d544aed601cc3443ae4e5dc800f5f6e3825de50660e7fe853"
+    "audit_event_id": "eval_57e1c6fd-c416-4385-ab83-2a33e3a81f03",
+    "integrity_hash": "56971ba0de4687f6dc1677573b8ef4727cddf50bf1e23d63c1fcadc3bac8058b"
   },
   {
     "transaction_id": "tx_pay_test_chain_008a",
-    "timestamp_iso": "2026-09-05T01:56:19.683993+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.770696+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_chain_008a",
@@ -562,12 +562,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_e6ad1337-16ac-421d-91d5-a5dc5ae36921",
-    "integrity_hash": "bde25c0dfa4a36a415e55a57e504acca194041ceb04998b52ddfe8baf2c4ef58"
+    "audit_event_id": "eval_8eb1006b-f6b8-4a5f-a0e9-f1fd9e06c9f3",
+    "integrity_hash": "de85006038fa03c5d8e23d75d9a1ce566f0417c21391a48237209a03398f4758"
   },
   {
     "transaction_id": "tx_pay_test_sim_006",
-    "timestamp_iso": "2026-09-05T01:56:19.674359+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.763717+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_sim_006",
@@ -598,12 +598,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_dd746d44-3e49-4793-a91a-3e8a2d61ae87",
-    "integrity_hash": "15e11f93bfcb8851ee15ead528f5c76920e0fde3ec148cbf39bec45c57732f70"
+    "audit_event_id": "eval_a7da8209-a5ba-49b0-ac38-f339d69db3d8",
+    "integrity_hash": "7184eaedb9dd01cbb926bc50dd3ca94f4f154e102922bd02c33c8d23e82c122b"
   },
   {
     "transaction_id": "tx_pay_test_dup_005",
-    "timestamp_iso": "2026-09-05T01:56:19.666358+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.757337+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_dup_005",
@@ -634,12 +634,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_56323ddd-1fea-47e9-8dbf-deb2e7be4266",
-    "integrity_hash": "836d8ed613821ef626a25b9f4cbff00f86d40ebd2b10a7ad8588d04681628d52"
+    "audit_event_id": "eval_1b81f210-6b94-47fc-9767-9ac918364d37",
+    "integrity_hash": "c49937662288b3b93fba172531986589e1d09c5ac3a0e0378a0251ccb003020e"
   },
   {
     "transaction_id": "tx_pay_test_raw_004",
-    "timestamp_iso": "2026-09-05T01:56:19.660736+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.752302+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": null,
     "payment_id": "pay_test_raw_004",
@@ -664,11 +664,11 @@
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
     "audit_event_id": null,
-    "integrity_hash": "39343159561ee7e6e26076d254879bc4017fd50d6cf7cb76f677e357bef5a2df"
+    "integrity_hash": "3746b0449b0ab4177f555fd090294915320449f7bccb7b0e6d6ba3874af7ad08"
   },
   {
     "transaction_id": "tx_pay_test_drain_002",
-    "timestamp_iso": "2026-09-05T01:56:23.503117+00:00",
+    "timestamp_iso": "2026-09-05T04:34:00.530361+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_drain_002",
     "payment_id": "pay_test_drain_002",
@@ -692,12 +692,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_981eeb28-fa9c-466e-ae5f-ce8530e32c65",
-    "integrity_hash": "f46146cd86a27997056d6619fc05cdd6642924790b946f4c42ac31a6000b5718"
+    "audit_event_id": "eval_f5ddcdc6-4b6c-4966-a7d1-43011bbfad87",
+    "integrity_hash": "b400b94e16fd07e33183aad41c0bd041217cd1e048319280deb08a341565f95d"
   },
   {
     "transaction_id": "tx_pay_test_benign_001",
-    "timestamp_iso": "2026-09-05T01:56:19.648197+00:00",
+    "timestamp_iso": "2026-09-05T04:33:56.742057+00:00",
     "provenance": "SIMULATED_CONTRACT_TEST",
     "order_id": "order_test_benign_001",
     "payment_id": "pay_test_benign_001",
@@ -728,12 +728,12 @@
     },
     "model_version": "v1.0.0-HGB",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_aa6f40d2-3eff-41ef-9402-e18ef461b29a",
-    "integrity_hash": "9b88d66d6a2f64de661428209b8b72a633d36d77d988aa1b27770da470ba2330"
+    "audit_event_id": "eval_9597190c-f28f-4b83-8dc7-29132ea34ab4",
+    "integrity_hash": "cce7b0583d63798ea306d566d8940b26eb8b25077b961eea7c57489e7bfa049a"
   },
   {
     "transaction_id": "tx_inv_invariance_02",
-    "timestamp_iso": "2026-09-05T01:56:18.514731+00:00",
+    "timestamp_iso": "2026-09-05T04:33:55.826913+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -754,12 +754,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_67d93b7a-5041-4db6-837f-6cef9ecf12b1",
-    "integrity_hash": "eval_67d93b7a-5041-4db6-837f-6cef9ecf12b1"
+    "audit_event_id": "eval_1f215672-d93d-4a11-a592-c92100b382ed",
+    "integrity_hash": "eval_1f215672-d93d-4a11-a592-c92100b382ed"
   },
   {
     "transaction_id": "tx_inv_invariance_01",
-    "timestamp_iso": "2026-09-05T01:56:18.482142+00:00",
+    "timestamp_iso": "2026-09-05T04:33:55.800944+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -780,12 +780,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_d45aac79-2ead-439d-b6e5-aab9e02c3845",
-    "integrity_hash": "eval_d45aac79-2ead-439d-b6e5-aab9e02c3845"
+    "audit_event_id": "eval_5a47fee5-fcc7-4acc-b7d1-9a4e779a6bb1",
+    "integrity_hash": "eval_5a47fee5-fcc7-4acc-b7d1-9a4e779a6bb1"
   },
   {
     "transaction_id": "tx_inv_audit_test_01",
-    "timestamp_iso": "2026-09-05T01:56:18.397680+00:00",
+    "timestamp_iso": "2026-09-05T04:33:55.721873+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -806,12 +806,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_77f26ef8-0a3b-4890-8e46-44505671d52b",
-    "integrity_hash": "eval_77f26ef8-0a3b-4890-8e46-44505671d52b"
+    "audit_event_id": "eval_f32361e4-e08e-4149-be7c-51a2fcb0ff56",
+    "integrity_hash": "eval_f32361e4-e08e-4149-be7c-51a2fcb0ff56"
   },
   {
     "transaction_id": "tx_econ_invariance_02",
-    "timestamp_iso": "2026-09-05T01:56:17.804193+00:00",
+    "timestamp_iso": "2026-09-05T04:33:55.145276+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -832,12 +832,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_c613b56e-89e2-479a-a3fc-99adbb76919d",
-    "integrity_hash": "eval_c613b56e-89e2-479a-a3fc-99adbb76919d"
+    "audit_event_id": "eval_9f7512b1-91f4-4bd2-b8d5-514245222274",
+    "integrity_hash": "eval_9f7512b1-91f4-4bd2-b8d5-514245222274"
   },
   {
     "transaction_id": "tx_econ_invariance_01",
-    "timestamp_iso": "2026-09-05T01:56:17.766335+00:00",
+    "timestamp_iso": "2026-09-05T04:33:55.112563+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -858,12 +858,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_3fc95fbe-d254-4f36-8440-057a59967090",
-    "integrity_hash": "eval_3fc95fbe-d254-4f36-8440-057a59967090"
+    "audit_event_id": "eval_171dcd1e-2202-4630-9308-6d6601ace953",
+    "integrity_hash": "eval_171dcd1e-2202-4630-9308-6d6601ace953"
   },
   {
     "transaction_id": "api-tx-002",
-    "timestamp_iso": "2026-09-05T01:56:14.105449+00:00",
+    "timestamp_iso": "2026-09-05T04:33:51.377924+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -884,12 +884,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_14fd2fad-9cf2-4384-81f3-33ff37f202d8",
-    "integrity_hash": "eval_14fd2fad-9cf2-4384-81f3-33ff37f202d8"
+    "audit_event_id": "eval_bbf6068b-bfbb-40d1-a52c-449c818f916c",
+    "integrity_hash": "eval_bbf6068b-bfbb-40d1-a52c-449c818f916c"
   },
   {
     "transaction_id": "api-tx-001",
-    "timestamp_iso": "2026-09-05T01:56:14.092592+00:00",
+    "timestamp_iso": "2026-09-05T04:33:51.356097+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -910,12 +910,12 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_a0fbe7cf-e25a-4331-a4f1-512f924f4327",
-    "integrity_hash": "eval_a0fbe7cf-e25a-4331-a4f1-512f924f4327"
+    "audit_event_id": "eval_652a18fb-be99-4a31-83e4-70cd9c7e42c4",
+    "integrity_hash": "eval_652a18fb-be99-4a31-83e4-70cd9c7e42c4"
   },
   {
     "transaction_id": "api-tx-aud-test",
-    "timestamp_iso": "2026-09-05T01:56:14.074838+00:00",
+    "timestamp_iso": "2026-09-05T04:33:51.331628+00:00",
     "provenance": "API_DIRECT",
     "order_id": null,
     "payment_id": null,
@@ -936,8 +936,8 @@
     "auto_response_details": null,
     "model_version": "model_b_stateful_hgb_v1.0.0",
     "policy_version": "v1.2.0-frozen",
-    "audit_event_id": "eval_a4df51ff-8432-4fa5-aba1-ce1ffe9818ba",
-    "integrity_hash": "eval_a4df51ff-8432-4fa5-aba1-ce1ffe9818ba"
+    "audit_event_id": "eval_c43a2aac-e2fd-47aa-9525-2e277f7eacea",
+    "integrity_hash": "eval_c43a2aac-e2fd-47aa-9525-2e277f7eacea"
   },
   {
     "transaction_id": "tx_pay_test_drain_mon_002",
