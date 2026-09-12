@@ -493,6 +493,13 @@ class InvestigationService:
                 "description": f"Destination has received transfers from {feat.get('dest_unique_orig_cnt')} distinct accounts."
             })
 
+        if feat.get("is_out_of_distribution") or amt < 500.0 or (orig_old == 0.0 and amt > 0.0):
+            anomalies.append({
+                "signal": "DISTRIBUTION_SHIFT_OOD",
+                "severity": "MEDIUM",
+                "description": "Transaction profile (amount or account balance) diverges from PaySim training distribution baseline."
+            })
+
         guidance = SOP_GUIDANCE_MAP.get(primary_code, SOP_GUIDANCE_MAP["RC_BENIGN_BASELINE"])
 
         return InvestigationDetail(

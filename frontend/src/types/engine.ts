@@ -431,6 +431,11 @@ export interface TransactionRecord {
   policy_version: string;
   audit_event_id?: string;
   integrity_hash: string;
+  sender_pre_balance?: number;
+  dest_pre_balance?: number;
+  sender_history_count?: number;
+  is_out_of_distribution?: boolean;
+  distribution_note?: string;
 }
 
 export interface TransactionSummary {

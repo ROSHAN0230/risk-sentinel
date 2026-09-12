@@ -1,6 +1,6 @@
 {
   "suite_name": "Risk Sentinel Phase 2.9 Production Decision Engine Test Suite",
-  "timestamp_utc": "2026-09-02T09:48:02Z",
+  "timestamp_utc": "2026-09-12T10:36:53Z",
   "total_test_classes": 13,
   "total_tests_executed": 37,
   "tests_passed": 37,
@@ -8,7 +8,7 @@
   "tests_errored": 0,
   "failures": [],
   "errors": [],
-  "duration_seconds": 4.148,
+  "duration_seconds": 4.95,
   "test_modules_audited": [
     "test_schemas (Input validation, field boundaries, type constraints)",
     "test_model_integrity (SHA-256 binary validation, tamper detection)",
@@ -26,18 +26,18 @@
   ],
   "overall_status": "ALL_TESTS_PASSED",
   "latency_summary": {
-    "min": 0.882,
-    "mean": 1.637,
-    "p50_median": 1.746,
-    "p90": 2.238,
-    "p95": 2.674,
-    "p99": 3.506,
-    "p99_9": 7.761,
-    "max": 12.359
+    "min": 1.048,
+    "mean": 2.215,
+    "p50_median": 2.108,
+    "p90": 3.17,
+    "p95": 3.643,
+    "p99": 5.347,
+    "p99_9": 20.708,
+    "max": 25.242
   },
   "sla_verification": {
     "frozen_gateway_p99_budget_ms": 35.0,
-    "measured_p99_latency_ms": 3.506,
+    "measured_p99_latency_ms": 5.347,
     "sla_conformance_percentage": 100.0,
     "status": "PASSED"
   }

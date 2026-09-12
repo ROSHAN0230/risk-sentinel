@@ -2,18 +2,18 @@
   "benchmark_environment": "Local Development Runtime (CPU Single-Process)",
   "total_requests_profiled": 1000,
   "latency_metrics_ms": {
-    "min": 0.882,
-    "mean": 1.637,
-    "p50_median": 1.746,
-    "p90": 2.238,
-    "p95": 2.674,
-    "p99": 3.506,
-    "p99_9": 7.761,
-    "max": 12.359
+    "min": 1.048,
+    "mean": 2.215,
+    "p50_median": 2.108,
+    "p90": 3.17,
+    "p95": 3.643,
+    "p99": 5.347,
+    "p99_9": 20.708,
+    "max": 25.242
   },
   "sla_verification": {
     "frozen_gateway_p99_budget_ms": 35.0,
-    "measured_p99_latency_ms": 3.506,
+    "measured_p99_latency_ms": 5.347,
     "sla_conformance_percentage": 100.0,
     "status": "PASSED"
   },

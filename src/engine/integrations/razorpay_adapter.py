@@ -11,8 +11,11 @@ import json
 import time
 import uuid
 import datetime
+import logging
 from typing import Dict, Any, Optional, List, Tuple
 from pydantic import BaseModel, Field, field_validator
+
+logger = logging.getLogger("risk_sentinel.razorpay_adapter")
 
 from src.engine.schemas import EvaluateRequest, TransactionType
 from src.engine.decision_engine import RiskDecisionEngine
@@ -138,7 +141,7 @@ class RazorpayWebhookAdapter:
         self.last_event_status: Optional[str] = None
 
     def configure_secret(self, secret: str) -> RazorpayWebhookStatus:
-        self.webhook_secret = secret.strip()
+        self.webhook_secret = secret.strip().strip('"').strip("'")
         return self.get_status()
 
     def clear_secret(self) -> RazorpayWebhookStatus:
@@ -172,7 +175,14 @@ class RazorpayWebhookAdapter:
             raw_body,
             hashlib.sha256
         ).hexdigest()
-        return hmac.compare_digest(expected_sig, signature_header.strip())
+        is_match = hmac.compare_digest(expected_sig, signature_header.strip())
+        if not is_match:
+            logger.warning(
+                f"[WEBHOOK_SIG_FAIL] Received signature: {signature_header!r}, "
+                f"Payload size: {len(raw_body)} bytes. Secret configured: YES (masked: {mask_secret(self.webhook_secret)}). "
+                f"Note: Ensure the secret entered is the Webhook Secret from Razorpay Dashboard (Settings -> Webhooks), NOT the API Key Secret."
+            )
+        return is_match
 
     def _compute_chained_event_hash(self, prev_hash: str, payload_dict: Dict[str, Any]) -> str:
         serialized = json.dumps(payload_dict, sort_keys=True, default=str)
@@ -205,7 +215,7 @@ class RazorpayWebhookAdapter:
                 method="unknown",
                 merchant_id=account_id_override or "unknown",
                 evaluation_status="REJECTED_INVALID_SIGNATURE",
-                readiness_reason="HMAC-SHA256 signature does not match configured webhook secret.",
+                readiness_reason="HMAC-SHA256 signature verification failed. Ensure the configured secret is the Webhook Secret from Razorpay Dashboard (Settings -> Webhooks), NOT the API Key Secret.",
                 integrity_hash="0" * 64
             )
             self.last_event_id = error_event.event_id
@@ -408,7 +418,11 @@ class RazorpayWebhookAdapter:
                 model_version="v1.0.0-HGB",
                 policy_version="v1.2.0-frozen",
                 audit_event_id=audit_id,
-                integrity_hash=integrity_hash
+                integrity_hash=integrity_hash,
+                sender_pre_balance=float(notes.get("oldbalanceOrg", 0.0)) if "oldbalanceOrg" in notes else None,
+                dest_pre_balance=float(notes.get("oldbalanceDest", 0.0)) if "oldbalanceDest" in notes else None,
+                is_out_of_distribution=reasons.get("causal_evidence", {}).get("is_out_of_distribution") if reasons else None,
+                distribution_note=reasons.get("causal_evidence", {}).get("distribution_note") if reasons else None
             )
             default_transaction_store.record(tx_rec)
         except Exception:

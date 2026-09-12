@@ -262,6 +262,21 @@ export const RazorpayWebhookViewer: React.FC = () => {
                   </button>
                 )}
               </div>
+              <div className="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] text-amber-300 flex items-start gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-400" />
+                <span>
+                  <strong>Secret Verification Note:</strong> Enter the <strong>Webhook Secret</strong> created in <em>Razorpay Dashboard &rarr; Settings &rarr; Webhooks</em>. Do <strong>NOT</strong> enter your account API Key Secret (<code>rzp_test_...</code> secret). If testing without secret verification, click the trash can icon to clear the secret and enable dev bypass.
+                </span>
+              </div>
+              {status?.last_event_status === 'REJECTED_INVALID_SIGNATURE' && (
+                <div className="mt-2 p-2 rounded bg-red-500/10 border border-red-500/30 text-[10px] text-red-300 flex items-start gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-red-400" />
+                  <div>
+                    <strong>Signature Mismatch Detected:</strong> Razorpay rejected your last webhook signature.
+                    Verify that this secret exactly matches the secret entered when creating the webhook URL in Razorpay Dashboard.
+                  </div>
+                </div>
+              )}
             </form>
           </div>
 

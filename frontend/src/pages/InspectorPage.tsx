@@ -532,12 +532,12 @@ export const InspectorPage: React.FC<Props> = ({ evaluation, onBack }) => {
                 )}
               </div>
 
-              {/* 5. CRYPTOGRAPHIC AUDIT TRAIL */}
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 font-mono text-xs flex flex-col gap-2">
+              {/* 5. CRYPTOGRAPHIC AUDIT TRAIL & DATA PROTECTION */}
+              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 font-mono text-xs flex flex-col gap-2.5">
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="font-bold text-slate-400 flex items-center gap-1.5">
                     <Lock className="w-3.5 h-3.5 text-slate-400" />
-                    Cryptographic Audit Ledger Trail
+                    Cryptographic Audit Ledger &amp; Data Protection Lineage
                   </span>
                   <span className="text-emerald-400 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
                     {detail.audit_trail.tamper_evident_status}
@@ -546,6 +546,21 @@ export const InspectorPage: React.FC<Props> = ({ evaluation, onBack }) => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-400">
                   <span>Audit Event ID: <code className="text-slate-300">{detail.audit_trail.audit_event_id}</code></span>
                   <span>Chained Hash: <code className="text-slate-300">{(detail.audit_trail.chained_integrity_hash || '').substring(0, 24)}...</code></span>
+                </div>
+                {/* Integrity vs Confidentiality Distinction */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px]">
+                  <div className="p-2 rounded bg-slate-950/80 border border-slate-800">
+                    <span className="text-emerald-400 font-bold block">1. Integrity (Tamper-Evidence):</span>
+                    <span className="text-slate-400 text-[10px]">
+                      Chained SHA-256 block hashing guarantees non-repudiation. Any historical ledger alteration invalidates all descendant block hashes.
+                    </span>
+                  </div>
+                  <div className="p-2 rounded bg-slate-950/80 border border-slate-800">
+                    <span className="text-blue-400 font-bold block">2. Confidentiality (Data Protection):</span>
+                    <span className="text-slate-400 text-[10px]">
+                      Field-level PII masking protects account IDs (e.g. <code>C123***789</code>). Sensitive card PANs and credentials are never stored.
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -121,7 +121,11 @@ async def evaluate_transaction(request: EvaluateRequest):
                 model_version=response.engine_metadata.model_version,
                 policy_version=response.engine_metadata.policy_version,
                 audit_event_id=response.evaluation_id,
-                integrity_hash=response.evaluation_id
+                integrity_hash=response.evaluation_id,
+                sender_pre_balance=request.oldbalanceOrg,
+                dest_pre_balance=request.oldbalanceDest,
+                is_out_of_distribution=response.reasons.causal_evidence.get("is_out_of_distribution", False),
+                distribution_note=response.reasons.causal_evidence.get("distribution_note")
             )
             default_transaction_store.record(tx_rec)
         except Exception:

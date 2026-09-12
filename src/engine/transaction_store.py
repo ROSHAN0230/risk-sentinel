@@ -41,6 +41,13 @@ class TransactionRecord(BaseModel):
     dest_masked: str = Field(default="N/A")
     merchant_id: str = Field(default="default_merchant")
     
+    # Party Financial Detail (Causally Valid Strictly t < execution)
+    sender_pre_balance: Optional[float] = Field(default=None, description="Point-in-time sender balance prior to execution")
+    dest_pre_balance: Optional[float] = Field(default=None, description="Point-in-time destination balance prior to execution")
+    sender_history_count: Optional[int] = Field(default=None, description="Prior transaction count for sender")
+    is_out_of_distribution: Optional[bool] = Field(default=None, description="True if transaction pattern diverges from PaySim training density")
+    distribution_note: Optional[str] = Field(default=None, description="Explanation of distribution deviation or benchmark alignment")
+
     # Risk Sentinel Evaluation Results
     risk_score: Optional[float] = None
     risk_band: Optional[str] = None

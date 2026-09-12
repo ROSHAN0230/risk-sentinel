@@ -428,7 +428,11 @@ class RazorpayCaptureGate:
                 model_version="v1.0.0-HGB",
                 policy_version="v1.2.0-frozen",
                 audit_event_id=audit_event_id,
-                integrity_hash=integrity_hash
+                integrity_hash=integrity_hash,
+                sender_pre_balance=float(notes.get("oldbalanceOrg", 0.0)) if "oldbalanceOrg" in notes else None,
+                dest_pre_balance=float(notes.get("oldbalanceDest", 0.0)) if "oldbalanceDest" in notes else None,
+                is_out_of_distribution=reasons_dict.get("causal_evidence", {}).get("is_out_of_distribution") if reasons_dict else None,
+                distribution_note=reasons_dict.get("causal_evidence", {}).get("distribution_note") if reasons_dict else None
             )
             default_transaction_store.record(tx_rec)
         except Exception:

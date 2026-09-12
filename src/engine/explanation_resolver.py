@@ -88,6 +88,30 @@ class ExplanationResolver:
                 codes.append("RC_SENDER_AMOUNT_DEVIATION")
                 evidence["sender_amount_ratio"] = round(amt / avg_amt, 2)
                 
+        # 6. Out-of-Distribution (OOD) & Training Distribution Shift Analysis
+        # PaySim baseline: median transaction ~$74,800, primarily TRANSFER/CASH_OUT, synthetic corporate accounts.
+        # Real personal test payments (e.g. ₹84.50, personal UPI/VPA, zero pre-tx balance) diverge from PaySim density.
+        is_ood = False
+        ood_notes = []
+        if amt < 500.0:
+            is_ood = True
+            ood_notes.append(f"Micro-transaction amount (${amt:,.2f}) is below standard PaySim training density")
+        if old_orig == 0.0 and amt > 0.0:
+            is_ood = True
+            ood_notes.append("Zero sender pre-transaction balance (unusual in training baseline)")
+        if old_orig == 0.0 and old_dest == 0.0:
+            is_ood = True
+            ood_notes.append("Dual uninitialized accounts (zero pre-tx balance on origin and destination)")
+        if s_data is None and d_data is None and amt < 1000.0:
+            is_ood = True
+            ood_notes.append("Unobserved personal account pair with cold-start state")
+
+        ood_summary = "; ".join(ood_notes) if ood_notes else "Transaction features align with PaySim benchmark distribution."
+        evidence["is_out_of_distribution"] = is_ood
+        evidence["distribution_status"] = "OUT_OF_DISTRIBUTION" if is_ood else "IN_DISTRIBUTION"
+        evidence["distribution_note"] = ood_summary
+        evidence["confidence_signal"] = "LOW_CONFIDENCE_OOD" if is_ood else "HIGH_CONFIDENCE_BENCHMARK"
+
         # Default benign code
         if not codes or (len(codes) == 1 and codes[0] == "RC_FALLBACK_EVALUATION_ACTIVE" and band == RiskBand.LOW_RISK):
             if "RC_BENIGN_BASELINE" not in codes:
@@ -113,6 +137,9 @@ class ExplanationResolver:
             narrative = template.format(**format_kwargs)
         except Exception:
             narrative = f"Transaction flagged as {band.value} (Score: {score:.4f}) with reason {primary_code}."
+
+        if is_ood and band in [RiskBand.HIGH_RISK, RiskBand.MEDIUM_RISK]:
+            narrative += f" [Distribution Note: Transaction pattern is out-of-distribution relative to PaySim benchmark: {ood_notes[0]}]."
             
         return ReasonDetails(
             primary_code=primary_code,
